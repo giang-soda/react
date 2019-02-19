@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 //import { ShoppingList, Cart } from './components/home/ShoppingList';
-import Form from './components/home/Form';
+//import Form from './components/home/Form';
+import RouterConfig from './components/RouterConfig';
 
 class App extends Component {
   render() {
-
-
     return (
       <div>
-        <Form />
+        <RouterConfig />
       </div>
     );
     /*const user = {
