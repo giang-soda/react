@@ -1,0 +1,14 @@
+// @use '@/var/var';
+@use "@/app/_assets/_styles/var/var";
+
+.color-red {
+  color: var.$red;
+}
+
+.color-blue {
+  color: blue;
+}
+
+.color-yellow {
+  color: yellow;
+}

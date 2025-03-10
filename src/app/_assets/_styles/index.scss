@@ -1,0 +1,9 @@
+@use "tailwindcss";
+
+@use 'var/root';
+@use 'base';
+
+// component
+@use 'components/pie';
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');

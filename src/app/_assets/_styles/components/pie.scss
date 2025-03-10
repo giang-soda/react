@@ -1,0 +1,29 @@
+// example <span class="pie"><span class="pie-inner p13"></span></span>
+.pie {
+  position: relative;
+  display: inline-block;
+  margin-right: auto;
+  margin-left: auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 5px solid var(--soda--primary-03);
+
+  .pie-inner {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-image: conic-gradient(var(--soda--primary-03) 0% 100%);
+
+    &.p13 {
+      background-image: conic-gradient(var(--soda--primary-03) 0% 33%, #fff 34% 100%);
+    }
+
+    &.p23 {
+      background-image: conic-gradient(var(--soda--primary-03) 0% 66%, #fff 67% 100%);
+    }
+  }
+}
