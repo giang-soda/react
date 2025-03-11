@@ -1,4 +1,3 @@
-import { posts } from "@/lib/posts";
 import clsx from "clsx";
 import styles from '../styles.module.scss';
 import Link from "next/link";
@@ -45,13 +44,23 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   };
 }
 
+interface IPost {
+  id: number;
+  productCategoryName: string;
+}
+
+const fetchPosts = async (): Promise<Array<IPost>> => {
+  const res = await fetch('http://localhost:5000/productCategories').then(r => r.json());
+  return res.data;
+}
+
 export default async function BlogDetail(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   // export default async function BlogDetail({ slug }: PostProps) {
   // const data = await fetch('https://api.vercel.app/blog').then(r => r.json());
-  // // console.log(111, data);
   const { slug } = params;
-  const post = posts.find((item) => {
+  const postDataList = await fetchPosts();
+  const post = postDataList.find((item) => {
     return item.id == Number(slug);
   });
 
@@ -62,7 +71,7 @@ export default async function BlogDetail(props: { params: Promise<{ slug: string
       <h1 className={clsx(post?.id == 1 && styles['color-yellow'])}>Khong the ket noi</h1>
       <h1>{post?.id}</h1>
       <h1>id form param: {slug}</h1>
-      <div dangerouslySetInnerHTML={{ __html: String(post?.content) }} />
+      <div dangerouslySetInnerHTML={{ __html: String(post?.productCategoryName) }} />
     </div>
   );
 }

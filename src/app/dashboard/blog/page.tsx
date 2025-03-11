@@ -2,15 +2,26 @@
  * route /dashboard/blog
  */
 // import { getPosts } from '@/lib/posts'
-import Post from "@/components/post";
-import { posts } from "@/lib/posts";
 import Image from "next/image";
 import windowUrl from "@@/public/window.svg";
 import styles from './styles.module.scss';
 import Link from "next/link";
 
+interface IPost {
+  id: number;
+  productCategoryName: string;
+}
+
+const fetchPosts = async (): Promise<Array<IPost>> => {
+  const res = await fetch('http://localhost:5000/productCategories', {
+    cache: 'no-store',
+    next: { revalidate: 0 }
+  }).then(r => r.json());
+  return res.data;
+}
+
 export default async function DashboardBlog() {
-  const postDataList = posts;
+  const postDataList = await fetchPosts();
 
   return (
     <div>
@@ -28,7 +39,9 @@ export default async function DashboardBlog() {
       <span className="pie"><span className="pie-inner p13"></span></span>
       <ul>
         {postDataList.map((post) => (
-          <Post key={post.id} post={post} />
+          <li key={post.id}>
+            <Link href={`/dashboard/blog/${post.id}`}>{post.productCategoryName}</Link>
+          </li>
         ))}
       </ul>
     </div>
