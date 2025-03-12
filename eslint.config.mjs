@@ -11,6 +11,24 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    files: ['src/*.js', 'src/**/*.js', 'src/*.ts', 'src/**/*.ts', 'src/*.ts', 'src/**/*.tsx'],
+    rules: {
+      'no-unused-vars': 'off',
+      'react-hooks/exhaustive-deps': 'off', // not use var dependency in useEffect []
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          vars: 'all',
+          args: 'after-used',
+          ignoreRestSiblings: false,
+          varsIgnorePattern: '^_',
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: "^_"
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

@@ -15,10 +15,13 @@ const nextConfig: NextConfig = {
   // distDir: 'dist',
 
 
-  // build domain image
+  //// build domain image
   // images: {
   //   domains: ['example.com'],
   // },
+
+  //// strict mode, useEffect run one time
+  // reactStrictMode: false,
 };
 
 export default nextConfig;

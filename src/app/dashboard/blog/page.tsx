@@ -1,49 +1,96 @@
+'use client'
+
 /**
  * route /dashboard/blog
  */
-// import { getPosts } from '@/lib/posts'
-import Image from "next/image";
-import windowUrl from "@@/public/window.svg";
+import { Text, Button, Table, TextField } from '@radix-ui/themes';
 import styles from './styles.module.scss';
 import Link from "next/link";
+import { useState, useEffect } from 'react';
+import { usersList, IUser } from '@/lib/api/client/users';
+import { useForm } from 'react-hook-form';
+import { IBase } from '@/lib/helpers/interfaces';
+import { useSelector, useDispatch } from 'react-redux';
+import { setData } from '@/lib/store/slices/user-list-filter';
+import { RootState } from '@/lib/store';
 
-interface IPost {
-  id: number;
-  productCategoryName: string;
-}
+export default function DashboardBlog() {
+  const [posts, setPosts] = useState([] as Array<IUser>);
+  const [total, setTotal] = useState(0);
+  const {
+    register,
+    getValues,
+  } = useForm();
+  const store = useSelector((state: RootState) => state.userListFilter);
+  const dispatch = useDispatch();
 
-const fetchPosts = async (): Promise<Array<IPost>> => {
-  const res = await fetch('http://localhost:5000/productCategories', {
-    cache: 'no-store',
-    next: { revalidate: 0 }
-  }).then(r => r.json());
-  return res.data;
-}
+  useEffect(() => {
+    apiUserList(store);
+  }, []);
 
-export default async function DashboardBlog() {
-  const postDataList = await fetchPosts();
+  const handleSearch = () => {
+    const values = getValues();
+    dispatch(setData(values));
+    apiUserList(values);
+  }
+
+  const apiUserList = async (params?: IBase) => {
+    usersList(params).then(r => {
+      setTotal(r.total);
+      setPosts(r.items);
+    })
+  }
 
   return (
     <div>
-      <Link className="text-lg" href={`/`}>HOME</Link>
-      <h1>Blog Post list</h1>
-      <Image
-      src={windowUrl}
-      alt="image no"
-      width={180}
-      height={300}
-      />
-      <h2 className={styles['color-red']}>Blog Post list 2 2</h2>
-      <h2 className="color-r">Blog red 3</h2>
-      
-      <span className="pie"><span className="pie-inner p13"></span></span>
-      <ul>
-        {postDataList.map((post) => (
-          <li key={post.id}>
-            <Link href={`/dashboard/blog/${post.id}`}>{post.productCategoryName}</Link>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <Text size="9" className={styles['color-red']}>User list</Text>
+      </div>
+      <div className="pb-10">
+        <Button variant="solid" >Create User</Button>
+      </div>
+      <div>
+        <div className="pr-10">Total: {total}</div>
+        <div>limit: 
+        <TextField.Root placeholder="Limit" {...register('limit')} />
+        </div>
+        <div>offset: 
+        <TextField.Root placeholder="Offset" {...register('offset')} />
+        </div>
+
+        <div className="pt-5">
+        <Button variant="solid" onClick={handleSearch}>Search</Button>
+      </div>
+      </div>
+      <Table.Root>
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeaderCell>ID</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Role</Table.ColumnHeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+          {posts.length === 0 && (
+            <Table.Row>
+              <Table.Cell colSpan={4}>Empty data</Table.Cell>
+            </Table.Row>
+          )}
+
+          {posts.length > 0 && posts.map((post) => (
+            <Table.Row key={post.id}>
+              <Table.Cell>
+                <Link href={`/dashboard/blog/${post.id}`}>{post.id}</Link>
+              </Table.Cell>
+              <Table.Cell>{post.pdlUserId}</Table.Cell>
+              <Table.Cell>{post.firstName + '-' + post.lastName}</Table.Cell>
+              <Table.Cell>{post.role}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
     </div>
   );
 }
