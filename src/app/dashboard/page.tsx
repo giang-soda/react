@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Flex, Text, Button } from "@radix-ui/themes";
+import Link from 'next/link';
+import { Flex, Text, Button } from '@radix-ui/themes';
 
 /**
  * route /dashboard

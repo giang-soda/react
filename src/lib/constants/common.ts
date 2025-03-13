@@ -1,8 +1,8 @@
 export const fetchHeader = {
   cache: 'no-store',
   next: {
-    revalidate: 0 
-  }
+    revalidate: 0,
+  },
 };
 
 export const PAGER = {

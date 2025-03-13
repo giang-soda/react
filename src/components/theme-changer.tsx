@@ -1,18 +1,18 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 export default function ThemeChanger() {
-  const [mounted, setMounted] = useState(false)
-  const [theme, setTheme ] = useState(false)
+  const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-    setTheme(false)
-  }, [])
+    setMounted(true);
+    setTheme(false);
+  }, []);
 
   if (!mounted) {
-    return null
+    return null;
   }
 
   return (
@@ -21,5 +21,5 @@ export default function ThemeChanger() {
       <button onClick={() => setTheme(false)}>Light Mode</button>
       <button onClick={() => setTheme(true)}>Dark Mode</button>
     </div>
-  )
+  );
 }

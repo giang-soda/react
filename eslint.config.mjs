@@ -1,6 +1,7 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { FlatCompat } from '@eslint/eslintrc';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,9 +11,10 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  prettierRecommended,
   {
-    files: ['src/*.js', 'src/**/*.js', 'src/*.ts', 'src/**/*.ts', 'src/*.ts', 'src/**/*.tsx'],
+    files: ['src/**/*.{js,ts,tsx,mjs,cjs}'],
     rules: {
       'no-unused-vars': 'off',
       'react-hooks/exhaustive-deps': 'off', // not use var dependency in useEffect []
@@ -24,9 +26,10 @@ const eslintConfig = [
           ignoreRestSiblings: false,
           varsIgnorePattern: '^_',
           argsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: "^_"
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
+      'prettier/prettier': 'error',
     },
   },
 ];

@@ -7,12 +7,7 @@ export default function Home() {
       <h1>Home page</h1>
       <Link href={`/dashboard`}>Dashboard</Link>
 
-      <Image
-            src='/window.svg'
-            alt="image no"
-            width={180}
-            height={300}
-            />
+      <Image src="/window.svg" alt="image no" width={180} height={300} />
     </div>
   );
 }

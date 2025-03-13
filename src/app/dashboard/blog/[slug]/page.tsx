@@ -1,6 +1,6 @@
-import clsx from "clsx";
+import clsx from 'clsx';
 import styles from '../styles.module.scss';
-import Link from "next/link";
+import Link from 'next/link';
 
 // interface PostProps {
 //   slug: string;
@@ -30,10 +30,7 @@ import Link from "next/link";
  */
 export async function generateStaticParams() {
   // Danh sách các ID cần tạo tĩnh
-  return [
-    { slug: "1" },
-    { slug: "2" },
-  ];
+  return [{ slug: '1' }, { slug: '2' }];
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
@@ -50,9 +47,9 @@ interface IPost {
 }
 
 const fetchPosts = async (): Promise<Array<IPost>> => {
-  const res = await fetch('http://localhost:5000/productCategories').then(r => r.json());
+  const res = await fetch('http://localhost:5000/productCategories').then((r) => r.json());
   return res.data;
-}
+};
 
 export default async function BlogDetail(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
@@ -66,8 +63,13 @@ export default async function BlogDetail(props: { params: Promise<{ slug: string
 
   return (
     <div className="prose max-w-none">
-      <Link className="text-lg" href={`/`}>HOME</Link> <br/>
-      <Link className="text-lg" href={`/dashboard/blog`}>blog post list</Link>
+      <Link className="text-lg" href={`/`}>
+        HOME
+      </Link>{' '}
+      <br />
+      <Link className="text-lg" href={`/dashboard/blog`}>
+        blog post list
+      </Link>
       <h1 className={clsx(post?.id == 1 && styles['color-yellow'])}>Khong the ket noi</h1>
       <h1>{post?.id}</h1>
       <h1>id form param: {slug}</h1>

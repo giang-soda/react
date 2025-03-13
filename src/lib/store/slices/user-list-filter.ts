@@ -15,7 +15,7 @@ const initialState: IUserListFilter = {
   offset: PAGER.offset,
   id: undefined,
   name: undefined,
-  role: undefined
+  role: undefined,
 };
 
 const userListFilterSlice = createSlice({
@@ -23,7 +23,7 @@ const userListFilterSlice = createSlice({
   initialState,
   reducers: {
     ...baseSlice(initialState),
-  }
+  },
 });
 
 export const { updateStore, resetStore } = userListFilterSlice.actions;

@@ -1,10 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 import userListFilterSlice from './slices/user-list-filter';
 
 const store = configureStore({
   reducer: {
-    userListFilter: userListFilterSlice
-  }
+    userListFilter: userListFilterSlice,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
