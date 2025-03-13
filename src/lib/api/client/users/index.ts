@@ -1,21 +1,19 @@
 import endpoint from '../endpoint';
 import fetcher, { IResponseList } from '../../';
 import { IBase } from '@/lib/helpers/interfaces';
-
-export interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  role: number;
-  pdlUserId: string;
-  lastName: string;
-  firstName: string;
-}
+import { IUser } from '../../interfaces/user';
+import { routeParams } from '@/lib/helpers/common';
 
 export const usersList = async (params?: IBase): Promise<IResponseList<IUser>> => {
   const res = await fetcher(endpoint.users.list, {
     params,
   });
+
+  return res;
+};
+
+export const usersDetail = async (id: number): Promise<IUser> => {
+  const res: IUser = await fetcher(routeParams(endpoint.users.detail, { id }));
 
   return res;
 };

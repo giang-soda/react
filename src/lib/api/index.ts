@@ -5,6 +5,10 @@ export interface IResponseList<T> {
   items: Array<T>;
 }
 
+export interface IResponse<T> {
+  data: T;
+}
+
 interface IRequestInit extends RequestInit {
   params?: Any;
 }

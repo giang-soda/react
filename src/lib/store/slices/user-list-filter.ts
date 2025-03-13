@@ -6,16 +6,16 @@ import baseSlice from './base-slice';
 
 export interface IUserListFilter extends IRequestList {
   id?: number;
-  name?: string;
-  role?: number;
+  keywords?: string;
+  adminUserRole?: number;
 }
 
 const initialState: IUserListFilter = {
   limit: PAGER.limit,
   offset: PAGER.offset,
   id: undefined,
-  name: undefined,
-  role: undefined,
+  keywords: undefined,
+  adminUserRole: undefined,
 };
 
 const userListFilterSlice = createSlice({

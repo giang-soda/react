@@ -26,6 +26,14 @@ export default function DashboardBlogFilter(props: ChildProps) {
         offset:
         <TextField.Root placeholder="Offset" {...props.register('offset')} />
       </div>
+      <div>
+        name:
+        <TextField.Root placeholder="Name" {...props.register('keywords')} />
+      </div>
+      <div>
+        role:
+        <TextField.Root placeholder="Role" {...props.register('adminUserRole')} />
+      </div>
 
       <div className="pt-5">
         <span className="mr-3">

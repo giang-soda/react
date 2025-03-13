@@ -7,13 +7,14 @@ import { Text, Button, Table } from '@radix-ui/themes';
 import styles from './styles.module.scss';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { usersList, IUser } from '@/lib/api/client/users';
+import { usersList } from '@/lib/api/client/users';
 import { useForm } from 'react-hook-form';
 import { IBase } from '@/lib/helpers/interfaces';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateStore, resetStore } from '@/lib/store/slices/user-list-filter';
 import { RootState } from '@/lib/store';
-import DashboardBlogFilter from './components/filter';
+import DashboardBlogFilter from './_components/filter';
+import { IUser } from '@/lib/api/interfaces/user';
 
 export default function DashboardBlog() {
   const [posts, setPosts] = useState([] as Array<IUser>);
@@ -88,7 +89,10 @@ export default function DashboardBlog() {
             posts.map((post) => (
               <Table.Row key={post.id}>
                 <Table.Cell>
-                  <Link href={`/dashboard/blog/${post.id}`}>{post.id}</Link>
+                  <Link href={`/dashboard/blog/${post.id}`}>client {post.id}</Link>
+                  <span className="ml-5">
+                    <Link href={`/dashboard/users/${post.id}`}>server side {post.id}</Link>
+                  </span>
                 </Table.Cell>
                 <Table.Cell>{post.pdlUserId}</Table.Cell>
                 <Table.Cell>{post.firstName + '-' + post.lastName}</Table.Cell>
