@@ -4,3 +4,8 @@ export const fetchHeader = {
     revalidate: 0 
   }
 };
+
+export const PAGER = {
+  limit: 10,
+  offset: 0,
+};

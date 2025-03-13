@@ -9,14 +9,33 @@ interface IRequestInit extends RequestInit {
   params?: Any;
 }
 
-const filterNotNull = (obj: IBase) => {
-  if (obj instanceof URLSearchParams ) {
-    obj = Object.fromEntries(obj.entries());
+/**
+ * Filters out null, undefined, and falsy values from the given object or URLSearchParams.
+ * 
+ * @param obj - The object or URLSearchParams to filter.
+ * @returns A string representing the URLSearchParams without null, undefined, or falsy values.
+ */
+const filterNotNull = (obj: IBase | URLSearchParams): string => {
+  const _typeURLSearchParams = (objUrl: URLSearchParams): string => {
+    for (const [key, value] of objUrl.entries()) {
+      if (!value || value === "" || value === "0" || value === "null" || value === "undefined") {
+        objUrl.delete(key);
+      }
+    }
+    return objUrl.toString();
   }
 
-  const params = Object.fromEntries(
-    Object.entries(obj).filter(([_key, value]) => !!value)
-  );
+  if (obj instanceof URLSearchParams) {
+    return _typeURLSearchParams(obj);
+  }
+
+  const params: IBase = { ...obj };
+
+  Object.keys(params).forEach((key) => {
+    if (!params[key]) {
+      delete params[key];
+    }
+  });
 
   return new URLSearchParams(params).toString();
 }
@@ -33,7 +52,7 @@ const fetcher = async (url: string, options?: IRequestInit) => {
   if (options.params) {
     url = `${url}?${filterNotNull(options.params)}`;
   }
-  console.log(1111, url)
+
   const res = await fetch(url, options);
 
   return res.json();

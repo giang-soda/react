@@ -11,7 +11,6 @@ export interface IUser {
 }
 
 export const usersList = async(params?: IBase): Promise<IResponseList<IUser>> => {
-  console.log(222, `${configServer.BACKEND_URL}${endpoint.users.list}`, params)
   const res = await fetcher(`${configServer.BACKEND_URL}${endpoint.users.list}`, {
     params
   });

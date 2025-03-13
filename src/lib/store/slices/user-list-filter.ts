@@ -1,31 +1,31 @@
 // src/features/counter/counterSlice.js
+import { PAGER } from '@/lib/constants/common';
 import { IRequestList } from '@/lib/helpers/interfaces';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import baseSlice from './base-slice';
 
-interface IUserListFilter extends IRequestList {
+export interface IUserListFilter extends IRequestList {
   id?: number;
   name?: string;
   role?: number;
 }
 
+const initialState: IUserListFilter = {
+  limit: PAGER.limit,
+  offset: PAGER.offset,
+  id: undefined,
+  name: undefined,
+  role: undefined
+};
+
 const userListFilterSlice = createSlice({
   name: 'userListFilter',
-  initialState: {
-    limit: 0,
-    offset: 0,
-    id: undefined,
-    name: undefined,
-    role: undefined
-  } as IUserListFilter,
+  initialState,
   reducers: {
-    setData: (state, action: PayloadAction<IUserListFilter>) => {
-      Object.assign(state, action.payload);
-    }
+    ...baseSlice(initialState),
   }
 });
 
-// Export actions
-export const { setData } = userListFilterSlice.actions;
+export const { updateStore, resetStore } = userListFilterSlice.actions;
 
-// Export reducer
 export default userListFilterSlice.reducer;

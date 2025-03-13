@@ -1,67 +1,65 @@
-'use client'
+"use client";
 
 /**
  * route /dashboard/blog
  */
-import { Text, Button, Table, TextField } from '@radix-ui/themes';
-import styles from './styles.module.scss';
+import { Text, Button, Table } from "@radix-ui/themes";
+import styles from "./styles.module.scss";
 import Link from "next/link";
-import { useState, useEffect } from 'react';
-import { usersList, IUser } from '@/lib/api/client/users';
-import { useForm } from 'react-hook-form';
-import { IBase } from '@/lib/helpers/interfaces';
-import { useSelector, useDispatch } from 'react-redux';
-import { setData } from '@/lib/store/slices/user-list-filter';
-import { RootState } from '@/lib/store';
+import { useState, useEffect } from "react";
+import { usersList, IUser } from "@/lib/api/client/users";
+import { useForm } from "react-hook-form";
+import { IBase } from "@/lib/helpers/interfaces";
+import { useSelector, useDispatch } from "react-redux";
+import { updateStore, resetStore } from "@/lib/store/slices/user-list-filter";
+import { RootState } from "@/lib/store";
+import DashboardBlogFilter from "./components/filter";
 
 export default function DashboardBlog() {
   const [posts, setPosts] = useState([] as Array<IUser>);
   const [total, setTotal] = useState(0);
-  const {
-    register,
-    getValues,
-  } = useForm();
   const store = useSelector((state: RootState) => state.userListFilter);
   const dispatch = useDispatch();
+  const { register, getValues, reset } = useForm({
+    defaultValues: {
+      ...store
+    },
+  });
 
   useEffect(() => {
     apiUserList(store);
-  }, []);
+    reset({...store});
+  }, [store]);
 
   const handleSearch = () => {
     const values = getValues();
-    dispatch(setData(values));
-    apiUserList(values);
-  }
+    dispatch(updateStore(values));
+  };
+
+  const handleClear = () => {
+    dispatch(resetStore());
+  };
 
   const apiUserList = async (params?: IBase) => {
-    usersList(params).then(r => {
+    usersList(params).then((r) => {
       setTotal(r.total);
       setPosts(r.items);
-    })
-  }
+    });
+  };
 
   return (
     <div>
       <div>
-        <Text size="9" className={styles['color-red']}>User list</Text>
+        <Text size="9" className={styles["color-red"]}>
+          User list
+        </Text>
       </div>
       <div className="pb-10">
-        <Button variant="solid" >Create User</Button>
+        <Button variant="solid">Create User</Button>
       </div>
-      <div>
-        <div className="pr-10">Total: {total}</div>
-        <div>limit: 
-        <TextField.Root placeholder="Limit" {...register('limit')} />
-        </div>
-        <div>offset: 
-        <TextField.Root placeholder="Offset" {...register('offset')} />
-        </div>
 
-        <div className="pt-5">
-        <Button variant="solid" onClick={handleSearch}>Search</Button>
-      </div>
-      </div>
+      <DashboardBlogFilter total={total} register={register} handleSearch={handleSearch} handleClear={handleClear} setTotal={setTotal}/>
+
       <Table.Root>
         <Table.Header>
           <Table.Row>
@@ -69,6 +67,7 @@ export default function DashboardBlog() {
             <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Role</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Action</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -79,16 +78,21 @@ export default function DashboardBlog() {
             </Table.Row>
           )}
 
-          {posts.length > 0 && posts.map((post) => (
-            <Table.Row key={post.id}>
-              <Table.Cell>
-                <Link href={`/dashboard/blog/${post.id}`}>{post.id}</Link>
-              </Table.Cell>
-              <Table.Cell>{post.pdlUserId}</Table.Cell>
-              <Table.Cell>{post.firstName + '-' + post.lastName}</Table.Cell>
-              <Table.Cell>{post.role}</Table.Cell>
-            </Table.Row>
-          ))}
+          {posts.length > 0 &&
+            posts.map((post) => (
+              <Table.Row key={post.id}>
+                <Table.Cell>
+                  <Link href={`/dashboard/blog/${post.id}`}>{post.id}</Link>
+                </Table.Cell>
+                <Table.Cell>{post.pdlUserId}</Table.Cell>
+                <Table.Cell>{post.firstName + "-" + post.lastName}</Table.Cell>
+                <Table.Cell>{post.role}</Table.Cell>
+                <Table.Cell>
+                  <Link className="mr-2" href={`/dashboard/blog/${post.id}`}>Edit</Link>
+                  <Link href={`/dashboard/blog/${post.id}`}>Delete</Link>
+                </Table.Cell>
+              </Table.Row>
+            ))}
         </Table.Body>
       </Table.Root>
     </div>
