@@ -1,17 +1,4 @@
-import { Any, IBase } from '@/lib/helpers/interfaces';
-
-export interface IResponseList<T> {
-  total: number;
-  items: Array<T>;
-}
-
-export interface IResponse<T> {
-  data: T;
-}
-
-interface IRequestInit extends RequestInit {
-  params?: Any;
-}
+import { IBase, IRequestInit } from '@/lib/interfaces';
 
 /**
  * Filters out null, undefined, and falsy values from the given object or URLSearchParams.
@@ -50,6 +37,9 @@ const fetcher = async (url: string, options?: IRequestInit) => {
     // next: {
     //   revalidate: 0
     // },
+    headers: {
+      'Content-Type': 'application/json',
+    },
     ...options,
   };
 
@@ -59,7 +49,11 @@ const fetcher = async (url: string, options?: IRequestInit) => {
 
   const res = await fetch(url, options);
 
-  return res.json();
+  return {
+    body: await res.json(),
+    status: res.status,
+    ok: res.ok
+  }
 };
 
 export default fetcher;

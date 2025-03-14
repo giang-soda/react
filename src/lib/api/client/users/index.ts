@@ -1,7 +1,6 @@
 import endpoint from '../endpoint';
-import fetcher, { IResponseList } from '../../';
-import { IBase } from '@/lib/helpers/interfaces';
-import { IUser } from '../../interfaces/user';
+import fetcher from '../../';
+import { IBase, IResponseList, IUser } from '@/lib/interfaces';
 import { routeParams } from '@/lib/helpers/common';
 
 export const usersList = async (params?: IBase): Promise<IResponseList<IUser>> => {
@@ -9,11 +8,11 @@ export const usersList = async (params?: IBase): Promise<IResponseList<IUser>> =
     params,
   });
 
-  return res;
+  return res.body;
 };
 
 export const usersDetail = async (id: number): Promise<IUser> => {
-  const res: IUser = await fetcher(routeParams(endpoint.users.detail, { id }));
+  const res = await fetcher(routeParams(endpoint.users.detail, { id }));
 
-  return res;
+  return res.body;
 };

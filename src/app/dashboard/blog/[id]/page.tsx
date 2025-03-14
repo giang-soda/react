@@ -5,7 +5,7 @@ import styles from '../styles.module.scss';
 import { usersDetail } from '@/lib/api/client/users';
 import HeadUpdate from '@/components/head';
 import { useEffect, useState } from 'react';
-import { IUser } from '@/lib/api/interfaces/user';
+import { IUser } from '@/lib/interfaces/user';
 import { useParams } from 'next/navigation';
 
 export default function DashboardBlogDetail() {
@@ -17,7 +17,6 @@ export default function DashboardBlogDetail() {
   useEffect(() => {
     usersDetail(Number(id)).then((r) => {
       setUser(r);
-      console.log(r.mail);
       setTitle(r.mail);
     });
   }, []);

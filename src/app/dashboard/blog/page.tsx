@@ -9,12 +9,12 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usersList } from '@/lib/api/client/users';
 import { useForm } from 'react-hook-form';
-import { IBase } from '@/lib/helpers/interfaces';
+import { IBase } from '@/lib/interfaces';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateStore, resetStore } from '@/lib/store/slices/user-list-filter';
 import { RootState } from '@/lib/store';
 import DashboardBlogFilter from './_components/filter';
-import { IUser } from '@/lib/api/interfaces/user';
+import { IUser } from '@/lib/interfaces/user';
 
 export default function DashboardBlog() {
   const [posts, setPosts] = useState([] as Array<IUser>);

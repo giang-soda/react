@@ -1,6 +1,6 @@
 // src/features/counter/counterSlice.js
 import { PAGER } from '@/lib/constants/common';
-import { IRequestList } from '@/lib/helpers/interfaces';
+import { IRequestList } from '@/lib/interfaces';
 import { createSlice } from '@reduxjs/toolkit';
 import baseSlice from './base-slice';
 

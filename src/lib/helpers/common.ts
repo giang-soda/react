@@ -1,4 +1,4 @@
-import { IBase } from './interfaces';
+import { IBase } from '../interfaces';
 
 export const routeParams = (url: string, params: IBase) => {
   for (const keyParam in params) {

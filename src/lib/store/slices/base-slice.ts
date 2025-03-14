@@ -1,4 +1,4 @@
-import { Any, IBase } from '@/lib/helpers/interfaces';
+import { Any, IBase } from '@/lib/interfaces';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 const baseSlice = (initialState: IBase) => {
