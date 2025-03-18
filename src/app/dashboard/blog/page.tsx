@@ -15,10 +15,13 @@ import { updateStore, resetStore } from '@/lib/store/slices/user-list-filter';
 import { RootState } from '@/lib/store';
 import DashboardBlogFilter from './_components/filter';
 import { IUser } from '@/lib/interfaces/user';
+import useCount from '@/hooks/use-count';
 
 export default function DashboardBlog() {
   const [posts, setPosts] = useState([] as Array<IUser>);
   const [total, setTotal] = useState(0);
+  const count = useCount();
+
   const store = useSelector((state: RootState) => state.userListFilter);
   const dispatch = useDispatch();
   const { register, getValues, reset } = useForm({
@@ -52,7 +55,7 @@ export default function DashboardBlog() {
     <div>
       <div>
         <Text size="9" className={styles['color-red']}>
-          User list
+          User list {count}
         </Text>
       </div>
       <div className="pb-10">

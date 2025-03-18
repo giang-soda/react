@@ -2,7 +2,7 @@ import { routeParams } from '@/lib/helpers/common';
 import fetcher from '../../';
 import endpoint from '../endpoint';
 import configServer from '@/config/config-server';
-import { IBase, IResponse, IResponseList, IUser } from '@/lib/interfaces';
+import { IBase, IResponseList, IUser } from '@/lib/interfaces';
 
 export const usersList = async (params?: IBase): Promise<IResponseList<IUser>> => {
   const res = await fetcher(`${configServer.BACKEND_URL}${endpoint.users.list}`, {

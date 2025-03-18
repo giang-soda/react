@@ -52,8 +52,8 @@ const fetcher = async (url: string, options?: IRequestInit) => {
   return {
     body: await res.json(),
     status: res.status,
-    ok: res.ok
-  }
+    ok: res.ok,
+  };
 };
 
 export default fetcher;

@@ -1,6 +1,6 @@
-import { authLogin } from "@/lib/api/server/auth";
-import { createSession } from "@/lib/helpers/session";
-import { NextResponse, NextRequest } from 'next/server';
+import { authLogin } from '@/lib/api/server/auth';
+import { createSession } from '@/lib/helpers/session';
+import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
   await createSession({
     id: res.body?.data?.id,
-  })
+  });
 
-  return NextResponse.json({a: 'success'}, {status: 200});
+  return NextResponse.json({ a: 'success' }, { status: 200 });
 }
