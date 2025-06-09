@@ -1,6 +1,14 @@
 import { useTheme } from '~/context/ThemeContext';
 import { Theme } from '~/constans/theme';
 import { Button } from '~/components/ui/button';
+import i18n from '~/lib/translator';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '~/components/ui/select';
 
 export function Footer() {
   const { theme, toggleTheme } = useTheme();
@@ -14,6 +22,15 @@ export function Footer() {
             <Button onClick={toggleTheme} variant="outline">
               {theme === Theme.LIGHT ? 'Dark' : 'Light'}
             </Button>
+            <Select onValueChange={lang => void i18n.changeLanguage(lang)}>
+              <SelectTrigger className="mb-2 ml-auto w-[120px]">
+                <SelectValue placeholder={i18n.language.toUpperCase()} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="vi">Tiếng Việt</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </div>

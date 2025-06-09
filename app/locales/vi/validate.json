@@ -1,0 +1,10 @@
+{
+  "required": "Trường này không được bỏ trống.",
+  "email": "Giá trị phải là một địa chỉ email hợp lệ.",
+  "min": "Chuỗi phải có ít nhất {{min}} ký tự.",
+  "max": "Chuỗi không được vượt quá {{max}} ký tự.",
+  "max.numeric": "Giá trị không được vượt quá {{max}}.",
+  "min.numeric": "Giá trị phải tối thiểu là {{min}}.",
+  "numeric": "Đây phải là một số.",
+  "type": "Trường này không hợp lệ."
+}
