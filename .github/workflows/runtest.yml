@@ -1,0 +1,38 @@
+name: Soda run test
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sd-runtest:
+    name: Soda run test
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: v22.12.0
+      - name: View node version
+        run: node -v && npm -v
+      - name: Install package
+        run: npm install
+
+      - name: eslint check rule and format
+        run: |
+          npm run check
+          npm run lint
+
+      # - name: Run unit test
+      #   run: npm run test
+
+      - name: Run build
+        run: npm run build
