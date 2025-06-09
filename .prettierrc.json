@@ -12,7 +12,6 @@
   "htmlWhitespaceSensitivity": "css",
   "insertPragma": false,
   "jsxSingleQuote": false,
-  "jsxBracketSameLine": false,
   "proseWrap": "preserve",
   "quoteProps": "as-needed",
   "requirePragma": false,
