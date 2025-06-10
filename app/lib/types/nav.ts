@@ -7,7 +7,7 @@ interface BaseNavItem {
 }
 
 type NavLink = BaseNavItem & {
-  url: LinkProps['to'];
+  url?: LinkProps['to'];
   items?: never;
 };
 

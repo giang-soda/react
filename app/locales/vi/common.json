@@ -1,5 +1,27 @@
 {
   "theme": {
     "toggle": "Chuyển đổi chủ đề"
+  },
+  "actions": {
+    "goToHome": "Về trang chủ",
+    "refreshPage": "Tải lại trang"
+  },
+  "errors": {
+    "403": {
+      "title": "Truy cập bị từ chối",
+      "description": "Bạn không có quyền truy cập tài nguyên này."
+    },
+    "404": {
+      "title": "Không tìm thấy trang",
+      "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển."
+    },
+    "500": {
+      "title": "Lỗi máy chủ",
+      "description": "Rất tiếc! Đã xảy ra lỗi từ phía máy chủ. Vui lòng thử lại sau."
+    },
+    "503": {
+      "title": "Website đang bảo trì!",
+      "description": "Trang web hiện không khả dụng. <br /> Chúng tôi sẽ quay trở lại sớm."
+    }
   }
 }
