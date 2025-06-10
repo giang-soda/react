@@ -22,16 +22,16 @@ const formSchema = (
   return z.object({
     email: z
       .string()
-      .min(1, { message: tValidate('required') })
-      .max(255, { message: tValidate('max', { max: 255 }) })
-      .email({ message: tValidate('email') }),
+      .min(1, { message: tValidate('required', { ns: 'validate' }) })
+      .max(255, { message: tValidate('max', { max: 255, ns: 'validate' }) })
+      .email({ message: tValidate('email', { ns: 'validate' }) }),
     password: z
       .string()
       .min(6, {
-        message: tValidate('min', { min: 6 }),
+        message: tValidate('min', { min: 6, ns: 'validate' }),
       })
       .max(50, {
-        message: tValidate('max', { max: 50 }),
+        message: tValidate('max', { max: 50, ns: 'validate' }),
       }),
   });
 };
@@ -40,11 +40,10 @@ type LoginSchema = z.infer<ReturnType<typeof formSchema>>;
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation('auth');
-  const { t: tValidate } = useTranslation('validate');
+  const { t } = useTranslation(['auth', 'validate']);
 
   const form = useForm<LoginSchema>({
-    resolver: zodResolver(formSchema(tValidate)),
+    resolver: zodResolver(formSchema(t)),
     defaultValues: {
       email: '',
       password: '',

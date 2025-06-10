@@ -7,7 +7,7 @@ export function meta() {
 }
 
 export default function Login() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['auth']);
   return (
     <>
       <Card className="gap-4">
