@@ -1,39 +1,36 @@
-import { Link } from 'react-router'
-import { AlignJustify } from 'lucide-react'
-import { cn } from '~/lib/utils'
-import { Button } from '~/components/ui/button'
+import { Link } from 'react-router';
+import { AlignJustify } from 'lucide-react';
+import { cn } from '~/lib/utils';
+import { Button } from '~/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu'
+} from '~/components/ui/dropdown-menu';
 
 interface TopNavProps extends React.HTMLAttributes<HTMLElement> {
   links: {
-    title: string
-    href: string
-    isActive: boolean
-  }[]
+    title: string;
+    href: string;
+    isActive: boolean;
+  }[];
 }
 
 export function TopNav({ className, links, ...props }: TopNavProps) {
   return (
     <>
-      <div className='md:hidden'>
+      <div className="md:hidden">
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button size='icon' variant='outline'>
+            <Button size="icon" variant="outline">
               <AlignJustify />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent side='bottom' align='start'>
+          <DropdownMenuContent side="bottom" align="start">
             {links.map(({ title, href, isActive }) => (
               <DropdownMenuItem key={`${title}-${href}`} asChild>
-                <Link
-                  to={href}
-                  className={!isActive ? 'text-muted-foreground' : ''}
-                >
+                <Link to={href} className={!isActive ? 'text-muted-foreground' : ''}>
                   {title}
                 </Link>
               </DropdownMenuItem>
@@ -43,10 +40,7 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
       </div>
 
       <nav
-        className={cn(
-          'hidden items-center space-x-4 md:flex lg:space-x-6',
-          className
-        )}
+        className={cn('hidden items-center space-x-4 md:flex lg:space-x-6', className)}
         {...props}
       >
         {links.map(({ title, href, isActive }) => (
@@ -60,5 +54,5 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
         ))}
       </nav>
     </>
-  )
+  );
 }

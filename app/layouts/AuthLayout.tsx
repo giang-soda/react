@@ -2,10 +2,7 @@ import { Outlet } from 'react-router';
 import { Footer } from './parts/Footer';
 
 export function meta() {
-  return [
-    { title: 'Soda' },
-    { name: 'description', content: 'Soda Web App' },
-  ]
+  return [{ title: 'Soda' }, { name: 'description', content: 'Soda Web App' }];
 }
 
 export default function AuthLayout() {

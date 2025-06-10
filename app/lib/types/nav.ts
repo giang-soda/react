@@ -1,42 +1,30 @@
-import type { LinkProps } from 'react-router'
-
-interface User {
-  name: string
-  email: string
-  avatar: string
-}
-
-interface Team {
-  name: string
-  logo: React.ElementType
-  plan: string
-}
+import type { LinkProps } from 'react-router';
 
 interface BaseNavItem {
-  title: string
-  badge?: string
-  icon?: React.ElementType
+  title: string;
+  badge?: string;
+  icon?: React.ElementType;
 }
 
 type NavLink = BaseNavItem & {
-  url: LinkProps['to']
-  items?: never
-}
+  url: LinkProps['to'];
+  items?: never;
+};
 
 type NavCollapsible = BaseNavItem & {
-  items: (BaseNavItem & { url: LinkProps['to'] })[]
-  url?: never
-}
+  items: (BaseNavItem & { url: LinkProps['to'] })[];
+  url?: never;
+};
 
-type NavItem = NavCollapsible | NavLink
+type NavItem = NavCollapsible | NavLink;
 
 interface NavGroup {
-  title: string
-  items: NavItem[]
+  title: string;
+  items: NavItem[];
 }
 
 interface SidebarData {
-  navGroups: NavGroup[]
+  navGroups: NavGroup[];
 }
 
-export type { SidebarData, NavGroup, NavItem, NavCollapsible, NavLink }
+export type { SidebarData, NavGroup, NavItem, NavCollapsible, NavLink };

@@ -1,15 +1,12 @@
-import { AppSidebar } from './parts/AppSidebar'
-import { SidebarProvider } from '~/components/ui/sidebar'
-import { cn } from '~/lib/utils'
-import { Outlet } from 'react-router'
-import { Header } from './parts/Header'
-import { Main } from './parts/Main'
+import { AppSidebar } from './parts/AppSidebar';
+import { SidebarProvider } from '~/components/ui/sidebar';
+import { cn } from '~/lib/utils';
+import { Outlet } from 'react-router';
+import { Header } from './parts/Header';
+import { Main } from './parts/Main';
 
 export function meta() {
-  return [
-    { title: 'Soda' },
-    { name: 'description', content: 'Soda Web App' },
-  ]
+  return [{ title: 'Soda' }, { name: 'description', content: 'Soda Web App' }];
 }
 
 export default function AppLayout() {
@@ -18,7 +15,7 @@ export default function AppLayout() {
       <SidebarProvider>
         <AppSidebar />
         <div
-          id='content'
+          id="content"
           className={cn(
             'ml-auto w-full max-w-full',
             'peer-data-[state=collapsed]:w-[calc(100%-var(--sidebar-width-icon)-1rem)]',
@@ -36,5 +33,5 @@ export default function AppLayout() {
         </div>
       </SidebarProvider>
     </>
-  )
+  );
 }

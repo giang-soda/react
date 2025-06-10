@@ -1,18 +1,23 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { Theme } from '~/constans';
+import { Language, Theme, KEY_LOCAL_STORAGE } from '~/constans';
+import i18n from '~/lib/translator';
 
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  language: Language;
+  toggleLanguage: (newLanguage: Language) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
+  const [language, setLanguage] = useState<Language>(Language.EN);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    const savedTheme = localStorage.getItem(KEY_LOCAL_STORAGE.THEME) as Theme | null;
+
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.classList.toggle(Theme.DARK, savedTheme === Theme.DARK);
@@ -21,16 +26,34 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setTheme(prefersDark ? Theme.DARK : Theme.LIGHT);
       document.documentElement.classList.toggle(Theme.DARK, prefersDark);
     }
+
+    const savedLanguage = (localStorage.getItem(KEY_LOCAL_STORAGE.LANGUAGE) ??
+      Language.EN) as Language;
+
+    setLanguage(savedLanguage);
+    void i18n.changeLanguage(savedLanguage);
+    document.documentElement.lang = savedLanguage;
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT;
     setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
+    localStorage.setItem(KEY_LOCAL_STORAGE.THEME, newTheme);
     document.documentElement.classList.toggle(Theme.DARK, newTheme === Theme.DARK);
   };
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+  const toggleLanguage = (newLanguage: Language) => {
+    setLanguage(newLanguage);
+    void i18n.changeLanguage(newLanguage);
+    localStorage.setItem(KEY_LOCAL_STORAGE.LANGUAGE, newLanguage);
+    document.documentElement.lang = newLanguage;
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme, language, toggleLanguage }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {

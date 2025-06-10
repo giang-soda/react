@@ -1,5 +1,5 @@
-import { Command } from 'lucide-react'
-import { type SidebarData } from '~/lib/types/nav'
+import { Command } from 'lucide-react';
+import { type SidebarData } from '~/lib/types/nav';
 
 export const sidebarData: SidebarData = {
   navGroups: [
@@ -156,4 +156,4 @@ export const sidebarData: SidebarData = {
       ],
     },
   ],
-}
+};

@@ -7,10 +7,11 @@ import enCommon from '~/locales/en/common.json';
 import viAuth from '~/locales/vi/auth.json';
 import viValidate from '~/locales/vi/validate.json';
 import viCommon from '~/locales/vi/common.json';
+import { Language } from '~/constans';
 
 void i18n.use(initReactI18next).init({
-  lng: 'en',
-  fallbackLng: 'en',
+  lng: Language.EN,
+  fallbackLng: Language.EN,
   resources: {
     en: {
       auth: enAuth,

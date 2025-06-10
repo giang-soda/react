@@ -1,10 +1,7 @@
 import { Links, Meta, Scripts, ScrollRestoration } from 'react-router';
 
 export function meta() {
-  return [
-    { title: 'Soda' },
-    { name: 'description', content: 'Soda Web App' },
-  ]
+  return [{ title: 'Soda' }, { name: 'description', content: 'Soda Web App' }];
 }
 
 export function ThemeLayout({ children }: { children: React.ReactNode }) {
