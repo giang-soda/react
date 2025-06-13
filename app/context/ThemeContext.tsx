@@ -27,11 +27,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       document.documentElement.classList.toggle(Theme.DARK, prefersDark);
     }
 
-    const savedLanguage = (localStorage.getItem(KEY_LOCAL_STORAGE.LANGUAGE) ??
-      Language.EN) as Language;
-
-    setLanguage(savedLanguage);
-    void i18n.changeLanguage(savedLanguage);
+    const savedLanguage = i18n.language;
+    setLanguage(savedLanguage as Language);
     document.documentElement.lang = savedLanguage;
   }, []);
 
