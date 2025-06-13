@@ -27,7 +27,8 @@ void i18n
       loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
 
-    ns: ['auth', 'validate', 'common'],
+    ns: ['common', 'auth', 'validate', 'todos'],
+
     defaultNS: 'common',
   });
 

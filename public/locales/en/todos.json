@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "default": "Error nothing",
+    "ERR_TODO_LIST": "Error get list todo"
+  }
+}
