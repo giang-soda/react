@@ -11,8 +11,8 @@ interface IHandleError {
 }
 
 interface IResponse {
-  code: string;
-  data: Record<string, React.ReactNode>;
+  code?: string;
+  data?: Record<string, React.ReactNode>;
 }
 
 export const api = axios.create({
@@ -71,10 +71,15 @@ export function handleError(error: AxiosError, { t, message }: IHandleError) {
     return null;
   }
 
-  const code: string = (error.response.data as IResponse)?.code ?? error.response.status.toString();
+  let code: string;
+  if (typeof error.response.data === 'object' && (error.response.data as IResponse).code) {
+    code = String((error.response.data as IResponse).code);
+  } else {
+    code = error.response.status.toString();
+  }
 
   // if message has code -> show message
-  if (message?.[code]) {
+  if (message && code in message) {
     toast.error(message[code]);
     return message[code];
   }

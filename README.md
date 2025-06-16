@@ -70,9 +70,62 @@ npm run build
 1. Dùng lib axios
 2. File init axios app/api/axios.ts: default path /api/, header thêm Bearer token
 3. Function fakeApi: tạo fake api để test, remove trong quá trình code thật.
-4. Ví dụ call api
+4. Ví dụ error response from Backend: 
+    ```json
+    {
+      "code": "ERR_TODO_LIST",
+      // data more
+    }
+    ```
+5. Chi tiết hàm handleError (app/api/axios.ts):
+    - Xử lý common error
+    - Truyền option gồm t: translator, message: thông báo lỗi dựa vào mã code từ server response
+    ```json
+    {
+        "message": {
+            "default": t('errors.default', { ns: 'todos' }),
+            "ERROR_TODO_LIST": t('errors.ERR_TODO_LIST', { ns: 'todos' }),
+        }
+    }
+    ```
+
+    - server trả về mã code nào, tìm trong mảng message tương ứng để hiển thị toast, nếu không có thì hiển thị default.
+6. Khai báo params
     - Khai báo mã lỗi để quản lý tập trung: `app/api/error-code.ts`
     - Khai báo endpoint api: app/api/endpoint.ts
+7. Ví dụ call api với hook
+    - file hook lib: app/hooks/use-api.ts
+    - Sử dụng: 
+        ```ts
+        // tham số đầu là AxiosRequestConfig, tham số thứ 2 gồm message lỗi (xem lại phần 5)
+        const api = useApi(
+            {
+              method: 'get',
+              url: API_ENDPOINT.TODOS.LIST,
+            },
+            {
+              message: {
+                default: t('errors.default'),
+                ERR_TODO_LIST: t('errors.ERR_TODO_LIST'),
+              },
+            }
+        );
+        
+        // call
+        await api.call();
+        
+        // các state
+        api.isLoading; // boolean
+        api.error; // string | null
+        api.data; // any
+        
+        // các method
+        api.call(); // gọi api
+        api.resetData(); // reset data, error = null
+        ```
+    - Nếu url path có biến :id, dùng generatePath(API_ENDPOINT.TODOS.ID, { id })
+
+8. Ví dụ call api function (không khuyến nghị)
     - Hàm gọi api và xử lý error ở trong folder app/api/. Từng module tạo folder riêng cho dễ quản lý. ví dụ `app/api/todos/index.ts`. ví dụ call và xử lý handle:
     ```ts
     import { api, handleError, API_ENDPOINT, API_ERROR_CODE } from '../';
@@ -93,19 +146,3 @@ npm run build
     };
     ```
     - Nếu endpoint có biến, sử dụng `generatePath` để replace `:id`, ví dụ: `await api.get(generatePath(API_ENDPOINT.TODOS.ID, { id }));`
-5. Ví dụ error response from Backend: 
-    ```json
-    {
-        code: "ERR_TODO_LIST",
-        // data more
-    }
-    ```
-6. Chi tiết hàm handleError:
-    - Xử lý common error
-    - Truyền option gồm t: translator, message: thông báo lỗi dựa vào mã code từ server response
-    ```
-    message: {
-        default: t('errors.default', { ns: 'todos' }),
-        ERROR_TODO_LIST: t('errors.ERR_TODO_LIST', { ns: 'todos' }),
-    }```
-    - server trả về mã code nào, tìm trong mảng message tương ứng để hiển thị toast, nếu không có thì hiển thị default.

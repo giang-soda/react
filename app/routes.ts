@@ -6,6 +6,7 @@ export default [
     route('/dashboard', 'routes/dashboard/Dashboard.tsx'),
     route('/throw-error', 'routes/dashboard/ThrowError.tsx'),
     route('/call-api', 'routes/dashboard/CallApi.tsx'),
+    route('/call-api-hook', 'routes/dashboard/CallApiHook.tsx'),
   ]),
 
   layout('layouts/AuthLayout.tsx', prefix('/auth', [route('/login', 'routes/auth/Login.tsx')])),

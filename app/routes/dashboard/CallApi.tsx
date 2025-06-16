@@ -20,7 +20,9 @@ enum ELoading {
 
 export default function CallApi() {
   const { t } = useTranslation();
-  const [response, setResponse] = useState<Record<string, React.ReactNode> | React.ReactNode | null>(null);
+  const [response, setResponse] = useState<
+    Record<string, React.ReactNode> | React.ReactNode | null
+  >(null);
   const [isError, setIsError] = useState(false);
   const [loading, setIsLoading] = useState<ELoading | null>(null);
 
@@ -101,7 +103,7 @@ export default function CallApi() {
     setResponse(error);
     setIsLoading(null);
 
-    if (typeof error === 'string') { 
+    if (typeof error === 'string') {
       setIsError(true);
     } else {
       setIsError(false);
@@ -111,16 +113,32 @@ export default function CallApi() {
   return (
     <div>
       <div className="flex gap-2">
-        <Button onClick={() => void handleTodos()} loading={loading === ELoading.list} disabled={!!loading}>
+        <Button
+          onClick={() => void handleTodos()}
+          loading={loading === ELoading.list}
+          disabled={!!loading}
+        >
           Call List
         </Button>
-        <Button onClick={() => void handleTodosId()} loading={loading === ELoading.id} disabled={!!loading}>
+        <Button
+          onClick={() => void handleTodosId()}
+          loading={loading === ELoading.id}
+          disabled={!!loading}
+        >
           Call Id 1
         </Button>
-        <Button onClick={() => void handle404()} loading={loading === ELoading.error404} disabled={!!loading}>
+        <Button
+          onClick={() => void handle404()}
+          loading={loading === ELoading.error404}
+          disabled={!!loading}
+        >
           Call 404
         </Button>
-        <Button onClick={() => void handle500()} loading={loading === ELoading.error500} disabled={!!loading}>
+        <Button
+          onClick={() => void handle500()}
+          loading={loading === ELoading.error500}
+          disabled={!!loading}
+        >
           Call 500
         </Button>
         <Button
@@ -130,16 +148,26 @@ export default function CallApi() {
         >
           Call 500 default
         </Button>
-        <Button onClick={() => void handle401()} loading={loading === ELoading.error401} disabled={!!loading}>
+        <Button
+          onClick={() => void handle401()}
+          loading={loading === ELoading.error401}
+          disabled={!!loading}
+        >
           Call 401
         </Button>
       </div>
 
       <div className="mt-4">
-        <Alert className={cn(isError ? 'bg-destructive text-destructive-foreground' : 'bg-green-100 text-green-800')}>
-          <AlertTitle>Response <span>{isError ? 'Error' : 'Success'}</span></AlertTitle>
+        <Alert
+          className={cn(
+            isError ? 'bg-destructive text-destructive-foreground' : 'bg-green-100 text-green-800'
+          )}
+        >
+          <AlertTitle>
+            Response <span>{isError ? 'Error' : 'Success'}</span>
+          </AlertTitle>
         </Alert>
-        
+
         <pre>{JSON.stringify(response, null, 2)}</pre>
       </div>
     </div>
