@@ -83,7 +83,6 @@ npm run build
    }
    ```
 5. Chi tiết hàm handleError (app/api/axios.ts):
-
    - Xử lý common error
    - Truyền option gồm t: translator, message: thông báo lỗi dựa vào mã code từ server response
 
@@ -95,14 +94,12 @@ npm run build
        }
    }
    ```
-
    - server trả về mã code nào, tìm trong mảng message tương ứng để hiển thị toast, nếu không có thì hiển thị default.
 
 6. Khai báo params
    - Khai báo mã lỗi để quản lý tập trung: `app/api/error-code.ts`
    - Khai báo endpoint api: app/api/endpoint.ts
 7. Ví dụ call api với hook
-
    - file hook lib: app/hooks/use-api.ts
    - Sử dụng:
 
@@ -146,27 +143,27 @@ npm run build
 
    - Nếu url path có biến :id, dùng generatePath(API_ENDPOINT.TODOS.ID, { id })
 
-80. Ví dụ call api function (không khuyến nghị)
+8. Ví dụ call api function (không khuyến nghị)
 
-   - Hàm gọi api và xử lý error ở trong folder app/api/. Từng module tạo folder riêng cho dễ quản lý. ví dụ `app/api/todos/index.ts`. ví dụ call và xử lý handle:
+- Hàm gọi api và xử lý error ở trong folder app/api/. Từng module tạo folder riêng cho dễ quản lý. ví dụ `app/api/todos/index.ts`. ví dụ call và xử lý handle:
 
-   ```ts
-   import { api, handleError, API_ENDPOINT, API_ERROR_CODE } from '../';
+```ts
+import { api, handleError, API_ENDPOINT, API_ERROR_CODE } from '../';
 
-   export const get = async (t: TFunction) => {
-     try {
-       const response = await api.get(API_ENDPOINT.TODOS.LIST);
-       return response.data;
-     } catch (error) {
-       return handleError(error as AxiosError, {
-         t,
-         message: {
-           default: t('errors.default', { ns: 'todos' }),
-           [API_ERROR_CODE.TODOS.LIST]: t('errors.ERR_TODO_LIST', { ns: 'todos' }),
-         },
-       });
-     }
-   };
-   ```
+export const get = async (t: TFunction) => {
+  try {
+    const response = await api.get(API_ENDPOINT.TODOS.LIST);
+    return response.data;
+  } catch (error) {
+    return handleError(error as AxiosError, {
+      t,
+      message: {
+        default: t('errors.default', { ns: 'todos' }),
+        [API_ERROR_CODE.TODOS.LIST]: t('errors.ERR_TODO_LIST', { ns: 'todos' }),
+      },
+    });
+  }
+};
+```
 
-   - Nếu endpoint có biến, sử dụng `generatePath` để replace `:id`, ví dụ: `await api.get(generatePath(API_ENDPOINT.TODOS.ID, { id }));`
+- Nếu endpoint có biến, sử dụng `generatePath` để replace `:id`, ví dụ: `await api.get(generatePath(API_ENDPOINT.TODOS.ID, { id }));`
