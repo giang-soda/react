@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { AxiosRequestConfig, AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
-import { api, handleError } from '~/api';
+import { api, handleError, bodyToCamelCase } from '~/api';
 
 export interface IUseApiResponse {
   isLoading: boolean;
@@ -14,6 +14,7 @@ export interface IUseApiResponse {
 interface IUseApiRequest {
   message?: Record<string, React.ReactNode>;
   isResetDataCall?: boolean;
+  bodyParamsStruct?: object;
 }
 
 export function useApi(axiosOption: AxiosRequestConfig, options?: IUseApiRequest): IUseApiResponse {
@@ -30,6 +31,13 @@ export function useApi(axiosOption: AxiosRequestConfig, options?: IUseApiRequest
     }
 
     try {
+      // require struct for body params
+      if (axiosOption.data && options?.bodyParamsStruct) {
+        axiosOption.data = bodyToCamelCase(axiosOption.data, options.bodyParamsStruct);
+      } else {
+        axiosOption.data = {};
+      }
+
       const response = await api(axiosOption);
       setData(response.data);
       return response.data;
