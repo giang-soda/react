@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from '~/components/ui/table';
-import { Loading, NoData } from '.';
+import { Loading, NoData } from '..';
 import type { QueryResponse } from '~/models';
 
 interface TableDataProps<T> {

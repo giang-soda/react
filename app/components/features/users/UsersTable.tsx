@@ -14,7 +14,7 @@ import { Button } from '~/components/ui/button';
 import { EditIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { ACTION, KEY_QUERY } from '~/constans';
-import { TableData } from '~/components/common';
+import { ButtonReload, TableData } from '~/components/common';
 
 export function UsersTable() {
   const { t } = useTranslation(['common', 'users']);
@@ -35,15 +35,7 @@ export function UsersTable() {
   return (
     <div>
       <div className="mb-2 flex justify-start gap-2 md:justify-end">
-        <Button
-          loading={queryUserList.query.isFetching}
-          icon={ACTION.RELOAD}
-          onClick={() => {
-            void queryUserList.query.refetch();
-          }}
-        >
-          {t('pagination.reload', { ns: 'common' })}
-        </Button>
+        <ButtonReload queryResponse={queryUserList} />
 
         <Link to="/users/create">
           <Button icon={ACTION.CREATE}>{t('actions.create', { ns: 'common' })}</Button>

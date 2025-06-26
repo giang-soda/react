@@ -1,4 +1,4 @@
 export * from './Loading';
 export * from './Nodata';
 export * from './PasswordInput';
-export * from './TableData';
+export * from './table-data';

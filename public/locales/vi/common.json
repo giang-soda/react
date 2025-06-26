@@ -13,7 +13,8 @@
   "pagination": {
     "nodata": "Không có dữ liệu",
     "loading": "Đang tải...",
-    "reload": "Tải lại"
+    "reload": "Tải lại",
+    "reloadSuccess": "Tải lại thành công"
   },
   "errors": {
     "403": {

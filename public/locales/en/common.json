@@ -13,7 +13,8 @@
   "pagination": {
     "nodata": "No data",
     "loading": "Loading...",
-    "reload": "Reload"
+    "reload": "Reload",
+    "reloadSuccess": "Reload success"
   },
   "errors": {
     "403": {
