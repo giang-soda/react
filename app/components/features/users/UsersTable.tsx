@@ -11,7 +11,7 @@ import { useApiQuery } from '~/hooks/use-api';
 import { API_ENDPOINT } from '~/api';
 import { type User } from '~/models';
 import { Button } from '~/components/ui/button';
-import { EditIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { EditIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { ACTION, KEY_QUERY } from '~/constans';
 import { TableData } from '~/components/common';
@@ -46,9 +46,7 @@ export function UsersTable() {
         </Button>
 
         <Link to="/users/create">
-          <Button icon={ACTION.CREATE}>
-            {t('actions.create', { ns: 'common' })}
-          </Button>
+          <Button icon={ACTION.CREATE}>{t('actions.create', { ns: 'common' })}</Button>
         </Link>
       </div>
 

@@ -120,7 +120,7 @@ export function useApiMutation<T>(
   const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: (data?: Record<string, React.ReactNode> | null | void) => {
+    mutationFn: (data?: Record<string, React.ReactNode> | null) => {
       if (data && options?.bodyParamsStruct) {
         axiosOption.data = bodyToCamelCase(data, options.bodyParamsStruct);
       } else {
@@ -129,18 +129,18 @@ export function useApiMutation<T>(
 
       return api(axiosOption);
     },
-    onError: (err) => {
+    onError: err => {
       handleError(err as AxiosError, { t, message: options?.message });
     },
     onSuccess(response) {
       options?.onSuccess?.(response.data as T);
 
       if (options?.querykey) {
-        queryClient.invalidateQueries({ queryKey: options.querykey });
+        void queryClient.invalidateQueries({ queryKey: options.querykey });
       }
 
       if (options?.redirect) {
-        navigate(options.redirect);
+        void navigate(options.redirect);
       }
     },
   });

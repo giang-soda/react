@@ -1,5 +1,5 @@
-import type { TFunction } from "i18next";
-import { z } from "zod";
+import type { TFunction } from 'i18next';
+import { z } from 'zod';
 
 const PASSWORD_WHITELIST = {
   UPPERCASE: /[A-Z]/,
@@ -15,94 +15,91 @@ interface PasswordSchema {
   required?: boolean;
 }
 
-export const createPasswordSchema = (
-  tValidate: TFunction,
-  passwordSchema?: PasswordSchema,
-) => {
+export const createPasswordSchema = (tValidate: TFunction, passwordSchema?: PasswordSchema) => {
   const { min = 6, max = 50, required = true } = passwordSchema || {};
 
   return z
     .string()
     .refine(
-      (val) => {
-        if (required && val === "") {
+      val => {
+        if (required && val === '') {
           return false;
         }
         return true;
       },
       {
-        message: tValidate("required", { ns: "validate" }),
-      },
+        message: tValidate('required', { ns: 'validate' }),
+      }
     )
     .refine(
-      (val) => {
+      val => {
         return !/\s/.test(val);
       },
       {
-        message: tValidate("password.space", { ns: "validate" }),
-      },
+        message: tValidate('password.space', { ns: 'validate' }),
+      }
     )
     .refine(
-      (val) => {
-        if (val === "") return true;
+      val => {
+        if (val === '') return true;
         return val.length >= min;
       },
       {
-        message: tValidate("min", { ns: "validate", min }),
-      },
+        message: tValidate('min', { ns: 'validate', min }),
+      }
     )
     .refine(
-      (val) => {
+      val => {
         return val.length <= max;
       },
       {
-        message: tValidate("max", { ns: "validate", max }),
-      },
+        message: tValidate('max', { ns: 'validate', max }),
+      }
     )
     .refine(
-      (val) => {
-        if (val === "") return true;
+      val => {
+        if (val === '') return true;
         return PASSWORD_WHITELIST.ALL.test(val);
       },
       {
-        message: tValidate("password.symbol", { ns: "validate" }),
-      },
+        message: tValidate('password.symbol', { ns: 'validate' }),
+      }
     )
     .refine(
-      (val) => {
-        if (val === "") return true;
+      val => {
+        if (val === '') return true;
         return PASSWORD_WHITELIST.UPPERCASE.test(val);
       },
       {
-        message: tValidate("password.format", { ns: "validate" }),
-      },
+        message: tValidate('password.format', { ns: 'validate' }),
+      }
     )
     .refine(
-      (val) => {
-        if (val === "") return true;
+      val => {
+        if (val === '') return true;
         return PASSWORD_WHITELIST.LOWERCASE.test(val);
       },
       {
-        message: tValidate("password.format", { ns: "validate" }),
-      },
+        message: tValidate('password.format', { ns: 'validate' }),
+      }
     )
     .refine(
-      (val) => {
-        if (val === "") return true;
+      val => {
+        if (val === '') return true;
         return PASSWORD_WHITELIST.NUMBER.test(val);
       },
       {
-        message: tValidate("password.format", { ns: "validate" }),
-      },
+        message: tValidate('password.format', { ns: 'validate' }),
+      }
     )
     .refine(
-      (val) => {
-        if (val === "") return true;
+      val => {
+        if (val === '') return true;
         return PASSWORD_WHITELIST.SPECIAL.test(val);
       },
       {
-        message: tValidate("password.format", { ns: "validate" }),
-      },
+        message: tValidate('password.format', { ns: 'validate' }),
+      }
     )
     .transform(val => (val === '' ? undefined : val))
     .optional();

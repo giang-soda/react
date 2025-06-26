@@ -1,4 +1,3 @@
-
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,7 +21,7 @@ import { useApiMutation } from '~/hooks/use-api';
 import { toast } from 'sonner';
 import type { User } from '~/models';
 
-const formSchema = (tValidate: TFunction) => 
+const formSchema = (tValidate: TFunction) =>
   z.object({
     email: z
       .string()
@@ -64,15 +63,15 @@ export function UserCreateForm() {
       },
       querykey: [KEY_QUERY.USER_LIST],
       redirect: '/users',
-      onSuccess: (data) => {
-        toast.success(t('success.create', { ns: 'users', id: data.id }));
+      onSuccess: data => {
+        toast.success(t('success.create', { ns: 'users', id: data.name }));
       },
     }
   );
 
-  const onSubmit = () => {
-    apiUserPost.mutation.mutate();
-  }
+  const onSubmit = (data: UserCreateSchema) => {
+    apiUserPost.mutation.mutate(data);
+  };
 
   return (
     <Form {...form}>

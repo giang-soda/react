@@ -11,7 +11,7 @@ export default [
     route('/users/create', 'routes/users/Create.tsx'),
     route('/users/:id', 'routes/users/Edit.tsx'),
 
-    route('/call-api', 'routes/dashboard/CallApi.tsx'),
+    // route('/call-api', 'routes/dashboard/CallApi.tsx'),
     route('/call-api-hook', 'routes/dashboard/CallApiHook.tsx'),
   ]),
 

@@ -100,67 +100,73 @@ npm run build
    - Khai báo mã lỗi để quản lý tập trung: `app/api/error-code.ts`
    - Khai báo endpoint api: app/api/endpoint.ts
 7. Ví dụ call api với query hook
-  - Sử dụng lib @tanstack/react-query để quản lý state: data, loading, error, cache
-  - Tham khảo quản lý user ở folder `app/components/features/users`
-  - Với phương thức get, sẽ lưu cache để không gọi lại api (nếu có data mới, phải call refetch hoặc invalidate cache)
-    ```ts
-    import { useApiQuery } from '~/hooks/use-api';
 
-    // khai báo hook
-    const queryHook = useApiQuery<User[]>( // type data reponse
-      {
-        method: 'get',
-        url: API_ENDPOINT.USERS.LIST,
+- Sử dụng lib @tanstack/react-query để quản lý state: data, loading, error, cache
+- Tham khảo quản lý user ở folder `app/components/features/users`
+- Với phương thức get, sẽ lưu cache để không gọi lại api (nếu có data mới, phải call refetch hoặc invalidate cache)
+
+  ```ts
+  import { useApiQuery } from '~/hooks/use-api';
+
+  // khai báo hook
+  const queryHook = useApiQuery<User[]>( // type data reponse
+    {
+      method: 'get',
+      url: API_ENDPOINT.USERS.LIST,
+    },
+    {
+      querykey: [KEY_QUERY.USER_LIST], // key để lưu cache
+      message: {
+        // message lỗi (xem lại phần 5)
+        default: t('errors.list_default', { ns: 'users' }),
       },
-      {
-        querykey: [KEY_QUERY.USER_LIST], // key để lưu cache
-        message: { // message lỗi (xem lại phần 5)
-          default: t('errors.list_default', { ns: 'users' }),
-        },
-      }
-    );
+    }
+  );
 
-    // dùng data queryHook
-    // queryHook.query: UseQueryResult của lib
-    queryHook.query.isFetching;
-    queryHook.query.isLoading;
-    queryHook.query.refetch();
-    
-    queryHook.data // tương đương với queryHook.query.data.data, vì dùng lib axios, nên .data 2 lần
-    ```
+  // dùng data queryHook
+  // queryHook.query: UseQueryResult của lib
+  queryHook.query.isFetching;
+  queryHook.query.isLoading;
+  queryHook.query.refetch();
 
-  - Với phương thức post (thêm, sửa xóa), sử dụng `useMutation` của lib
-    ```ts
-    import { useApiMutation } from '~/hooks/use-api';
+  queryHook.data; // tương đương với queryHook.query.data.data, vì dùng lib axios, nên .data 2 lần
+  ```
 
-    // khai báo
-    const apiHook = useApiMutation<User>(
-      {
-        method: 'post',
-        url: API_ENDPOINT.USERS.CREATE,
+- Với phương thức post (thêm, sửa xóa), sử dụng `useMutation` của lib
+
+  ```ts
+  import { useApiMutation } from '~/hooks/use-api';
+
+  // khai báo
+  const apiHook = useApiMutation<User>(
+    {
+      method: 'post',
+      url: API_ENDPOINT.USERS.CREATE,
+    },
+    {
+      message: {
+        default: t('errors.create_default', { ns: 'users' }),
       },
-      {
-        message: {
-          default: t('errors.create_default', { ns: 'users' }),
-        },
-        bodyParamsStruct: { // filter body param theo cấu trúc này trước khi gửi lên api
-          email: String,
-          active: Boolean,
-          birthday: Date,
-          count: Number
-        },
-        querykey: [KEY_QUERY.USER_LIST], // nếu có sẽ xóa cache theo key này sau khi success, mục đích cập nhập data mới
-        redirect: '/users', // nếu có redirect page này sau khi success
-        onSuccess: (responseData) => { // callback khi success
-          // responseData tương đương với apiHook.mutation.data.data
-          toast.success(t('success.create', { ns: 'users', id: responseData.id }));
-        },
-      }
-    );
+      bodyParamsStruct: {
+        // filter body param theo cấu trúc này trước khi gửi lên api
+        email: String,
+        active: Boolean,
+        birthday: Date,
+        count: Number,
+      },
+      querykey: [KEY_QUERY.USER_LIST], // nếu có sẽ xóa cache theo key này sau khi success, mục đích cập nhập data mới
+      redirect: '/users', // nếu có redirect page này sau khi success
+      onSuccess: responseData => {
+        // callback khi success
+        // responseData tương đương với apiHook.mutation.data.data
+        toast.success(t('success.create', { ns: 'users', id: responseData.id }));
+      },
+    }
+  );
 
-    // call api
-    apiHook.mutation.mutate(bodyData | undefined)
-    ```
+  // call api
+  apiHook.mutation.mutate(bodyData | undefined);
+  ```
 
 8. Ví dụ call api với hook (Không khuyến nghị)
    - file hook lib: app/hooks/use-api.ts

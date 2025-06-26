@@ -169,10 +169,10 @@ export default function CallApiHook() {
         <Button onClick={() => handleCallApi(apiPost)} loading={apiPost.isLoading}>
           Call Post
         </Button>
-        <Button onClick={() => queryId.query.refetch()} loading={queryId.query.isPending}>
+        <Button onClick={() => void queryId.query.refetch()} loading={queryId.query.isPending}>
           Call query refetch id 1
         </Button>
-        <Button onClick={() => query404.query.refetch()} loading={query404.query.isPending}>
+        <Button onClick={() => void query404.query.refetch()} loading={query404.query.isPending}>
           Call query refetch 404
         </Button>
       </div>
