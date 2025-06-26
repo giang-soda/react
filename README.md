@@ -167,3 +167,13 @@ export const get = async (t: TFunction) => {
 ```
 
 - Nếu endpoint có biến, sử dụng `generatePath` để replace `:id`, ví dụ: `await api.get(generatePath(API_ENDPOINT.TODOS.ID, { id }));`
+
+### 4. Error page
+
+Hiện trang báo lỗi, layout trang báo lỗi ở folder `app/components/errors`
+
+```ts
+import { ErrorResponseHandler } from '~/lib/errors';
+
+throw new ErrorResponseHandler(500);
+```

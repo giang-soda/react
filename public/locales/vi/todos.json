@@ -2,5 +2,9 @@
   "errors": {
     "default": "Không biết lỗi gì luôn, lạ thật",
     "ERR_TODO_LIST": "Lỗi khi lấy danh sách todo"
+  },
+  "list": {
+    "email": "Email",
+    "name": "Tên"
   }
 }

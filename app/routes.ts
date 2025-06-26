@@ -5,6 +5,11 @@ export default [
     index('routes/dashboard/index.tsx'), // home
     route('/dashboard', 'routes/dashboard/Dashboard.tsx'),
     route('/throw-error', 'routes/dashboard/ThrowError.tsx'),
+
+    // TODO demo router
+    route('/users', 'routes/users/List.tsx'),
+    route('/users/:id', 'routes/users/Edit.tsx'),
+
     route('/call-api', 'routes/dashboard/CallApi.tsx'),
     route('/call-api-hook', 'routes/dashboard/CallApiHook.tsx'),
   ]),

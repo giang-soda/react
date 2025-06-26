@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
-import { PasswordInput } from '~/components/common/PasswordInput';
+import { PasswordInput } from '~/components/common';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 

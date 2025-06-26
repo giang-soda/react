@@ -3,6 +3,8 @@
     "toggle": "Chuyển đổi chủ đề"
   },
   "actions": {
+    "submit": "Gửi",
+    "save": "Lưu",
     "goToHome": "Về trang chủ",
     "refreshPage": "Tải lại trang"
   },

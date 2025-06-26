@@ -1,10 +1,9 @@
 import { LoginForm } from '~/components/features/auth/LoginForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 import { useTranslation } from 'react-i18next';
+import { metaCommon } from '~/lib/utils';
 
-export function meta() {
-  return [{ title: 'Login | Soda' }, { name: 'description', content: 'Login to your account' }];
-}
+export const meta = () => metaCommon('Login');
 
 export default function Login() {
   const { t } = useTranslation(['auth']);

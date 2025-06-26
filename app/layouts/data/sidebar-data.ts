@@ -12,24 +12,19 @@ export const sidebarData: SidebarData = {
           icon: Command,
         },
         {
-          title: 'Api',
-          url: '/call-api',
+          title: 'Api Hook',
+          url: '/call-api-hook',
           icon: Command,
         },
         {
-          title: 'Api Hook',
-          url: '/call-api-hook',
+          title: 'User real',
+          url: '/users',
           icon: Command,
         },
         {
           title: 'Chats',
           url: '#',
           badge: '3',
-          icon: Command,
-        },
-        {
-          title: 'Users',
-          url: '#',
           icon: Command,
         },
         {

@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "list_default": "Error get list user",
+    "detail_default": "Error get detail user"
+  },
+  "list": {
+    "title": "User List",
+    "email": "Email",
+    "name": "Name"
+  },
+  "edit": {
+    "title": "User Edit"
+  }
+}

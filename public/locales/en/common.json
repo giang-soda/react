@@ -3,8 +3,16 @@
     "toggle": "Toggle theme"
   },
   "actions": {
+    "submit": "Submit",
+    "save": "Save",
+    "actions": "Actions",
     "goToHome": "Go to Home",
     "refreshPage": "Refresh Page"
+  },
+  "pagination": {
+    "nodata": "No data",
+    "loading": "Loading...",
+    "reload": "Reload"
   },
   "errors": {
     "403": {

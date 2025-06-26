@@ -2,9 +2,10 @@ import { Button } from '~/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { Alert, AlertTitle } from '~/components/ui/alert';
 import { cn } from '~/lib/utils';
-import { useApi, type IUseApiResponse } from '~/hooks/use-api';
+import { useApi, useApiQuery } from '~/hooks/use-api';
 import { API_ENDPOINT } from '~/api';
 import { generatePath } from 'react-router';
+import type { UseApiResponse } from '~/models';
 
 export function meta() {
   return [{ title: 'Call Api Hook' }, { name: 'description', content: 'CallApiHook' }];
@@ -12,6 +13,33 @@ export function meta() {
 
 export default function CallApiHook() {
   const { t } = useTranslation('todos');
+
+  const queryId = useApiQuery(
+    {
+      method: 'get',
+      url: generatePath(API_ENDPOINT.TODOS.ID, { id: 1 }),
+    },
+    {
+      querykey: ['todos', 'id', 1],
+      message: {
+        default: t('errors.default'),
+        ERR_TODO_LIST: t('errors.ERR_TODO_LIST'),
+      },
+    }
+  );
+  const query404 = useApiQuery(
+    {
+      method: 'get',
+      url: generatePath(API_ENDPOINT.TODOS.ID, { id: 99999 }),
+    },
+    {
+      querykey: ['todos', '404'],
+      message: {
+        default: t('errors.default'),
+        ERR_TODO_LIST: t('errors.ERR_TODO_LIST'),
+      },
+    }
+  );
 
   const apiTodoList = useApi(
     {
@@ -117,11 +145,12 @@ export default function CallApiHook() {
     }
   );
 
-  const handleCallApi = (api: IUseApiResponse) => {
+  const handleCallApi = (api: UseApiResponse) => {
     apiTodoList.resetData();
     apiTodoId.resetData();
     api404.resetData();
     apiPost.resetData();
+
     void api.call();
   };
 
@@ -140,6 +169,12 @@ export default function CallApiHook() {
         <Button onClick={() => handleCallApi(apiPost)} loading={apiPost.isLoading}>
           Call Post
         </Button>
+        <Button onClick={() => queryId.query.refetch()} loading={queryId.query.isPending}>
+          Call query refetch id 1
+        </Button>
+        <Button onClick={() => query404.query.refetch()} loading={query404.query.isPending}>
+          Call query refetch 404
+        </Button>
       </div>
 
       <div className="mt-4">
@@ -151,7 +186,7 @@ export default function CallApiHook() {
           )}
         >
           <AlertTitle>
-            Response <span>{apiTodoList.error ? 'Error' : 'Success'}</span>
+            Response api todo list <span>{apiTodoList.error ? 'Error' : 'Success'}</span>
           </AlertTitle>
         </Alert>
 
@@ -167,7 +202,7 @@ export default function CallApiHook() {
           )}
         >
           <AlertTitle>
-            Response <span>{apiTodoId.error ? 'Error' : 'Success'}</span>
+            Response api todo id <span>{apiTodoId.error ? 'Error' : 'Success'}</span>
           </AlertTitle>
         </Alert>
 
@@ -183,7 +218,7 @@ export default function CallApiHook() {
           )}
         >
           <AlertTitle>
-            Response <span>{api404.error ? 'Error' : 'Success'}</span>
+            Response api 404 <span>{api404.error ? 'Error' : 'Success'}</span>
           </AlertTitle>
         </Alert>
 
@@ -199,11 +234,43 @@ export default function CallApiHook() {
           )}
         >
           <AlertTitle>
-            Response <span>{apiPost.error ? 'Error' : 'Success'}</span>
+            Response api post <span>{apiPost.error ? 'Error' : 'Success'}</span>
           </AlertTitle>
         </Alert>
 
         <pre>{JSON.stringify(apiPost.data || apiPost.error, null, 2)}</pre>
+      </div>
+
+      <div className="mt-4">
+        <Alert
+          className={cn(
+            queryId.query.isError
+              ? 'bg-destructive text-destructive-foreground'
+              : 'bg-green-100 text-green-800'
+          )}
+        >
+          <AlertTitle>
+            Response query id <span>{queryId.query.error ? 'Error' : 'Success'}</span>
+          </AlertTitle>
+        </Alert>
+
+        <pre>{JSON.stringify(queryId.data || queryId.query.error, null, 2)}</pre>
+      </div>
+
+      <div className="mt-4">
+        <Alert
+          className={cn(
+            query404.query.isError
+              ? 'bg-destructive text-destructive-foreground'
+              : 'bg-green-100 text-green-800'
+          )}
+        >
+          <AlertTitle>
+            Response query id <span>{query404.query.error ? 'Error' : 'Success'}</span>
+          </AlertTitle>
+        </Alert>
+
+        <pre>{JSON.stringify(query404.data || query404.query.error, null, 2)}</pre>
       </div>
     </div>
   );

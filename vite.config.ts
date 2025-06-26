@@ -8,8 +8,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://jsonplaceholder.typicode.com',
-        changeOrigin: true,
+        target: 'http://localhost:9999',
+        changeOrigin: false,
         rewrite: path => path.replace(/^\/api/, ''),
       },
     },

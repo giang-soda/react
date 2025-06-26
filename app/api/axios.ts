@@ -7,7 +7,7 @@ import type React from 'react';
 
 interface IHandleError {
   t: TFunction;
-  message?: Record<string, React.ReactNode>;
+  message?: Record<string, string>;
 }
 
 interface IResponse {
@@ -55,7 +55,6 @@ api.interceptors.response.use(
 );
 
 export function handleError(error: AxiosError, { t, message }: IHandleError) {
-  console.error(error);
   const messageDefault = message?.default ?? t('errors.500.notification', { ns: 'common' });
 
   // error run time
@@ -67,11 +66,14 @@ export function handleError(error: AxiosError, { t, message }: IHandleError) {
   // error token expired -> relogin
   if (error.response.status === Number(HttpStatusCode.Unauthorized)) {
     removeDataLogout();
+    // redirect to login page when token expired
     window.location.href = '/';
+
     return null;
   }
 
   let code: string;
+
   if (typeof error.response.data === 'object' && (error.response.data as IResponse).code) {
     code = String((error.response.data as IResponse).code);
   } else {
