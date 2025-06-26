@@ -1,12 +1,20 @@
 {
   "errors": {
     "list_default": "Error get list user",
-    "detail_default": "Error get detail user"
+    "detail_default": "Error get detail user",
+    "create_default": "Error create user"
+  },
+  "success": {
+    "create": "User ({{id}}) created successfully"
   },
   "list": {
     "title": "User List",
     "email": "Email",
-    "name": "Name"
+    "name": "Name",
+    "password": "Password"
+  },
+  "create": {
+    "title": "User Create"
   },
   "edit": {
     "title": "User Edit"

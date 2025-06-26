@@ -6,7 +6,14 @@
     "submit": "Gửi",
     "save": "Lưu",
     "goToHome": "Về trang chủ",
-    "refreshPage": "Tải lại trang"
+    "refreshPage": "Tải lại trang",
+    "actions": "Thao tác",
+    "create": "Tạo mới"
+  },
+  "pagination": {
+    "nodata": "Không có dữ liệu",
+    "loading": "Đang tải...",
+    "reload": "Tải lại"
   },
   "errors": {
     "403": {

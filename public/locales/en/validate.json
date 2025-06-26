@@ -6,5 +6,10 @@
   "max.numeric": "The value must not be greater than {{max}}.",
   "min.numeric": "The value must be at least {{min}}.",
   "numeric": "This must be a number.",
-  "type": "This field is invalid."
+  "type": "This field is invalid.",
+  "password": {
+    "format": "This field must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    "symbol": "This field contains invalid characters (a-z, A-Z, 0-9, !\"#$%&'()*+,-./:<;=?>@[\\]^_`{|}~)",
+    "space": "This field cannot contain whitespace characters"
+  }
 }

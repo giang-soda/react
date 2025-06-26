@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import type { AxiosRequestConfig, AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
-import { useQuery, useMutation, type QueryKey } from '@tanstack/react-query';
+import { useQuery, useMutation, type QueryKey, useQueryClient } from '@tanstack/react-query';
 import { api, handleError, bodyToCamelCase } from '~/api';
 import type { MutationResponse, QueryResponse, UseApiResponse } from '~/models';
+import { useNavigate } from 'react-router';
 
 interface IUseApiRequest {
   message?: Record<string, string>;
@@ -17,9 +18,12 @@ interface IUseApiQueryRequest {
   bodyParamsStruct?: object;
 }
 
-interface IUseApiMutationRequest {
+interface IUseApiMutationRequest<T> {
   message?: Record<string, string>;
   bodyParamsStruct?: object;
+  redirect?: string; // redirect to url after success
+  querykey?: QueryKey; // invalidate query key after success
+  onSuccess?: (data: T) => void; // callback after success
 }
 
 export function useApi(axiosOption: AxiosRequestConfig, options?: IUseApiRequest): UseApiResponse {
@@ -107,27 +111,41 @@ export function useApiQuery<T>(
   };
 }
 
-export function useApiMutation(
+export function useApiMutation<T>(
   axiosOption: AxiosRequestConfig,
-  options?: IUseApiMutationRequest
+  options?: IUseApiMutationRequest<T>
 ): MutationResponse {
-  if (axiosOption.data && options?.bodyParamsStruct) {
-    axiosOption.data = bodyToCamelCase(axiosOption.data, options.bodyParamsStruct);
-  } else {
-    axiosOption.data = {};
-  }
-
   const { t } = useTranslation('common');
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: () => api(axiosOption),
-    onError: (err: AxiosError) => {
-      handleError(err, { t, message: options?.message });
+    mutationFn: (data?: Record<string, React.ReactNode> | null | void) => {
+      if (data && options?.bodyParamsStruct) {
+        axiosOption.data = bodyToCamelCase(data, options.bodyParamsStruct);
+      } else {
+        axiosOption.data = {};
+      }
+
+      return api(axiosOption);
+    },
+    onError: (err) => {
+      handleError(err as AxiosError, { t, message: options?.message });
+    },
+    onSuccess(response) {
+      options?.onSuccess?.(response.data as T);
+
+      if (options?.querykey) {
+        queryClient.invalidateQueries({ queryKey: options.querykey });
+      }
+
+      if (options?.redirect) {
+        navigate(options.redirect);
+      }
     },
   });
 
   return {
-    data: mutation.data?.data,
     mutation,
   };
 }

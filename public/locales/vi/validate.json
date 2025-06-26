@@ -6,5 +6,10 @@
   "max.numeric": "Giá trị không được vượt quá {{max}}.",
   "min.numeric": "Giá trị phải tối thiểu là {{min}}.",
   "numeric": "Đây phải là một số.",
-  "type": "Trường này không hợp lệ."
+  "type": "Trường này không hợp lệ.",
+  "password": {
+    "format": "Trường này phải chứa ít nhất một chữ viết hoa, một chữ viết thường, một số và một ký tự đặc biệt",
+    "symbol": "Trường này chứa các ký tự không hợp lệ (a-z, A-Z, 0-9, !\"#$%&'()*+,-./:<;=?>@[\\]^_`{|}~)",
+    "space": "Trường này không được chứa khoảng trắng"
+  }
 }

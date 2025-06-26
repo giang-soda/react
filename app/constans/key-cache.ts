@@ -5,6 +5,6 @@ export const KEY_LOCAL_STORAGE = {
 };
 
 export const KEY_QUERY = {
-  USER_LIST: 'user_list',
-  USER_DETAIL: 'user_detail',
+  USER_LIST: 'ul',
+  USER_DETAIL: 'ud',
 };

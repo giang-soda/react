@@ -11,9 +11,9 @@ import { useApiQuery } from '~/hooks/use-api';
 import { API_ENDPOINT } from '~/api';
 import { type User } from '~/models';
 import { Button } from '~/components/ui/button';
-import { EditIcon, TrashIcon } from 'lucide-react';
+import { EditIcon, PlusIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router';
-import { KEY_QUERY } from '~/constans';
+import { ACTION, KEY_QUERY } from '~/constans';
 import { TableData } from '~/components/common';
 
 export function UsersTable() {
@@ -37,12 +37,19 @@ export function UsersTable() {
       <div className="mb-2 flex justify-start gap-2 md:justify-end">
         <Button
           loading={queryUserList.query.isFetching}
+          icon={ACTION.RELOAD}
           onClick={() => {
             void queryUserList.query.refetch();
           }}
         >
           {t('pagination.reload', { ns: 'common' })}
         </Button>
+
+        <Link to="/users/create">
+          <Button icon={ACTION.CREATE}>
+            {t('actions.create', { ns: 'common' })}
+          </Button>
+        </Link>
       </div>
 
       <Table>

@@ -1,10 +1,23 @@
 {
   "errors": {
     "default": "Error nothing",
-    "ERR_TODO_LIST": "Error get list todo"
+    "ERR_TODO_LIST": "Error get list todo",
+    "list_default": "Lỗi lấy danh sách người dùng",
+    "detail_default": "Lỗi lấy chi tiết người dùng"
+  },
+  "success": {
+    "create": "Người dùng ({{id}}) đã được tạo thành công"
   },
   "list": {
+    "title": "Danh sách người dùng",
     "email": "Email",
-    "name": "Name"
+    "name": "Name",
+    "password": "Mật khẩu"
+  },
+  "create": {
+    "title": "Tạo người dùng"
+  },
+  "edit": {
+    "title": "Chỉnh sửa người dùng"
   }
 }

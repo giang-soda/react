@@ -3,7 +3,16 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '~/lib/utils';
-import { Loader2 } from 'lucide-react';
+import {
+  Loader2,
+  PencilIcon,
+  PlusIcon,
+  RefreshCcwIcon,
+  SaveIcon,
+  TrashIcon,
+  ArrowLeftIcon,
+} from 'lucide-react';
+import { ACTION } from '~/constans';
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer",
@@ -54,17 +63,42 @@ function ButtonBase({
   );
 }
 
+const ButtonIcon = ({ icon, loading }: { icon?: ACTION; loading?: boolean }) => {
+  if (loading) {
+    return <Loader2 className="mr-2 h-4 w-4 animate-spin" />;
+  }
+
+  switch (icon) {
+    case ACTION.CREATE:
+      return <PlusIcon className="h-4 w-4" />;
+    case ACTION.EDIT:
+      return <PencilIcon className="h-4 w-4" />;
+    case ACTION.DELETE:
+      return <TrashIcon className="h-4 w-4" />;
+    case ACTION.SAVE:
+      return <SaveIcon className="h-4 w-4" />;
+    case ACTION.RELOAD:
+      return <RefreshCcwIcon className="h-4 w-4" />;
+    case ACTION.BACK:
+      return <ArrowLeftIcon className="h-4 w-4" />;
+    default:
+      return null;
+  }
+};
+
 function Button({
   loading,
+  icon,
   children,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     loading?: boolean;
+    icon?: ACTION;
   }) {
   return (
     <ButtonBase {...props} disabled={loading || props.disabled}>
-      {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      <ButtonIcon icon={icon} loading={loading} />
       {children}
     </ButtonBase>
   );

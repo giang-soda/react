@@ -7,7 +7,8 @@
     "save": "Save",
     "actions": "Actions",
     "goToHome": "Go to Home",
-    "refreshPage": "Refresh Page"
+    "refreshPage": "Refresh Page",
+    "create": "Create"
   },
   "pagination": {
     "nodata": "No data",

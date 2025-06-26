@@ -8,8 +8,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: config.DEV ? false : 2,
-      staleTime: 1000 * 60 * 10, // time ms to refetch
-      gcTime: 1000 * 60 * 10, // time ms to clear
+      staleTime: 1000 * 60 * 60, // time ms to refetch
+      gcTime: 1000 * 60 * 60, // time ms to clear
     },
   },
 });

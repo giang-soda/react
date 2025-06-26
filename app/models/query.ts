@@ -15,6 +15,5 @@ export interface QueryResponse<T> {
 }
 
 export interface MutationResponse {
-  data: React.ReactNode | null;
-  mutation: UseMutationResult<AxiosResponse, Error, void>;
+  mutation: UseMutationResult<AxiosResponse, Error, Record<string, React.ReactNode> | undefined | null | void>;
 }
