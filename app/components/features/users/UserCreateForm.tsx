@@ -11,7 +11,7 @@ import {
 import { Input } from '~/components/ui/input';
 import { EditSubmit, PasswordInput } from '~/components/common';
 import { useTranslation } from 'react-i18next';
-import { KEY_QUERY } from '~/constans';
+import { KEY_QUERY, URL_PATH } from '~/constans';
 import { API_ENDPOINT } from '~/api/endpoint';
 import { useApiMutation } from '~/hooks/use-api';
 import { toast } from 'sonner';
@@ -42,8 +42,8 @@ export function UserCreateForm() {
         name: String,
         password: String,
       },
-      querykey: [KEY_QUERY.USER_LIST],
-      redirect: '/users',
+      refreshQuerykey: [KEY_QUERY.USER_LIST],
+      redirect: URL_PATH.USERS.LIST,
       onSuccess: data => {
         toast.success(t('success.create', { ns: 'users', id: data.name }));
       },
@@ -105,7 +105,7 @@ export function UserCreateForm() {
           )}
         />
 
-        <EditSubmit loading={api.mutation.isPending} backTo="/users" />
+        <EditSubmit loading={api.mutation.isPending} backTo={URL_PATH.USERS.LIST} />
       </form>
     </Form>
   );

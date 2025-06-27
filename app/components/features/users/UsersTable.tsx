@@ -15,6 +15,7 @@ import { EditIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { ACTION, KEY_QUERY } from '~/constans';
 import { ButtonReload, TableData } from '~/components/common';
+import { URL_PATH } from '~/constans';
 
 export function UsersTable() {
   const { t } = useTranslation(['common', 'users']);
@@ -35,9 +36,9 @@ export function UsersTable() {
   return (
     <div>
       <div className="mb-2 flex justify-start gap-2 md:justify-end">
-        <ButtonReload queryResponse={queryUserList} />
+        <ButtonReload queryResponse={queryUserList} refreshQuerykey={[KEY_QUERY.USER_DETAIL]} />
 
-        <Link to="/users/create">
+        <Link to={URL_PATH.USERS.CREATE}>
           <Button icon={ACTION.CREATE}>{t('actions.create', { ns: 'common' })}</Button>
         </Link>
       </div>
@@ -60,13 +61,13 @@ export function UsersTable() {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>
                   <div className="flex gap-2">
-                    <Link to={`/users/${user.id}`}>
+                    <Link to={URL_PATH.USERS.EDIT(user.id)}>
                       <Button variant="outline">
                         <EditIcon className="h-4 w-4" />
                       </Button>
                     </Link>
 
-                    <Link to={`/users/${user.id}/delete`}>
+                    <Link to="#">
                       <Button variant="outline">
                         <TrashIcon className="h-4 w-4" />
                       </Button>

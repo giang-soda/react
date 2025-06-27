@@ -1,5 +1,6 @@
 import { Command } from 'lucide-react';
 import { type SidebarData } from '~/lib/types/nav';
+import { URL_PATH } from '~/constans';
 
 export const sidebarData: SidebarData = {
   navGroups: [
@@ -8,17 +9,17 @@ export const sidebarData: SidebarData = {
       items: [
         {
           title: 'Dashboard',
-          url: '/dashboard',
+          url: URL_PATH.DASHBOARD,
+          icon: Command,
+        },
+        {
+          title: 'User Management',
+          url: URL_PATH.USERS.LIST,
           icon: Command,
         },
         {
           title: 'Api Hook',
-          url: '/call-api-hook',
-          icon: Command,
-        },
-        {
-          title: 'User real',
-          url: '/users',
+          url: URL_PATH.TODO_REMOVE.CALL_API_HOOK,
           icon: Command,
         },
         {

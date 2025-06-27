@@ -3,7 +3,7 @@ import { Loading } from '..';
 
 interface EditDataProps<T> {
   queryResponse: QueryResponse<T>;
-  children: React.ReactNode;
+  children: (data: T) => React.ReactNode;
 }
 
 export function EditData<T>({ queryResponse, children }: EditDataProps<T>) {
@@ -16,7 +16,7 @@ export function EditData<T>({ queryResponse, children }: EditDataProps<T>) {
           <p>{queryResponse.query.error.message}</p>
         </div>
       ) : (
-        queryResponse.data && children
+        queryResponse.data && children(queryResponse.data)
       )}
     </>
   );

@@ -11,18 +11,14 @@ import {
 import { Input } from '~/components/ui/input';
 import { PasswordInput, EditSubmit } from '~/components/common';
 import { useTranslation } from 'react-i18next';
-import { KEY_QUERY } from '~/constans';
+import { KEY_QUERY, URL_PATH } from '~/constans';
 import { API_ENDPOINT } from '~/api/endpoint';
 import { useApiMutation } from '~/hooks/use-api';
 import { toast } from 'sonner';
 import type { User } from '~/models';
 import { userSchemaValidate, type UserSchema } from './user-schema';
 
-export function UserEditForm({ user }: { user: User | null }) {
-  if (!user) {
-    return null;
-  }
-
+export function UserEditForm({ user }: { user: User }) {
   const { t } = useTranslation(['common', 'users', 'validate']);
   const form = useForm<UserSchema>({
     resolver: zodResolver(userSchemaValidate(t, false)),
@@ -47,8 +43,8 @@ export function UserEditForm({ user }: { user: User | null }) {
         name: String,
         password: String,
       },
-      querykey: [KEY_QUERY.USER_LIST, KEY_QUERY.USER_DETAIL],
-      redirect: '/users',
+      refreshQuerykey: [KEY_QUERY.USER_LIST, [KEY_QUERY.USER_DETAIL, user.id]],
+      redirect: URL_PATH.USERS.LIST,
       onSuccess: data => {
         toast.success(t('success.update', { ns: 'users', id: data.name }));
       },
@@ -110,7 +106,7 @@ export function UserEditForm({ user }: { user: User | null }) {
           )}
         />
 
-        <EditSubmit loading={api.mutation.isPending} backTo="/users" />
+        <EditSubmit loading={api.mutation.isPending} backTo={URL_PATH.USERS.LIST} />
       </form>
     </Form>
   );

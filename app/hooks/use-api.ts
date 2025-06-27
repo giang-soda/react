@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import type { AxiosRequestConfig, AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
-import { useQuery, useMutation, type QueryKey, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, type QueryKey } from '@tanstack/react-query';
 import { api, handleError, bodyToCamelCase } from '~/api';
 import type { MutationResponse, QueryResponse, UseApiResponse } from '~/models';
 import { useNavigate } from 'react-router';
+import { useQueryRefreshKey } from './use-query';
 
 interface IUseApiRequest {
   message?: Record<string, string>;
@@ -22,7 +23,7 @@ interface IUseApiMutationRequest<T> {
   message?: Record<string, string>;
   bodyParamsStruct?: object;
   redirect?: string; // redirect to url after success
-  querykey?: QueryKey; // invalidate query key after success
+  refreshQuerykey?: QueryKey; // invalidate query key after success
   onSuccess?: (data: T) => void; // callback after success
 }
 
@@ -116,8 +117,8 @@ export function useApiMutation<T>(
   options?: IUseApiMutationRequest<T>
 ): MutationResponse {
   const { t } = useTranslation('common');
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const queryRefreshKey = useQueryRefreshKey();
 
   const mutation = useMutation({
     mutationFn: (data?: Record<string, React.ReactNode> | null) => {
@@ -134,12 +135,7 @@ export function useApiMutation<T>(
     },
     onSuccess(response) {
       options?.onSuccess?.(response.data as T);
-
-      if (options?.querykey) {
-        options.querykey.forEach(key => {
-          void queryClient.invalidateQueries({ queryKey: [key] });
-        });
-      }
+      queryRefreshKey.call(options?.refreshQuerykey);
 
       if (options?.redirect) {
         void navigate(options.redirect);

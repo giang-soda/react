@@ -8,6 +8,7 @@ import { Button } from '~/components/ui/button';
 import { metaCommon } from '~/lib/utils';
 import { ACTION, KEY_QUERY } from '~/constans';
 import { EditData } from '~/components/common/table-data';
+import { URL_PATH } from '~/constans';
 
 export const meta = () => metaCommon('User Edit');
 
@@ -31,15 +32,13 @@ export default function UserEdit() {
   return (
     <div>
       <div className="mb-4 flex items-center gap-2">
-        <Link to="/users">
+        <Link to={URL_PATH.USERS.LIST}>
           <Button variant="link" icon={ACTION.BACK}></Button>
         </Link>
         <h1 className="text-2xl font-bold tracking-tight">{t('edit.title')}</h1>
       </div>
 
-      <EditData queryResponse={api}>
-        <UserEditForm user={api.data} />
-      </EditData>
+      <EditData queryResponse={api}>{user => <UserEditForm user={user} />}</EditData>
     </div>
   );
 }
