@@ -5,4 +5,5 @@ export enum ACTION {
   SAVE = 4,
   RELOAD = 5,
   BACK = 6,
+  CANCEL = 7,
 }

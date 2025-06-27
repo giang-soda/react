@@ -8,7 +8,9 @@
     "actions": "Actions",
     "goToHome": "Go to Home",
     "refreshPage": "Refresh Page",
-    "create": "Create"
+    "create": "Create",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "pagination": {
     "nodata": "No data",

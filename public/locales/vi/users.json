@@ -1,12 +1,13 @@
 {
   "errors": {
-    "default": "Error nothing",
-    "ERR_TODO_LIST": "Error get list todo",
     "list_default": "Lỗi lấy danh sách người dùng",
-    "detail_default": "Lỗi lấy chi tiết người dùng"
+    "detail_default": "Lỗi lấy chi tiết người dùng",
+    "create_default": "Lỗi tạo người dùng",
+    "update_default": "Lỗi cập nhật người dùng"
   },
   "success": {
-    "create": "Người dùng ({{id}}) đã được tạo thành công"
+    "create": "Người dùng ({{id}}) đã được tạo thành công",
+    "update": "Người dùng ({{id}}) đã được cập nhật thành công"
   },
   "list": {
     "title": "Danh sách người dùng",

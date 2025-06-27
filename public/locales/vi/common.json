@@ -8,7 +8,9 @@
     "goToHome": "Về trang chủ",
     "refreshPage": "Tải lại trang",
     "actions": "Thao tác",
-    "create": "Tạo mới"
+    "create": "Tạo mới",
+    "cancel": "Hủy",
+    "delete": "Xóa"
   },
   "pagination": {
     "nodata": "Không có dữ liệu",

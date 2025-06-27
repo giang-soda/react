@@ -136,7 +136,9 @@ export function useApiMutation<T>(
       options?.onSuccess?.(response.data as T);
 
       if (options?.querykey) {
-        void queryClient.invalidateQueries({ queryKey: options.querykey });
+        options.querykey.forEach(key => {
+          void queryClient.invalidateQueries({ queryKey: [key] });
+        });
       }
 
       if (options?.redirect) {

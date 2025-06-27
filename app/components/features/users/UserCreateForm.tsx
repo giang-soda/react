@@ -1,7 +1,5 @@
-import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '~/components/ui/button';
 import {
   Form,
   FormControl,
@@ -11,43 +9,26 @@ import {
   FormMessage,
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
-import { PasswordInput } from '~/components/common';
+import { EditSubmit, PasswordInput } from '~/components/common';
 import { useTranslation } from 'react-i18next';
-import type { TFunction } from 'i18next';
-import { ACTION, KEY_QUERY } from '~/constans';
-import { createPasswordSchema } from '~/lib/validator/password';
+import { KEY_QUERY } from '~/constans';
 import { API_ENDPOINT } from '~/api/endpoint';
 import { useApiMutation } from '~/hooks/use-api';
 import { toast } from 'sonner';
 import type { User } from '~/models';
-
-const formSchema = (tValidate: TFunction) =>
-  z.object({
-    email: z
-      .string()
-      .min(1, { message: tValidate('required', { ns: 'validate' }) })
-      .max(255, { message: tValidate('max', { max: 255, ns: 'validate' }) })
-      .email({ message: tValidate('email', { ns: 'validate' }) }),
-    name: z
-      .string()
-      .min(1, { message: tValidate('required', { ns: 'validate' }) })
-      .max(255, { message: tValidate('max', { max: 255, ns: 'validate' }) }),
-    password: createPasswordSchema(tValidate),
-  });
-
-type UserCreateSchema = z.infer<ReturnType<typeof formSchema>>;
+import { userSchemaValidate, type UserSchema } from './user-schema';
 
 export function UserCreateForm() {
   const { t } = useTranslation(['common', 'users', 'validate']);
-  const form = useForm<UserCreateSchema>({
-    resolver: zodResolver(formSchema(t)),
+  const form = useForm<UserSchema>({
+    resolver: zodResolver(userSchemaValidate(t)),
     defaultValues: {
       name: '',
       email: '',
       password: '',
     },
   });
-  const apiUserPost = useApiMutation<User>(
+  const api = useApiMutation<User>(
     {
       method: 'post',
       url: API_ENDPOINT.USERS.CREATE,
@@ -69,8 +50,8 @@ export function UserCreateForm() {
     }
   );
 
-  const onSubmit = (data: UserCreateSchema) => {
-    apiUserPost.mutation.mutate(data);
+  const onSubmit = (data: UserSchema) => {
+    api.mutation.mutate(data);
   };
 
   return (
@@ -124,9 +105,7 @@ export function UserCreateForm() {
           )}
         />
 
-        <Button className="mt-2 w-fit" loading={apiUserPost.mutation.isPending} icon={ACTION.SAVE}>
-          {t('actions.save', { ns: 'common' })}
-        </Button>
+        <EditSubmit loading={api.mutation.isPending} backTo="/users" />
       </form>
     </Form>
   );

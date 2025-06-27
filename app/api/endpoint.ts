@@ -11,7 +11,7 @@ export const API_ENDPOINT = {
     LIST: '/users',
     DETAIL: (id: string) => `/users/${id}`,
     CREATE: '/users',
-    UPDATE: '/users/:id',
+    UPDATE: (id: string) => `/users/${id}`,
     DELETE: '/users/:id',
   },
   // TODO: test file call api, remove in production

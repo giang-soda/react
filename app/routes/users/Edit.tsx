@@ -1,26 +1,27 @@
 import { UserEditForm } from '~/components/features/users/UserEditForm';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { API_ENDPOINT } from '~/api';
 import { useApiQuery } from '~/hooks/use-api';
 import type { User } from '~/models';
-import { Loading } from '~/components/common/Loading';
+import { Button } from '~/components/ui/button';
+import { metaCommon } from '~/lib/utils';
+import { ACTION, KEY_QUERY } from '~/constans';
+import { EditData } from '~/components/common/table-data';
 
-export function meta() {
-  return [{ title: 'User Edit' }, { name: 'description', content: 'User Edit' }];
-}
+export const meta = () => metaCommon('User Edit');
 
 export default function UserEdit() {
   const { t } = useTranslation('users');
   const { id } = useParams();
 
-  const queryUserDetail = useApiQuery<User>(
+  const api = useApiQuery<User>(
     {
       method: 'get',
       url: API_ENDPOINT.USERS.DETAIL(id ?? ''),
     },
     {
-      querykey: ['user-detail', id],
+      querykey: [KEY_QUERY.USER_DETAIL, id],
       message: {
         default: t('errors.detail_default', { ns: 'users' }),
       },
@@ -29,15 +30,16 @@ export default function UserEdit() {
 
   return (
     <div>
-      <div className="mb-2 flex items-center justify-between space-y-2">
+      <div className="mb-4 flex items-center gap-2">
+        <Link to="/users">
+          <Button variant="link" icon={ACTION.BACK}></Button>
+        </Link>
         <h1 className="text-2xl font-bold tracking-tight">{t('edit.title')}</h1>
       </div>
 
-      {queryUserDetail.query.isLoading && <Loading />}
-
-      {queryUserDetail.error && <div className="text-red-500">{queryUserDetail.error}</div>}
-
-      {queryUserDetail.data && <UserEditForm user={queryUserDetail.data} />}
+      <EditData queryResponse={api}>
+        <UserEditForm user={api.data} />
+      </EditData>
     </div>
   );
 }

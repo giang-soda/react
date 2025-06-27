@@ -10,6 +10,7 @@ import {
   SaveIcon,
   TrashIcon,
   ArrowLeftIcon,
+  XIcon,
 } from 'lucide-react';
 import { ACTION } from '~/constans';
 
@@ -80,6 +81,8 @@ const ButtonIcon = ({ icon, loading }: { icon?: ACTION; loading?: boolean }) => 
       return <RefreshCcwIcon className="h-4 w-4" />;
     case ACTION.BACK:
       return <ArrowLeftIcon className="h-4 w-4" />;
+    case ACTION.CANCEL:
+      return <XIcon className="h-4 w-4" />;
     default:
       return null;
   }

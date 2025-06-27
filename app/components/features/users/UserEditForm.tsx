@@ -1,29 +1,117 @@
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '~/components/ui/table';
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '~/components/ui/form';
+import { Input } from '~/components/ui/input';
+import { PasswordInput, EditSubmit } from '~/components/common';
 import { useTranslation } from 'react-i18next';
-import { useApiQuery } from '~/hooks/use-api';
-import { API_ENDPOINT } from '~/api';
-import { Loading } from '~/components/common';
-import { type User } from '~/models';
-import { NoData } from '~/components/common/Nodata';
-import { Button } from '~/components/ui/button';
-import { EditIcon, TrashIcon } from 'lucide-react';
-import { Link } from 'react-router';
+import { KEY_QUERY } from '~/constans';
+import { API_ENDPOINT } from '~/api/endpoint';
+import { useApiMutation } from '~/hooks/use-api';
+import { toast } from 'sonner';
+import type { User } from '~/models';
+import { userSchemaValidate, type UserSchema } from './user-schema';
 
-export function UserEditForm({ user }: { user: User }) {
-  const { t } = useTranslation(['common', 'users']);
+export function UserEditForm({ user }: { user: User | null }) {
+  if (!user) {
+    return null;
+  }
+
+  const { t } = useTranslation(['common', 'users', 'validate']);
+  const form = useForm<UserSchema>({
+    resolver: zodResolver(userSchemaValidate(t, false)),
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+      password: '',
+    },
+  });
+
+  const api = useApiMutation<User>(
+    {
+      method: 'put',
+      url: API_ENDPOINT.USERS.UPDATE(user.id),
+    },
+    {
+      message: {
+        default: t('errors.update_default', { ns: 'users' }),
+      },
+      bodyParamsStruct: {
+        email: String,
+        name: String,
+        password: String,
+      },
+      querykey: [KEY_QUERY.USER_LIST, KEY_QUERY.USER_DETAIL],
+      redirect: '/users',
+      onSuccess: data => {
+        toast.success(t('success.update', { ns: 'users', id: data.name }));
+      },
+    }
+  );
+
+  const onSubmit = (data: UserSchema) => {
+    api.mutation.mutate(data);
+  };
 
   return (
-    <div>
-      id: {user.id}
-      name: {user.name}
-      email: {user.email}
-    </div>
+    <Form {...form}>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          void form.handleSubmit(onSubmit)(e);
+        }}
+        className="grid gap-5"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t('list.email', { ns: 'users' })}</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="admin@gmail.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t('list.name', { ns: 'users' })}</FormLabel>
+              <FormControl>
+                <Input placeholder="Soda name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t('list.password', { ns: 'users' })}</FormLabel>
+              <FormControl>
+                <PasswordInput {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <EditSubmit loading={api.mutation.isPending} backTo="/users" />
+      </form>
+    </Form>
   );
 }
