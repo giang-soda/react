@@ -12,11 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { useApiMutation } from '~/hooks/use-api';
 import { toast } from 'sonner';
 import { ACTION } from '~/constans';
-import { useQueryRefreshKey } from '~/hooks/use-query';
 import type { QueryKey } from '@tanstack/react-query';
 
 interface DeleteModal {
-  url?: string; // url call api delete
+  apiUrl?: string; // url call api delete
   open: boolean;
   title?: string;
   messageError?: string;
@@ -28,7 +27,7 @@ interface DeleteModal {
 }
 
 export function DeleteModal({
-  url,
+  apiUrl,
   open,
   setOpen,
   title,
@@ -39,23 +38,22 @@ export function DeleteModal({
   redirect,
 }: DeleteModal) {
   const { t } = useTranslation(['common']);
-  const queryRefreshKey = useQueryRefreshKey();
 
   const api = useApiMutation(
     {
       method: 'delete',
-      url: url,
+      url: apiUrl,
     },
     {
       message: {
         default: messageError || t('delete.error', { ns: 'common' }),
       },
       onSuccess: () => {
-        toast.success(messageSuccess || t('delete.success', { ns: 'common' }));
         setOpen(false);
-        queryRefreshKey.call(refreshQuerykey);
+        toast.success(messageSuccess || t('delete.success', { ns: 'common' }));
       },
-      redirect: redirect,
+      redirect,
+      refreshQuerykey,
     }
   );
 
@@ -63,7 +61,7 @@ export function DeleteModal({
     api.mutation.mutate(null);
   };
 
-  if (!url || !open) {
+  if (!apiUrl || !open) {
     return null;
   }
 

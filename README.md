@@ -129,7 +129,7 @@ npm run build
   queryHook.query.isLoading;
   queryHook.query.refetch();
 
-  queryHook.data; // tương đương với queryHook.query.data.data, vì dùng lib axios, nên .data 2 lần
+  queryHook.query.data; // Là body json của axios response
   ```
 
 - Với phương thức post (thêm, sửa xóa), sử dụng `useMutation` của lib
@@ -154,8 +154,8 @@ npm run build
         birthday: Date,
         count: Number,
       },
-      querykey: [KEY_QUERY.USER_LIST], // nếu có sẽ xóa cache theo key này sau khi success, mục đích cập nhập data mới
-      redirect: '/users', // nếu có redirect page này sau khi success
+      refreshQuerykey: [KEY_QUERY.USER_LIST, [KEY_QUERY.USER_DETAIL, user.id]], // nếu có sẽ xóa cache theo key này sau khi success, mục đích cập nhập data mới, xóa list và xóa detail vừa cập nhập
+      redirect: URL_PATH.USERS.LIST, // nếu có redirect page này sau khi success
       onSuccess: responseData => {
         // callback khi success
         // responseData tương đương với apiHook.mutation.data.data
@@ -168,75 +168,6 @@ npm run build
   apiHook.mutation.mutate(bodyData | undefined);
   ```
 
-8. Ví dụ call api với hook (Không khuyến nghị)
-   - file hook lib: app/hooks/use-api.ts
-   - Sử dụng:
-
-     ```ts
-     // tham số đầu là AxiosRequestConfig, tham số thứ 2 gồm message lỗi (xem lại phần 5)
-     const api = useApi(
-       {
-         method: 'get',
-         url: API_ENDPOINT.TODOS.LIST,
-       },
-       {
-         message: {
-           default: t('errors.default'),
-           ERR_TODO_LIST: t('errors.ERR_TODO_LIST'),
-         },
-         bodyParamsStruct: {
-           firstName: String,
-           status: Boolean,
-           connection: [
-             {
-               phone: Number,
-               list: [Number],
-             },
-           ],
-         },
-       }
-     );
-
-     // call
-     await api.call();
-
-     // các state
-     api.isLoading; // boolean
-     api.error; // string | null
-     api.data; // any
-
-     // các method
-     api.call(); // gọi api
-     api.resetData(); // reset data, error = null
-     ```
-
-   - Nếu url path có biến :id, dùng generatePath(API_ENDPOINT.TODOS.ID, { id })
-
-9. Ví dụ call api function (không khuyến nghị)
-
-- Hàm gọi api và xử lý error ở trong folder app/api/. Từng module tạo folder riêng cho dễ quản lý. ví dụ `app/api/todos/index.ts`. ví dụ call và xử lý handle:
-
-```ts
-import { api, handleError, API_ENDPOINT, API_ERROR_CODE } from '../';
-
-export const get = async (t: TFunction) => {
-  try {
-    const response = await api.get(API_ENDPOINT.TODOS.LIST);
-    return response.data;
-  } catch (error) {
-    return handleError(error as AxiosError, {
-      t,
-      message: {
-        default: t('errors.default', { ns: 'todos' }),
-        [API_ERROR_CODE.TODOS.LIST]: t('errors.ERR_TODO_LIST', { ns: 'todos' }),
-      },
-    });
-  }
-};
-```
-
-- Nếu endpoint có biến, sử dụng `generatePath` để replace `:id`, ví dụ: `await api.get(generatePath(API_ENDPOINT.TODOS.ID, { id }));`
-
 ### 4. Error page
 
 Hiện trang báo lỗi, layout trang báo lỗi ở folder `app/components/errors`
@@ -246,3 +177,29 @@ import { ErrorResponseHandler } from '~/lib/errors';
 
 throw new ErrorResponseHandler(500);
 ```
+
+### Demo
+
+Đã demo đầy đủ chức năng CRUD user
+- List: 
+  - file app/components/features/users/UsersTable.tsx
+  - format table all data
+  - common: Table Data body (check error, empty or show data), ButtonReload 
+  - delete modal
+- Create / Edit:
+  - file: app/components/features/users/UserCreateForm.tsx /  UserEditForm.tsx
+  - format form dùng react-hook-form, validate zod tách ra file riêng
+  - Group button EditSubmit component: cancel, save, delete (có thêm tham số setOpenDelete cho form edit)
+- Delete
+  - common app/components/common/table-data/DeleteModal.tsx
+  - button event show modal ở cả table list và Edit page
+  - use basic
+    ```ts
+    <DeleteModal
+        apiUrl={API_ENDPOINT.USERS.DELETE(user.id)}
+        open={open}
+        setOpen={setOpen}
+        refreshQuerykey={[KEY_QUERY.USER_LIST, [KEY_QUERY.USER_DETAIL, user.id]]}
+        redirect={URL_PATH.USERS.LIST}
+      />
+    ```

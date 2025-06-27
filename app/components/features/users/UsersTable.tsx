@@ -88,10 +88,10 @@ export function UsersTable() {
 
       {itemSelected && (
         <DeleteModal
-          url={API_ENDPOINT.USERS.DELETE(itemSelected.id)}
+          apiUrl={API_ENDPOINT.USERS.DELETE(itemSelected.id)}
           open={open}
           setOpen={setOpen}
-          refreshQuerykey={[KEY_QUERY.USER_LIST]}
+          refreshQuerykey={[KEY_QUERY.USER_LIST, [KEY_QUERY.USER_DETAIL, itemSelected.id]]}
         >
           <p>{t('delete.description', { ns: 'users' })}</p>
           <div className="mt-5 flex flex-col gap-1">

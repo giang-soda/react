@@ -118,10 +118,10 @@ export function UserEditForm({ user }: { user: User }) {
       </Form>
 
       <DeleteModal
-        url={API_ENDPOINT.USERS.DELETE(user.id)}
+        apiUrl={API_ENDPOINT.USERS.DELETE(user.id)}
         open={open}
         setOpen={setOpen}
-        refreshQuerykey={[KEY_QUERY.USER_LIST]}
+        refreshQuerykey={[KEY_QUERY.USER_LIST, [KEY_QUERY.USER_DETAIL, user.id]]}
         redirect={URL_PATH.USERS.LIST}
       />
     </div>

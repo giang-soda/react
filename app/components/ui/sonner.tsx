@@ -1,4 +1,4 @@
-import { Info, AlertTriangle, Loader, XCircle, CheckCircle, X } from 'lucide-react';
+import { Info, AlertTriangle, XCircle, CheckCircle } from 'lucide-react';
 import { Toaster as Sonner, type ToasterProps } from 'sonner';
 import { useTheme } from '~/context/ThemeContext';
 
