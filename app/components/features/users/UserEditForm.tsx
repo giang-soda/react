@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
-import { PasswordInput, EditSubmit } from '~/components/common';
+import { PasswordInput, EditSubmit, DeleteModal } from '~/components/common';
 import { useTranslation } from 'react-i18next';
 import { KEY_QUERY, URL_PATH } from '~/constans';
 import { API_ENDPOINT } from '~/api/endpoint';
@@ -17,9 +17,11 @@ import { useApiMutation } from '~/hooks/use-api';
 import { toast } from 'sonner';
 import type { User } from '~/models';
 import { userSchemaValidate, type UserSchema } from './user-schema';
+import { useState } from 'react';
 
 export function UserEditForm({ user }: { user: User }) {
   const { t } = useTranslation(['common', 'users', 'validate']);
+  const [open, setOpen] = useState(false);
   const form = useForm<UserSchema>({
     resolver: zodResolver(userSchemaValidate(t, false)),
     defaultValues: {
@@ -56,58 +58,72 @@ export function UserEditForm({ user }: { user: User }) {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          void form.handleSubmit(onSubmit)(e);
-        }}
-        className="grid gap-5"
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('list.email', { ns: 'users' })}</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="admin@gmail.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <div>
+      <Form {...form}>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            void form.handleSubmit(onSubmit)(e);
+          }}
+          className="grid gap-5"
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('list.email', { ns: 'users' })}</FormLabel>
+                <FormControl>
+                  <Input type="email" placeholder="admin@gmail.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('list.name', { ns: 'users' })}</FormLabel>
-              <FormControl>
-                <Input placeholder="Soda name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('list.name', { ns: 'users' })}</FormLabel>
+                <FormControl>
+                  <Input placeholder="Soda name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('list.password', { ns: 'users' })}</FormLabel>
-              <FormControl>
-                <PasswordInput {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('list.password', { ns: 'users' })}</FormLabel>
+                <FormControl>
+                  <PasswordInput {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <EditSubmit loading={api.mutation.isPending} backTo={URL_PATH.USERS.LIST} />
-      </form>
-    </Form>
+          <EditSubmit
+            loading={api.mutation.isPending}
+            backTo={URL_PATH.USERS.LIST}
+            setOpenDelete={setOpen}
+          />
+        </form>
+      </Form>
+
+      <DeleteModal
+        url={API_ENDPOINT.USERS.DELETE(user.id)}
+        open={open}
+        setOpen={setOpen}
+        refreshQuerykey={[KEY_QUERY.USER_LIST]}
+        redirect={URL_PATH.USERS.LIST}
+      />
+    </div>
   );
 }

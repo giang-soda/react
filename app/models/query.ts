@@ -10,8 +10,7 @@ export interface UseApiResponse {
 }
 
 export interface QueryResponse<T> {
-  data: T | null;
-  query: UseQueryResult;
+  query: UseQueryResult<T>;
 }
 
 export interface MutationResponse {

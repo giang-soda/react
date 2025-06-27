@@ -16,7 +16,7 @@ export function EditData<T>({ queryResponse, children }: EditDataProps<T>) {
           <p>{queryResponse.query.error.message}</p>
         </div>
       ) : (
-        queryResponse.data && children(queryResponse.data)
+        queryResponse.query.data && children(queryResponse.query.data)
       )}
     </>
   );

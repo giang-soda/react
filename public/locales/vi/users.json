@@ -3,11 +3,13 @@
     "list_default": "Lỗi lấy danh sách người dùng",
     "detail_default": "Lỗi lấy chi tiết người dùng",
     "create_default": "Lỗi tạo người dùng",
-    "update_default": "Lỗi cập nhật người dùng"
+    "update_default": "Lỗi cập nhật người dùng",
+    "delete_default": "Lỗi xóa người dùng"
   },
   "success": {
     "create": "Người dùng ({{id}}) đã được tạo thành công",
-    "update": "Người dùng ({{id}}) đã được cập nhật thành công"
+    "update": "Người dùng ({{id}}) đã được cập nhật thành công",
+    "delete": "Người dùng ({{name}}) đã được xóa thành công"
   },
   "list": {
     "title": "Danh sách người dùng",
@@ -20,5 +22,9 @@
   },
   "edit": {
     "title": "Chỉnh sửa người dùng"
+  },
+  "delete": {
+    "title": "Xóa người dùng",
+    "description": "Bạn có chắc chắn muốn xóa người dùng này không?"
   }
 }

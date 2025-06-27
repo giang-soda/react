@@ -14,13 +14,16 @@ import { Button } from '~/components/ui/button';
 import { EditIcon, TrashIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { ACTION, KEY_QUERY } from '~/constans';
-import { ButtonReload, TableData } from '~/components/common';
+import { ButtonReload, TableData, DeleteModal } from '~/components/common';
 import { URL_PATH } from '~/constans';
+import { useState } from 'react';
 
 export function UsersTable() {
   const { t } = useTranslation(['common', 'users']);
+  const [open, setOpen] = useState(false);
+  const [itemSelected, setItemSelected] = useState<User>();
 
-  const queryUserList = useApiQuery<User[]>(
+  const api = useApiQuery<User[]>(
     {
       method: 'get',
       url: API_ENDPOINT.USERS.LIST,
@@ -33,10 +36,15 @@ export function UsersTable() {
     }
   );
 
+  const handleDelete = (user: User) => {
+    setItemSelected(user);
+    setOpen(true);
+  };
+
   return (
     <div>
       <div className="mb-2 flex justify-start gap-2 md:justify-end">
-        <ButtonReload queryResponse={queryUserList} refreshQuerykey={[KEY_QUERY.USER_DETAIL]} />
+        <ButtonReload queryResponse={api} refreshQuerykey={[KEY_QUERY.USER_DETAIL]} />
 
         <Link to={URL_PATH.USERS.CREATE}>
           <Button icon={ACTION.CREATE}>{t('actions.create', { ns: 'common' })}</Button>
@@ -53,7 +61,7 @@ export function UsersTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableData queryResponse={queryUserList} colSpan={4}>
+          <TableData queryResponse={api} colSpan={4}>
             {user => (
               <TableRow key={user.id}>
                 <TableCell>{user.id}</TableCell>
@@ -67,11 +75,9 @@ export function UsersTable() {
                       </Button>
                     </Link>
 
-                    <Link to="#">
-                      <Button variant="outline">
-                        <TrashIcon className="h-4 w-4" />
-                      </Button>
-                    </Link>
+                    <Button variant="outline" onClick={() => handleDelete(user)}>
+                      <TrashIcon className="h-4 w-4" />
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>
@@ -79,6 +85,28 @@ export function UsersTable() {
           </TableData>
         </TableBody>
       </Table>
+
+      {itemSelected && (
+        <DeleteModal
+          url={API_ENDPOINT.USERS.DELETE(itemSelected.id)}
+          open={open}
+          setOpen={setOpen}
+          refreshQuerykey={[KEY_QUERY.USER_LIST]}
+        >
+          <p>{t('delete.description', { ns: 'users' })}</p>
+          <div className="mt-5 flex flex-col gap-1">
+            <span>
+              Name: <strong>{itemSelected.name}</strong>
+            </span>
+            <span>
+              Email: <strong>{itemSelected.email}</strong>
+            </span>
+            <span>
+              ID: <strong>{itemSelected.id}</strong>
+            </span>
+          </div>
+        </DeleteModal>
+      )}
     </div>
   );
 }

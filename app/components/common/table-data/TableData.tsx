@@ -25,14 +25,14 @@ export function TableData<T>({ queryResponse, colSpan = 1, children }: TableData
             </div>
           </TableCell>
         </TableRow>
-      ) : !queryResponse.data || queryResponse.data.length === 0 ? (
+      ) : !queryResponse.query.data || queryResponse.query.data.length === 0 ? (
         <TableRow>
           <TableCell colSpan={colSpan}>
             <NoData />
           </TableCell>
         </TableRow>
       ) : (
-        queryResponse.data.map(item => children(item))
+        queryResponse.query.data.map(item => children(item))
       )}
     </>
   );

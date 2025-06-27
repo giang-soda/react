@@ -11,8 +11,6 @@ export default [
     route(URL_PATH.USERS.CREATE, 'routes/users/Create.tsx'),
     route(URL_PATH.USERS.EDIT(':id'), 'routes/users/Edit.tsx'),
 
-    route(URL_PATH.TODO_REMOVE.CALL_API, 'routes/dashboard/CallApi.tsx'),
-    route(URL_PATH.TODO_REMOVE.CALL_API_HOOK, 'routes/dashboard/CallApiHook.tsx'),
     route(URL_PATH.TODO_REMOVE.THROW_ERROR, 'routes/dashboard/ThrowError.tsx'),
   ]),
 

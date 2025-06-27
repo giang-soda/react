@@ -89,11 +89,11 @@ export function useApiQuery<T>(
 
   const { t } = useTranslation('common');
 
-  const query = useQuery({
+  const query = useQuery<T>({
     queryKey: options?.querykey ?? [],
     queryFn: async () => {
       try {
-        return await api(axiosOption);
+        return (await api(axiosOption)).data;
       } catch (e) {
         const err = handleError(e as AxiosError, { t, message: options?.message });
 
@@ -107,7 +107,6 @@ export function useApiQuery<T>(
   });
 
   return {
-    data: query.data?.data as T,
     query,
   };
 }
@@ -121,11 +120,21 @@ export function useApiMutation<T>(
   const queryRefreshKey = useQueryRefreshKey();
 
   const mutation = useMutation({
-    mutationFn: (data?: Record<string, React.ReactNode> | null) => {
+    mutationFn: (
+      data?: Record<string, React.ReactNode> | null,
+      rewriteAxiosOption?: AxiosRequestConfig
+    ) => {
       if (data && options?.bodyParamsStruct) {
         axiosOption.data = bodyToCamelCase(data, options.bodyParamsStruct);
       } else {
         axiosOption.data = {};
+      }
+
+      if (rewriteAxiosOption) {
+        axiosOption = {
+          ...axiosOption,
+          ...rewriteAxiosOption,
+        };
       }
 
       return api(axiosOption);
