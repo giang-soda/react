@@ -1,0 +1,3 @@
+[submodule "pages-github"]
+	path = pages-github
+	url = git@github.com:giang-soda/giang-soda.github.io.git
