@@ -11,9 +11,10 @@ export const URL_PATH = {
     CREATE: '/users/create',
     EDIT: (id: string) => `/users/${id}`,
   },
+  EDITOR: {
+    CKEDITOR: '/editor/ckeditor',
+  },
   TODO_REMOVE: {
-    CALL_API: '/call-api',
-    CALL_API_HOOK: '/call-api-hook',
     THROW_ERROR: '/throw-error',
   },
 };

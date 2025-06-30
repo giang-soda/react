@@ -14,4 +14,17 @@ export default defineConfig({
       },
     },
   },
+
+  // option more ckeditor
+  // optimizeDeps: {
+  //   include: [
+  //     '@ckeditor/ckeditor5-react'
+  //   ]
+  // },
+  // build: {
+  //   commonjsOptions: {
+  //     transformMixedEsModules: true
+  //   }
+  // }
+  // end option more ckeditor
 });

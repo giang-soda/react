@@ -11,6 +11,8 @@ export default [
     route(URL_PATH.USERS.CREATE, 'routes/users/Create.tsx'),
     route(URL_PATH.USERS.EDIT(':id'), 'routes/users/Edit.tsx'),
 
+    route(URL_PATH.EDITOR.CKEDITOR, 'routes/editor/CKeditorPage.tsx'),
+
     route(URL_PATH.TODO_REMOVE.THROW_ERROR, 'routes/dashboard/ThrowError.tsx'),
   ]),
 

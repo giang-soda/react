@@ -64,6 +64,7 @@ npm run build
    const { t } = useTranslation(['auth', 'validate']); // nếu sử dụng nhiều file
    const { t } = useTranslation('validate'); // nếu sử dụng 1 file
    ```
+
    - sử dụng trong template:
    ```
    t('login.success', {ns: 'auth'}); // nếu sử dụng nhiều file
@@ -94,6 +95,7 @@ npm run build
        }
    }
    ```
+
    - server trả về mã code nào, tìm trong mảng message tương ứng để hiển thị toast, nếu không có thì hiển thị default.
 
 6. Khai báo params
@@ -181,13 +183,14 @@ throw new ErrorResponseHandler(500);
 ### Demo
 
 Đã demo đầy đủ chức năng CRUD user
-- List: 
+
+- List:
   - file app/components/features/users/UsersTable.tsx
   - format table all data
-  - common: Table Data body (check error, empty or show data), ButtonReload 
+  - common: Table Data body (check error, empty or show data), ButtonReload
   - delete modal
 - Create / Edit:
-  - file: app/components/features/users/UserCreateForm.tsx /  UserEditForm.tsx
+  - file: app/components/features/users/UserCreateForm.tsx / UserEditForm.tsx
   - format form dùng react-hook-form, validate zod tách ra file riêng
   - Group button EditSubmit component: cancel, save, delete (có thêm tham số setOpenDelete cho form edit)
 - Delete

@@ -1,4 +1,4 @@
-import { Command } from 'lucide-react';
+import { Command, FilePenLine, User2 } from 'lucide-react';
 import { type SidebarData } from '~/lib/types/nav';
 import { URL_PATH } from '~/constans';
 
@@ -15,18 +15,12 @@ export const sidebarData: SidebarData = {
         {
           title: 'User Management',
           url: URL_PATH.USERS.LIST,
-          icon: Command,
+          icon: User2,
         },
         {
-          title: 'Api Hook',
-          url: URL_PATH.TODO_REMOVE.CALL_API_HOOK,
-          icon: Command,
-        },
-        {
-          title: 'Chats',
-          url: '#',
-          badge: '3',
-          icon: Command,
+          title: 'Editor',
+          url: URL_PATH.EDITOR.CKEDITOR,
+          icon: FilePenLine,
         },
         {
           title: 'Secured by Clerk',
