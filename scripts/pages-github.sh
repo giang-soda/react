@@ -28,4 +28,10 @@ find "$TARGET_DIR" -mindepth 1 -not \( -path "$TARGET_DIR/.git" -o -path "$TARGE
 echo "Copying files from build to pages-github..."
 rsync -av "$BUILD_DIR/" "$TARGET_DIR/"
 
+# Copy index.html to 404.html for GitHub Pages SPA support
+if [ -f "$TARGET_DIR/index.html" ]; then
+  cp "$TARGET_DIR/index.html" "$TARGET_DIR/404.html"
+  echo "Created 404.html from index.html"
+fi
+
 echo "Build files copied successfully to $TARGET_DIR"
