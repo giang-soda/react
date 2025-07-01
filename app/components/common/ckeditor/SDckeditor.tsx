@@ -53,11 +53,7 @@ interface CKEditorProps {
   setEditorInstance: (editor: ClassicEditor) => void;
 }
 
-export function SDckeditor({
-  initialData,
-  setEditorInstance,
-}: CKEditorProps) {
-
+export function SDckeditor({ initialData, setEditorInstance }: CKEditorProps) {
   return (
     <div className="sd-ckeditor">
       <CKEditor

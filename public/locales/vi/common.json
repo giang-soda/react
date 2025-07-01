@@ -16,7 +16,9 @@
     "nodata": "Không có dữ liệu",
     "loading": "Đang tải...",
     "reload": "Tải lại",
-    "reloadSuccess": "Tải lại thành công"
+    "reloadSuccess": "Tải lại thành công",
+    "search": "Tìm kiếm",
+    "showing": "Hiển thị {{from}} đến {{to}} của {{total}} mục"
   },
   "errors": {
     "403": {

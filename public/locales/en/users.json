@@ -15,7 +15,13 @@
     "title": "User List",
     "email": "Email",
     "name": "Name",
-    "password": "Password"
+    "password": "Password",
+    "role": "Role",
+    "status": "Status",
+    "count": "Count",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "search_email_name": "Email, Name"
   },
   "create": {
     "title": "User Create"
@@ -26,5 +32,9 @@
   "delete": {
     "title": "Delete User",
     "description": "Are you sure you want to delete this user?"
+  },
+  "role": {
+    "admin": "Admin",
+    "user": "User"
   }
 }

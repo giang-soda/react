@@ -1,6 +1,6 @@
-import { UsersTable } from '~/components/features/users/UsersTable';
 import { useTranslation } from 'react-i18next';
 import { metaCommon } from '~/lib/utils';
+import { UserTable } from '~/components/features/users/UserTable';
 
 export const meta = () => metaCommon('User List');
 
@@ -13,7 +13,7 @@ export default function UserList() {
         <h1 className="text-2xl font-bold tracking-tight">{t('list.title')}</h1>
       </div>
 
-      <UsersTable />
+      <UserTable />
     </div>
   );
 }

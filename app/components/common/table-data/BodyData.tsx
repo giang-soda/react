@@ -4,11 +4,12 @@ import type { QueryResponse } from '~/models';
 
 interface TableDataProps<T> {
   queryResponse: QueryResponse<T[]>;
+  data: T[];
   colSpan?: number;
   children: (item: T) => React.ReactNode;
 }
 
-export function TableData<T>({ queryResponse, colSpan = 1, children }: TableDataProps<T>) {
+export function BodyData<T>({ queryResponse, data, colSpan = 1, children }: TableDataProps<T>) {
   return (
     <>
       {queryResponse.query.isLoading ? (
@@ -25,14 +26,14 @@ export function TableData<T>({ queryResponse, colSpan = 1, children }: TableData
             </div>
           </TableCell>
         </TableRow>
-      ) : !queryResponse.query.data || queryResponse.query.data.length === 0 ? (
+      ) : data.length === 0 ? (
         <TableRow>
           <TableCell colSpan={colSpan}>
             <NoData />
           </TableCell>
         </TableRow>
       ) : (
-        queryResponse.query.data.map(item => children(item))
+        data.map(item => children(item))
       )}
     </>
   );

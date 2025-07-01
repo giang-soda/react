@@ -59,6 +59,7 @@ npm run build
 5. Sử dụng:
    - import { useTranslation } from "react-i18next";
    - gọi hook, vì là hook nên chỉ được sử dụng trong component (.tsx)
+
    ```
    const { t } = useTranslation(); // nếu sử dụng tất cả file
    const { t } = useTranslation(['auth', 'validate']); // nếu sử dụng nhiều file
@@ -66,6 +67,7 @@ npm run build
    ```
 
    - sử dụng trong template:
+
    ```
    t('login.success', {ns: 'auth'}); // nếu sử dụng nhiều file
    t('login.success'); // nếu sử dụng 1 file

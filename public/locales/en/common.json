@@ -16,7 +16,9 @@
     "nodata": "No data",
     "loading": "Loading...",
     "reload": "Reload",
-    "reloadSuccess": "Reload success"
+    "reloadSuccess": "Reload success",
+    "search": "Search",
+    "showing": "Showing {{from}} to {{to}} of {{total}} items"
   },
   "errors": {
     "403": {

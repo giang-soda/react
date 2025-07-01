@@ -9,13 +9,19 @@
   "success": {
     "create": "Người dùng ({{id}}) đã được tạo thành công",
     "update": "Người dùng ({{id}}) đã được cập nhật thành công",
-    "delete": "Người dùng ({{name}}) đã được xóa thành công"
+    "delete": "Người dùng ({{id}}) đã được xóa thành công"
   },
   "list": {
     "title": "Danh sách người dùng",
     "email": "Email",
-    "name": "Name",
-    "password": "Mật khẩu"
+    "name": "Tên",
+    "password": "Mật khẩu",
+    "role": "Vai trò",
+    "status": "Trạng thái",
+    "count": "Số lượng",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày cập nhật",
+    "search_email_name": "Email, Tên"
   },
   "create": {
     "title": "Tạo người dùng"
@@ -26,5 +32,9 @@
   "delete": {
     "title": "Xóa người dùng",
     "description": "Bạn có chắc chắn muốn xóa người dùng này không?"
+  },
+  "role": {
+    "admin": "Quản trị viên",
+    "user": "Người dùng"
   }
 }
