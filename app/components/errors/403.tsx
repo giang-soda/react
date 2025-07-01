@@ -3,6 +3,7 @@ import { Button } from '~/components/ui/button';
 import { useTitle } from '~/hooks/use-title';
 import ErrorLayout from './ErrorLayout';
 import { useTranslation } from 'react-i18next';
+import { URL_PATH } from '~/constans';
 
 export function Error403() {
   useTitle('403 | Soda');
@@ -16,7 +17,7 @@ export function Error403() {
         <p className="text-muted-foreground text-center">{t('errors.403.description')}</p>
         <div className="mt-6 flex gap-4">
           <Button>
-            <Link to="/" className="flex items-center justify-center">
+            <Link to={URL_PATH.HOME} className="flex items-center justify-center">
               {t('actions.goToHome')}
             </Link>
           </Button>

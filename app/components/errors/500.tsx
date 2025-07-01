@@ -3,6 +3,7 @@ import { Button } from '~/components/ui/button';
 import { useTitle } from '~/hooks/use-title';
 import ErrorLayout from './ErrorLayout';
 import { useTranslation } from 'react-i18next';
+import { URL_PATH } from '~/constans';
 
 export function Error500() {
   useTitle('500 | Soda');
@@ -22,7 +23,7 @@ export function Error500() {
             {t('actions.refreshPage')}
           </Button>
           <Button>
-            <Link to="/" className="flex items-center justify-center">
+            <Link to={URL_PATH.HOME} className="flex items-center justify-center">
               {t('actions.goToHome')}
             </Link>
           </Button>

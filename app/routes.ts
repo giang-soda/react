@@ -3,7 +3,7 @@ import { URL_PATH } from './constans';
 
 export default [
   layout('layouts/AppLayout.tsx', [
-    index('routes/dashboard/index.tsx'), // home
+    route(URL_PATH.HOME, 'routes/dashboard/index.tsx'), // home
     route(URL_PATH.DASHBOARD, 'routes/dashboard/Dashboard.tsx'),
 
     // TODO demo router

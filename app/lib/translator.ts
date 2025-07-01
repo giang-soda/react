@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import HttpBackend from 'i18next-http-backend';
 import { Language, KEY_LOCAL_STORAGE } from '~/constans';
 import { isEnumValue } from './utils';
+import { BASE_URL } from '~/constans';
 
 const getDefaultLanguage = () => {
   if (typeof window !== 'undefined') {
@@ -24,7 +25,7 @@ void i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      loadPath: `${BASE_URL}locales/{{lng}}/{{ns}}.json`,
     },
 
     ns: ['common', 'auth', 'validate', 'users', 'todos'],

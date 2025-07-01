@@ -3,6 +3,7 @@ import { Button } from '~/components/ui/button';
 import { useTitle } from '~/hooks/use-title';
 import ErrorLayout from './ErrorLayout';
 import { useTranslation, Trans } from 'react-i18next';
+import { URL_PATH } from '~/constans';
 
 export function Error503() {
   useTitle('503 | Soda');
@@ -19,7 +20,7 @@ export function Error503() {
         </div>
         <div className="flex gap-4">
           <Button>
-            <Link to="/" className="flex items-center justify-center">
+            <Link to={URL_PATH.HOME} className="flex items-center justify-center">
               {t('actions.goToHome')}
             </Link>
           </Button>
