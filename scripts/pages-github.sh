@@ -10,6 +10,9 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${ROOT_DIR}/build/client"
 TARGET_DIR="${ROOT_DIR}/pages-github"
 
+echo "Run build"
+npm run build
+
 # Check if build directory exists
 if [ ! -d "$BUILD_DIR" ]; then
   echo "Error: Build directory does not exist at $BUILD_DIR"
