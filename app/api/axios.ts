@@ -1,10 +1,11 @@
 import axios, { AxiosError, HttpStatusCode, type InternalAxiosRequestConfig } from 'axios';
 import config from '~/config';
-import { getToken, removeDataLogout, saveToken } from '~/lib/auth';
+import { getToken, removeDataLogout } from '~/lib/auth';
 import type { TFunction } from 'i18next';
 import { toast } from 'sonner';
 import type React from 'react';
 import { URL_PATH } from '~/constans';
+import { isSiteAdmin } from '~/lib/utils';
 
 interface IHandleError {
   t: TFunction;
@@ -36,12 +37,6 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   response => {
-    if (response.data && response.headers['content-type'].includes('application/json')) {
-      if (response.data?.tokens?.access) {
-        saveToken(response.data.tokens.access);
-      }
-    }
-
     return response;
   },
   error => {
@@ -66,10 +61,11 @@ export function handleError(error: AxiosError, { t, message }: IHandleError) {
 
   // error token expired -> relogin
   if (error.response.status === Number(HttpStatusCode.Unauthorized)) {
-    removeDataLogout();
-    // redirect to login page when token expired
-    window.location.href = URL_PATH.AUTH.LOGIN;
-
+    if (isSiteAdmin()) {
+      removeDataLogout();
+      // redirect to login page when token expired
+      window.location.href = URL_PATH.ADMIN.AUTH.LOGIN;
+    }
     return null;
   }
 

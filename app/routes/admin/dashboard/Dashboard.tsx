@@ -1,6 +1,6 @@
-import { metaCommon } from '~/lib/utils';
+import { metaAdmin } from '~/lib/utils';
 
-export const meta = () => metaCommon('Dashboard');
+export const meta = () => metaAdmin('Dashboard');
 
 export default function Dashboard() {
   return (

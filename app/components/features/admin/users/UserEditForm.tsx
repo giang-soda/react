@@ -46,7 +46,7 @@ export function UserEditForm({ user }: { user: User }) {
         password: String,
       },
       refreshQuerykey: [KEY_QUERY.USER_LIST, [KEY_QUERY.USER_DETAIL, user.id]],
-      redirect: URL_PATH.USERS.LIST,
+      redirect: URL_PATH.ADMIN.USERS.LIST,
       onSuccess: data => {
         toast.success(t('success.update', { ns: 'users', id: data.name }));
       },
@@ -111,7 +111,7 @@ export function UserEditForm({ user }: { user: User }) {
 
           <EditSubmit
             loading={api.mutation.isPending}
-            backTo={URL_PATH.USERS.LIST}
+            backTo={URL_PATH.ADMIN.USERS.LIST}
             setOpenDelete={setOpen}
           />
         </form>
@@ -122,7 +122,7 @@ export function UserEditForm({ user }: { user: User }) {
         open={open}
         setOpen={setOpen}
         refreshQuerykey={[KEY_QUERY.USER_LIST, [KEY_QUERY.USER_DETAIL, user.id]]}
-        redirect={URL_PATH.USERS.LIST}
+        redirect={URL_PATH.ADMIN.USERS.LIST}
       />
     </div>
   );

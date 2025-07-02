@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { TITLE_SUFFIX_NAME } from '~/constans';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,5 +17,13 @@ export function sleep(ms: number) {
 }
 
 export function metaCommon(title: string, options: Record<string, string>[] = []) {
-  return [{ title: `${title}${TITLE_SUFFIX_NAME}` }, ...options];
+  return [{ title: `${title} | Soda` }, ...options];
 }
+
+export function metaAdmin(title: string, options: Record<string, string>[] = []) {
+  return [{ title: `${title} | Soda Admin` }, ...options];
+}
+
+export const isSiteAdmin = () => {
+  return window.location.pathname.split('/').includes('admin');
+};

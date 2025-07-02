@@ -164,8 +164,8 @@ export function UserTable() {
         queryResponse={api}
         columns={columns}
         refreshQuerykey={[KEY_QUERY.USER_LIST]}
-        urlCreate={URL_PATH.USERS.CREATE}
-        urlEdit={URL_PATH.USERS.EDIT}
+        urlCreate={URL_PATH.ADMIN.USERS.CREATE}
+        urlEdit={URL_PATH.ADMIN.USERS.EDIT}
         onDelete={handleDelete}
         onSearch={handleSearch}
       />

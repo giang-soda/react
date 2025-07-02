@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router';
@@ -16,35 +15,14 @@ import { Input } from '~/components/ui/input';
 import { PasswordInput } from '~/components/common';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-
-const formSchema = (
-  tValidate: (key: string, value?: Record<string, React.ReactNode>) => string
-) => {
-  return z.object({
-    email: z
-      .string()
-      .min(1, { message: tValidate('required', { ns: 'validate' }) })
-      .max(255, { message: tValidate('max', { max: 255, ns: 'validate' }) })
-      .email({ message: tValidate('email', { ns: 'validate' }) }),
-    password: z
-      .string()
-      .min(6, {
-        message: tValidate('min', { min: 6, ns: 'validate' }),
-      })
-      .max(50, {
-        message: tValidate('max', { max: 50, ns: 'validate' }),
-      }),
-  });
-};
-
-type LoginSchema = z.infer<ReturnType<typeof formSchema>>;
+import { loginSchemaValidate, type LoginSchema } from './login-schema';
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation(['auth', 'validate']);
 
   const form = useForm<LoginSchema>({
-    resolver: zodResolver(formSchema(t)),
+    resolver: zodResolver(loginSchemaValidate(t)),
     defaultValues: {
       email: '',
       password: '',

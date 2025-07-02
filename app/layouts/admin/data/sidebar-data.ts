@@ -9,17 +9,17 @@ export const sidebarData: SidebarData = {
       items: [
         {
           title: 'Dashboard',
-          url: URL_PATH.DASHBOARD,
+          url: URL_PATH.ADMIN.DASHBOARD,
           icon: Command,
         },
         {
           title: 'User Management',
-          url: URL_PATH.USERS.LIST,
+          url: URL_PATH.ADMIN.USERS.LIST,
           icon: User2,
         },
         {
           title: 'Editor',
-          url: URL_PATH.EDITOR.CKEDITOR,
+          url: URL_PATH.ADMIN.EDITOR.CKEDITOR,
           icon: FilePenLine,
         },
         {
@@ -28,7 +28,7 @@ export const sidebarData: SidebarData = {
           items: [
             {
               title: 'Sign In',
-              url: URL_PATH.AUTH.LOGIN,
+              url: URL_PATH.ADMIN.AUTH.LOGIN,
             },
             {
               title: 'Sign Up',
@@ -51,7 +51,7 @@ export const sidebarData: SidebarData = {
           items: [
             {
               title: 'Sign In',
-              url: URL_PATH.AUTH.LOGIN,
+              url: URL_PATH.ADMIN.AUTH.LOGIN,
             },
             {
               title: 'Sign In (2 Col)',
@@ -77,27 +77,27 @@ export const sidebarData: SidebarData = {
           items: [
             {
               title: 'Throw Error',
-              url: '/throw-error',
+              url: URL_PATH.ADMIN.TODO_REMOVE.THROW_ERROR,
               icon: Command,
             },
             {
               title: 'Forbidden',
-              url: '/403',
+              url: URL_PATH.ERROR.PAGE_403,
               icon: Command,
             },
             {
               title: 'Not Found',
-              url: '/404',
+              url: URL_PATH.ERROR.PAGE_404,
               icon: Command,
             },
             {
               title: 'Internal Server Error',
-              url: '/500',
+              url: URL_PATH.ERROR.PAGE_500,
               icon: Command,
             },
             {
               title: 'Maintenance Error',
-              url: '/503',
+              url: URL_PATH.ERROR.PAGE_503,
               icon: Command,
             },
           ],
@@ -140,7 +140,7 @@ export const sidebarData: SidebarData = {
         },
         {
           title: 'Help Center',
-          url: '/404xxx',
+          url: URL_PATH.ERROR.PAGE_404,
           icon: Command,
         },
       ],

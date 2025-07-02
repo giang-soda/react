@@ -52,9 +52,10 @@ export function UserTable() {
       header: 'Email',
       sortable: true,
       searchable: true,
-      render: (value, user) => { // option, hiển thị nội dung custom, thay vì chỉ hiện giá trị value
-        return value + 1
-      }
+      render: (value, user) => {
+        // option, hiển thị nội dung custom, thay vì chỉ hiện giá trị value
+        return value + 1;
+      },
     },
   ];
 
@@ -98,9 +99,8 @@ export function UserTable() {
       urlCreate={URL_PATH.USERS.CREATE} // option, button chuyển sang link create
       urlEdit={URL_PATH.USERS.EDIT} // option, button chuyển sang trang edit
       onDelete={handleDelete} // option, button action delete
-      pageSizeOptions={[10,20]} // option, default [10,20,50], số lượng bản ghi hiển thị
+      pageSizeOptions={[10, 20]} // option, default [10,20,50], số lượng bản ghi hiển thị
       rowActions={React.ReactNode} // option, action của mỗi hàng, sau button edit và delete
-      
     />
   );
 }

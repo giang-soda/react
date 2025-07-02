@@ -1,4 +1,3 @@
-import { metaCommon } from '~/lib/utils';
 import { SDckeditor } from '~/components/common/ckeditor/SDckeditor';
 import { useState } from 'react';
 import { ClassicEditor } from 'ckeditor5';
@@ -6,9 +5,7 @@ import { Button } from '~/components/ui/button';
 import { ScanEye } from 'lucide-react';
 import { PreviewEditor } from './PreviewEditor';
 
-export const meta = () => metaCommon('Ckeditor');
-
-export default function CKeditorPage() {
+export function CKeditor() {
   const [editorInstance, setEditorInstance] = useState<ClassicEditor | null>(null);
   const [open, setOpen] = useState(false);
 

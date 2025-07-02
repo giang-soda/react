@@ -1,23 +1,31 @@
-import { type RouteConfig, layout, prefix, route } from '@react-router/dev/routes';
+import { type RouteConfig, layout, route } from '@react-router/dev/routes';
 import { URL_PATH } from './constans';
 
 export default [
-  layout('layouts/AppLayout.tsx', [
-    route(URL_PATH.HOME, 'routes/home/Home.tsx'), // home
-    route(URL_PATH.DASHBOARD, 'routes/dashboard/Dashboard.tsx'),
+  layout('layouts/admin/AdminLayout.tsx', [
+    layout('layouts/admin/AdminAppLayout.tsx', [
+      route(URL_PATH.ADMIN.HOME, 'routes/admin/home/Home.tsx'), // home
+      route(URL_PATH.ADMIN.DASHBOARD, 'routes/admin/dashboard/Dashboard.tsx'),
 
-    // TODO demo router
-    route(URL_PATH.USERS.LIST, 'routes/users/List.tsx'),
-    route(URL_PATH.USERS.CREATE, 'routes/users/Create.tsx'),
-    route(URL_PATH.USERS.EDIT(':id'), 'routes/users/Edit.tsx'),
+      // TODO: demo router
+      route(URL_PATH.ADMIN.USERS.LIST, 'routes/admin/users/List.tsx'),
+      route(URL_PATH.ADMIN.USERS.CREATE, 'routes/admin/users/Create.tsx'),
+      route(URL_PATH.ADMIN.USERS.EDIT(':id'), 'routes/admin/users/Edit.tsx'),
 
-    route(URL_PATH.EDITOR.CKEDITOR, 'routes/editor/CKeditorPage.tsx'),
+      route(URL_PATH.ADMIN.EDITOR.CKEDITOR, 'routes/admin/editor/CKeditorPage.tsx'),
 
-    route(URL_PATH.TODO_REMOVE.THROW_ERROR, 'routes/dashboard/ThrowError.tsx'),
+      route(URL_PATH.ADMIN.TODO_REMOVE.THROW_ERROR, 'routes/admin/dashboard/ThrowError.tsx'),
+    ]),
+
+    layout('layouts/admin/AdminAuthLayout.tsx', [
+      route(URL_PATH.ADMIN.AUTH.LOGIN, 'routes/admin/auth/Login.tsx'),
+    ]),
   ]),
 
-  layout('layouts/AuthLayout.tsx',  [
-    route(URL_PATH.AUTH.LOGIN, 'routes/auth/Login.tsx')
+  layout('layouts/user/UserLayout.tsx', [
+    layout('layouts/user/UserAppLayout.tsx', [
+      route(URL_PATH.HOME, 'routes/user/home/Home.tsx')
+    ]),
   ]),
 
   // error page

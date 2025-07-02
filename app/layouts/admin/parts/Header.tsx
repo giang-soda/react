@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '~/lib/utils';
 import { SidebarTrigger } from '~/components/ui/sidebar';
-import { SwitchTheme } from './SwitchTheme';
+import { SwitchTheme } from '../../parts/SwitchTheme';
 
 interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   fixed?: boolean;

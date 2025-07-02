@@ -43,7 +43,7 @@ export function UserCreateForm() {
         password: String,
       },
       refreshQuerykey: [KEY_QUERY.USER_LIST],
-      redirect: URL_PATH.USERS.LIST,
+      redirect: URL_PATH.ADMIN.USERS.LIST,
       onSuccess: data => {
         toast.success(t('success.create', { ns: 'users', id: data.name }));
       },
@@ -105,7 +105,7 @@ export function UserCreateForm() {
           )}
         />
 
-        <EditSubmit loading={api.mutation.isPending} backTo={URL_PATH.USERS.LIST} />
+        <EditSubmit loading={api.mutation.isPending} backTo={URL_PATH.ADMIN.USERS.LIST} />
       </form>
     </Form>
   );

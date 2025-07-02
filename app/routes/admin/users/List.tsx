@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { metaCommon } from '~/lib/utils';
-import { UserTable } from '~/components/features/users/UserTable';
+import { metaAdmin } from '~/lib/utils';
+import { UserTable } from '~/components/features/admin/users/UserTable';
 
-export const meta = () => metaCommon('User List');
+export const meta = () => metaAdmin('User List');
 
 export default function UserList() {
   const { t } = useTranslation('users');

@@ -5,11 +5,7 @@ import { Outlet } from 'react-router';
 import { Header } from './parts/Header';
 import { Main } from './parts/Main';
 
-export function meta() {
-  return [{ title: 'Soda' }, { name: 'description', content: 'Soda Web App' }];
-}
-
-export default function AppLayout() {
+export default function AdminAppLayout() {
   return (
     <>
       <SidebarProvider>

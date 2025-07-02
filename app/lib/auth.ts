@@ -1,14 +1,21 @@
-import { KEY_LOCAL_STORAGE } from '~/constans';
+import { KEY_STORAGE_ADMIN } from '~/constans';
+import { isSiteAdmin } from '~/lib/utils';
 
 export const getToken = () => {
-  const token = localStorage.getItem(KEY_LOCAL_STORAGE.ACCESS_TOKEN);
-  return token;
+  if (isSiteAdmin()) {
+    return localStorage.getItem(KEY_STORAGE_ADMIN.ACCESS_TOKEN);
+  }
+  return null;
 };
 
 export const saveToken = (token: string) => {
-  localStorage.setItem(KEY_LOCAL_STORAGE.ACCESS_TOKEN, token);
+  if (isSiteAdmin()) {
+    localStorage.setItem(KEY_STORAGE_ADMIN.ACCESS_TOKEN, token);
+  }
 };
 
 export const removeDataLogout = () => {
-  localStorage.removeItem(KEY_LOCAL_STORAGE.ACCESS_TOKEN);
+  if (isSiteAdmin()) {
+    localStorage.removeItem(KEY_STORAGE_ADMIN.ACCESS_TOKEN);
+  }
 };
