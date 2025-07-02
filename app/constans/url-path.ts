@@ -9,6 +9,9 @@ export const URL_PATH = {
     PAGE_500: `${BASE_URL}500`,
     PAGE_503: `${BASE_URL}503`,
   },
+  AUTH: {
+    LOGIN: `${BASE_URL}auth/login`,
+  },
   USERS: {
     LIST: `${BASE_URL}users`,
     CREATE: `${BASE_URL}users/create`,

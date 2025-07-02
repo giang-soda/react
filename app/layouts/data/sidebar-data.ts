@@ -28,7 +28,7 @@ export const sidebarData: SidebarData = {
           items: [
             {
               title: 'Sign In',
-              url: '/auth/login',
+              url: URL_PATH.AUTH.LOGIN,
             },
             {
               title: 'Sign Up',
@@ -51,7 +51,7 @@ export const sidebarData: SidebarData = {
           items: [
             {
               title: 'Sign In',
-              url: '/auth/login',
+              url: URL_PATH.AUTH.LOGIN,
             },
             {
               title: 'Sign In (2 Col)',

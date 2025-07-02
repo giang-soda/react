@@ -1,9 +1,9 @@
-import { type RouteConfig, index, layout, prefix, route } from '@react-router/dev/routes';
+import { type RouteConfig, layout, prefix, route } from '@react-router/dev/routes';
 import { URL_PATH } from './constans';
 
 export default [
   layout('layouts/AppLayout.tsx', [
-    route(URL_PATH.HOME, 'routes/dashboard/index.tsx'), // home
+    route(URL_PATH.HOME, 'routes/home/Home.tsx'), // home
     route(URL_PATH.DASHBOARD, 'routes/dashboard/Dashboard.tsx'),
 
     // TODO demo router
@@ -16,7 +16,9 @@ export default [
     route(URL_PATH.TODO_REMOVE.THROW_ERROR, 'routes/dashboard/ThrowError.tsx'),
   ]),
 
-  layout('layouts/AuthLayout.tsx', prefix('/auth', [route('/login', 'routes/auth/Login.tsx')])),
+  layout('layouts/AuthLayout.tsx',  [
+    route(URL_PATH.AUTH.LOGIN, 'routes/auth/Login.tsx')
+  ]),
 
   // error page
   route(URL_PATH.ERROR.PAGE_403, 'routes/errors/403.tsx'),

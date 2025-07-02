@@ -6,7 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
   const env = loadEnv(mode, process.cwd(), '');
-  
+
   return {
     plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
     base: env.VITE_BASE_URL || '/', // add subpath to url from env or default,

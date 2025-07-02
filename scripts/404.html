@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect | Giang Soda</title>
+</head>
+<body>
+    <ul id="list-page"></ul>
+
+    <script defer>
+      function init() {
+        const pathStr = window.location.pathname.substring(1);
+        const pathArr = pathStr.split('/')
+        const firstSegment = pathArr[0];
+        const listPage = [
+          'learn',
+          'shop-japan'
+        ]
+
+        if (firstSegment && listPage.includes(firstSegment)) {
+          let redirectUrl = '/' + firstSegment;
+
+          if (pathArr.length > 1) {
+            redirectUrl += '?redirect=' + pathArr.slice(1).join('/');
+          }
+
+          window.location.href = redirectUrl;
+          return;
+        }
+
+        const listPageElement = document.getElementById('list-page');
+        listPageElement.innerHTML = listPage.map(page => `<li><a href="/${page}">${page}</a></li>`).join('');
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        init();
+      });
+    </script>
+</body>
+</html>

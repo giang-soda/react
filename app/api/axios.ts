@@ -4,6 +4,7 @@ import { getToken, removeDataLogout, saveToken } from '~/lib/auth';
 import type { TFunction } from 'i18next';
 import { toast } from 'sonner';
 import type React from 'react';
+import { URL_PATH } from '~/constans';
 
 interface IHandleError {
   t: TFunction;
@@ -67,7 +68,7 @@ export function handleError(error: AxiosError, { t, message }: IHandleError) {
   if (error.response.status === Number(HttpStatusCode.Unauthorized)) {
     removeDataLogout();
     // redirect to login page when token expired
-    window.location.href = '/';
+    window.location.href = URL_PATH.AUTH.LOGIN;
 
     return null;
   }

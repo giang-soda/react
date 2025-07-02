@@ -93,7 +93,13 @@ export function useApiQuery<T>(
     queryKey: options?.querykey ?? [],
     queryFn: async () => {
       try {
-        return (await api(axiosOption)).data;
+        const data = (await api(axiosOption)).data;
+
+        if (typeof data !== 'object') {
+          throw new Error('Data response is not json object');
+        }
+
+        return data;
       } catch (e) {
         const err = handleError(e as AxiosError, { t, message: options?.message });
 
