@@ -182,6 +182,13 @@ import { ErrorResponseHandler } from '~/lib/errors';
 throw new ErrorResponseHandler(500);
 ```
 
+### 5. Store
+
+- Sử dụng lib `zustand`
+- Đã xây dựng sẵn store cho list page: `app/stores/base-store.ts`
+- Áp dụng ở store `app/stores/use-admin-user-store.ts`
+- Khi custom initialState, truyền vào hàm `useBaseListStore<User>(initialState)`
+
 ### Demo
 
 Đã demo đầy đủ chức năng CRUD user

@@ -6,12 +6,13 @@ import { CheckCircleIcon } from 'lucide-react';
 import { KEY_QUERY, URL_PATH } from '~/constans';
 import { DataTable, DeleteModal } from '~/components/common';
 import { useState } from 'react';
+import { useAdminUserListStore } from '~/stores/use-admin-user-store';
 
 export function UserTable() {
   const { t } = useTranslation(['common', 'users']);
   const [open, setOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState<User>();
-
+  const store = useAdminUserListStore();
   const api = useApiQuery<User[]>(
     {
       method: 'get',
@@ -81,7 +82,7 @@ export function UserTable() {
     },
   ];
 
-  const handleSearch: DataSearch<User>[] = [
+  const dataSearch: DataSearch<User>[] = [
     {
       key: 'id',
       label: 'ID',
@@ -95,8 +96,8 @@ export function UserTable() {
       label: t('list.search_email_name', { ns: 'users' }),
       searchFn: (item: User, value: React.ReactNode) => {
         return (
-          item.email.toLowerCase().includes((value as string).toLowerCase()) ||
-          item.name.toLowerCase().includes((value as string).toLowerCase())
+          item.email?.toLowerCase().includes((value as string).toLowerCase()) ||
+          item.name?.toLowerCase().includes((value as string).toLowerCase())
         );
       },
       type: 'input',
@@ -105,7 +106,7 @@ export function UserTable() {
       key: 'role',
       label: t('list.role', { ns: 'users' }),
       searchFn: (item: User, value: React.ReactNode) => {
-        return item.role.includes(value as string);
+        return item.role?.includes(value as string);
       },
       type: 'select',
       options: [
@@ -167,7 +168,8 @@ export function UserTable() {
         urlCreate={URL_PATH.ADMIN.USERS.CREATE}
         urlEdit={URL_PATH.ADMIN.USERS.EDIT}
         onDelete={handleDelete}
-        onSearch={handleSearch}
+        dataSearch={dataSearch}
+        store={store}
       />
 
       {deleteModal}

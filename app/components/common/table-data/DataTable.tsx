@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import type { QueryKey } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ChevronDown, ChevronUp, Search } from 'lucide-react';
@@ -29,11 +29,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '~/components/ui/pagination';
-import type { QueryResponse, DataSort, DataPagination, DataColumn, DataSearch } from '~/models';
+import type { QueryResponse, DataColumn, DataSearch, AdminListState } from '~/models';
 import { BodyData, ButtonReload } from '.';
 import { Link } from 'react-router';
 import { Button } from '~/components/ui/button';
-import { ACTION, DATE_FORMAT_TIME, PAGE_SIZE, PAGE_SIZE_OPTIONS } from '~/constans';
+import { ACTION, DATE_FORMAT_TIME, PAGE_SIZE_OPTIONS } from '~/constans';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Label } from '~/components/ui/label';
 
@@ -46,9 +46,10 @@ interface DataTableProps<T> {
   urlCreate?: string;
   urlEdit?: (id: string) => string;
   onDelete?: (item: T) => void;
-  onSearch?: DataSearch<T>[];
+  dataSearch?: DataSearch<T>[];
   rowActions?: (item: T) => React.ReactNode;
   debounceDelay?: number;
+  store: AdminListState<T>;
 }
 
 const DEFAULT_SEARCH_TERM_ALL = 'all';
@@ -62,31 +63,33 @@ export function DataTable<T extends object & { id: string | number }>({
   urlCreate,
   urlEdit,
   onDelete,
-  onSearch,
+  dataSearch,
   rowActions,
   debounceDelay = 500,
+  store,
 }: DataTableProps<T>) {
   const { t } = useTranslation(['common']);
-  const [searchTerm, setSearchTerm] = useState<Record<string, React.ReactNode>>(
-    {} as Record<string, React.ReactNode>
-  );
-  const [sortConfig, setSortConfig] = useState<DataSort<T>>({} as DataSort<T>);
-  const [pagination, setPagination] = useState<DataPagination>({
-    pageIndex: 0,
-    pageSize: pageSizeOptions[0] || PAGE_SIZE,
-  });
+  const [resetKey, setResetKey] = useState(0);
 
+  const [searchTermRealtime, setSearchTermRealtime] = useState<Record<string, React.ReactNode>>({} as Record<string, React.ReactNode>);
   // Create debounced search function using lodash
-  const initSearch = (key: string, value: React.ReactNode) => {
-    setSearchTerm(prev => ({ ...prev, [key]: value }));
-    setPagination(prev => ({ ...prev, pageIndex: 0 }));
+  const changeParamSearch = (key: string, value: React.ReactNode) => {
+    console.log('store', key, value);
+    store.setSearchTerm(key, value);
   };
 
-  const debouncedSearch = debounce(initSearch, debounceDelay);
+  const debouncedSearch = debounce(changeParamSearch, debounceDelay);
 
   // Handle search input change
   const handleSearchChange = (key: string, value: React.ReactNode) => {
-    debouncedSearch(key, value);
+    console.log('key', key, value);
+    // setSearchTermRealtime(prev => ({ ...prev, [key]: value }));
+    debouncedSearch(key, value); 
+  };
+
+  const handleResetSearch = () => {
+    store.reset();
+    setResetKey(prev => prev + 1);
   };
 
   // Cleanup debounce on unmount
@@ -100,12 +103,12 @@ export function DataTable<T extends object & { id: string | number }>({
     // Filter data based on search term
     let filteredData = [...(queryResponse.query.data || [])];
 
-    if (onSearch) {
+    if (dataSearch) {
       filteredData = filteredData.filter(item => {
-        return Object.entries(searchTerm).every(([key, value]) => {
+        return Object.entries(store.searchTerm).every(([key, value]) => {
           if (value === '') return true;
 
-          const searchKey = onSearch.find(f => f.key === key);
+          const searchKey = dataSearch.find(f => f.key === key);
           if (!searchKey) return true;
           return searchKey.searchFn(item, value);
         });
@@ -119,62 +122,53 @@ export function DataTable<T extends object & { id: string | number }>({
           return value
             .toString()
             .toLowerCase()
-            .includes(((searchTerm[DEFAULT_SEARCH_TERM_ALL] as string) || '').toLowerCase());
+            .includes(((store.searchTerm[DEFAULT_SEARCH_TERM_ALL] as string) || '').toLowerCase());
         });
       });
     }
 
     // Sort data
-    if (sortConfig.key) {
+    if (store.sortConfig.key) {
       filteredData.sort((a, b) => {
-        const aValue = a[sortConfig.key];
-        const bValue = b[sortConfig.key];
+        const aValue = a[store.sortConfig.key];
+        const bValue = b[store.sortConfig.key];
 
-        if (aValue === null || aValue === undefined) return sortConfig.direction === 'asc' ? -1 : 1;
-        if (bValue === null || bValue === undefined) return sortConfig.direction === 'asc' ? 1 : -1;
+        if (aValue === null || aValue === undefined) return store.sortConfig.direction === 'asc' ? -1 : 1;
+        if (bValue === null || bValue === undefined) return store.sortConfig.direction === 'asc' ? 1 : -1;
 
-        if (sortConfig.type === 'number') {
-          return sortConfig.direction === 'asc'
+        if (store.sortConfig.type === 'number') {
+          return store.sortConfig.direction === 'asc'
             ? Number(aValue) - Number(bValue)
             : Number(bValue) - Number(aValue);
         }
 
         if (aValue < bValue) {
-          return sortConfig.direction === 'asc' ? -1 : 1;
+          return store.sortConfig.direction === 'asc' ? -1 : 1;
         }
         if (aValue > bValue) {
-          return sortConfig.direction === 'asc' ? 1 : -1;
+          return store.sortConfig.direction === 'asc' ? 1 : -1;
         }
         return 0;
       });
     }
 
     return filteredData;
-  }, [queryResponse.query.data, searchTerm, sortConfig, columns, onSearch]);
+  }, [queryResponse.query.data, store.searchTerm, store.sortConfig, columns, dataSearch]);
 
   // Pagination logic
-  const pageCount = Math.ceil(filteredAndSortedData.length / pagination.pageSize);
+  const pageCount = Math.ceil(filteredAndSortedData.length / store.pagination.pageSize);
 
   const paginatedData = useMemo(() => {
-    const startIndex = pagination.pageIndex * pagination.pageSize;
-    return filteredAndSortedData.slice(startIndex, startIndex + pagination.pageSize);
-  }, [filteredAndSortedData, pagination.pageIndex, pagination.pageSize]);
-
-  const handleSort = (key: keyof T, sortable?: boolean | string) => {
-    setSortConfig(prev => ({
-      key,
-      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc',
-      type: typeof sortable === 'boolean' ? 'string' : (sortable as 'number'),
-    }));
-    setPagination(prev => ({ ...prev, pageIndex: 0 }));
-  };
+    const startIndex = store.pagination.pageIndex * store.pagination.pageSize;
+    return filteredAndSortedData.slice(startIndex, startIndex + store.pagination.pageSize);
+  }, [filteredAndSortedData, store.pagination.pageIndex, store.pagination.pageSize]);
 
   const sortIcon = ({ column }: { column: keyof T }) => {
-    if (sortConfig.key !== column) {
+    if (store.sortConfig.key !== column) {
       return <ChevronDown className="ml-1 h-4 w-4 opacity-0 group-hover:opacity-70" />;
     }
 
-    return sortConfig.direction === 'asc' ? (
+    return store.sortConfig.direction === 'asc' ? (
       <ChevronUp className="ml-1 h-4 w-4" />
     ) : (
       <ChevronDown className="ml-1 h-4 w-4" />
@@ -192,10 +186,10 @@ export function DataTable<T extends object & { id: string | number }>({
           <PaginationItem key={i}>
             <PaginationLink
               href="#"
-              isActive={pagination.pageIndex === i}
+              isActive={store.pagination.pageIndex === i}
               onClick={e => {
                 e.preventDefault();
-                setPagination(prev => ({ ...prev, pageIndex: i }));
+                store.setPageIndex(i);
               }}
             >
               {i + 1}
@@ -209,10 +203,10 @@ export function DataTable<T extends object & { id: string | number }>({
         <PaginationItem key={0}>
           <PaginationLink
             href="#"
-            isActive={pagination.pageIndex === 0}
+            isActive={store.pagination.pageIndex === 0}
             onClick={e => {
               e.preventDefault();
-              setPagination(prev => ({ ...prev, pageIndex: 0 }));
+              store.setPageIndex(0);
             }}
           >
             1
@@ -221,7 +215,7 @@ export function DataTable<T extends object & { id: string | number }>({
       );
 
       // Show ellipsis if needed
-      if (pagination.pageIndex > 2) {
+      if (store.pagination.pageIndex > 2) {
         items.push(
           <PaginationItem key="ellipsis1">
             <PaginationEllipsis />
@@ -230,18 +224,18 @@ export function DataTable<T extends object & { id: string | number }>({
       }
 
       // Show current page and neighbors
-      const start = Math.max(1, pagination.pageIndex - 1);
-      const end = Math.min(pageCount - 2, pagination.pageIndex + 1);
+      const start = Math.max(1, store.pagination.pageIndex - 1);
+      const end = Math.min(pageCount - 2, store.pagination.pageIndex + 1);
 
       for (let i = start; i <= end; i++) {
         items.push(
           <PaginationItem key={i}>
             <PaginationLink
               href="#"
-              isActive={pagination.pageIndex === i}
+              isActive={store.pagination.pageIndex === i}
               onClick={e => {
                 e.preventDefault();
-                setPagination(prev => ({ ...prev, pageIndex: i }));
+                store.setPageIndex(i);
               }}
             >
               {i + 1}
@@ -251,7 +245,7 @@ export function DataTable<T extends object & { id: string | number }>({
       }
 
       // Show ellipsis if needed
-      if (pagination.pageIndex < pageCount - 3) {
+      if (store.pagination.pageIndex < pageCount - 3) {
         items.push(
           <PaginationItem key="ellipsis2">
             <PaginationEllipsis />
@@ -265,10 +259,10 @@ export function DataTable<T extends object & { id: string | number }>({
           <PaginationItem key={pageCount - 1}>
             <PaginationLink
               href="#"
-              isActive={pagination.pageIndex === pageCount - 1}
+              isActive={store.pagination.pageIndex === pageCount - 1}
               onClick={e => {
                 e.preventDefault();
-                setPagination(prev => ({ ...prev, pageIndex: pageCount - 1 }));
+                store.setPageIndex(pageCount - 1);
               }}
             >
               {pageCount}
@@ -287,30 +281,28 @@ export function DataTable<T extends object & { id: string | number }>({
     <div className="space-y-4">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="relative flex-1">
-          {onSearch ? (
+          {dataSearch ? (
             <>
               <div className="flex flex-col gap-4 md:flex-row">
-                <Input
-                  className="text-muted-foreground w-15 border-none p-0 text-sm shadow-none"
-                  placeholder="search"
-                  disabled
-                  value={t('pagination.search', { ns: 'common' }) + ':'}
-                />
-                {onSearch.map(search => (
-                  <div key={search.key}>
+                <Label className="text-muted-foreground text-sm">
+                  {t('pagination.search', { ns: 'common' })}:
+                </Label>
+                {dataSearch.map(search => (
+                  <div key={`${search.key}-${resetKey}`}>
                     {search.type === 'input' && (
                       <Input
                         placeholder={search.label}
                         onChange={e => handleSearchChange(search.key, e.target.value)}
+                        defaultValue={store.searchTerm[search.key] as string}
                       />
                     )}
 
                     {search.type === 'select' && search.options && (
                       <Select
-                        key={search.key}
                         onValueChange={value =>
                           handleSearchChange(search.key, value === 'all' ? '' : value)
                         }
+                        defaultValue={store.searchTerm[search.key] as string}
                       >
                         <SelectTrigger className="max-w-sm" id={search.key}>
                           <SelectValue placeholder={search.label} />
@@ -329,11 +321,10 @@ export function DataTable<T extends object & { id: string | number }>({
                     {search.type === 'checkbox' && (
                       <div
                         className="flex h-9 items-center space-x-2 rounded-md border px-3 py-2"
-                        key={search.key}
                       >
                         <Checkbox
                           id={search.key}
-                          checked={searchTerm[search.key] as boolean}
+                          checked={store.searchTerm[search.key] as boolean}
                           onCheckedChange={value => handleSearchChange(search.key, value)}
                         />
                         <Label
@@ -354,7 +345,7 @@ export function DataTable<T extends object & { id: string | number }>({
               <Input
                 placeholder={searchPlaceholder || t('pagination.search', { ns: 'common' })}
                 className="pl-9"
-                value={searchTerm[DEFAULT_SEARCH_TERM_ALL] as string}
+                value={store.searchTerm[DEFAULT_SEARCH_TERM_ALL] as string}
                 onChange={e => handleSearchChange(DEFAULT_SEARCH_TERM_ALL, e.target.value)}
               />
             </div>
@@ -362,7 +353,7 @@ export function DataTable<T extends object & { id: string | number }>({
         </div>
 
         <div className="flex items-center gap-2">
-          <ButtonReload queryResponse={queryResponse} refreshQuerykey={refreshQuerykey} />
+          <ButtonReload queryResponse={queryResponse} refreshQuerykey={refreshQuerykey} actionBeforeReload={handleResetSearch} />
           {urlCreate && (
             <Link to={urlCreate}>
               <Button icon={ACTION.CREATE}>{t('actions.create', { ns: 'common' })}</Button>
@@ -379,7 +370,7 @@ export function DataTable<T extends object & { id: string | number }>({
                 <TableHead
                   key={String(column.key)}
                   className={column.sortable ? 'group cursor-pointer select-none' : ''}
-                  onClick={() => column.sortable && handleSort(column.key, column.sortable)}
+                  onClick={() => column.sortable && store.setSortConfig(column.key, column.sortable)}
                 >
                   <div className="flex items-center">
                     {column.header}
@@ -450,10 +441,10 @@ export function DataTable<T extends object & { id: string | number }>({
             {t('pagination.showing', {
               from:
                 filteredAndSortedData.length > 0
-                  ? pagination.pageIndex * pagination.pageSize + 1
+                  ? store.pagination.pageIndex * store.pagination.pageSize + 1
                   : 0,
               to: Math.min(
-                (pagination.pageIndex + 1) * pagination.pageSize,
+                (store.pagination.pageIndex + 1) * store.pagination.pageSize,
                 filteredAndSortedData.length
               ),
               total: filteredAndSortedData.length,
@@ -461,16 +452,13 @@ export function DataTable<T extends object & { id: string | number }>({
             })}
           </p>
           <Select
-            value={pagination.pageSize.toString()}
+            value={store.pagination.pageSize.toString()}
             onValueChange={value => {
-              setPagination({
-                pageIndex: 0,
-                pageSize: Number(value),
-              });
+              store.setPageSize(Number(value));
             }}
           >
             <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={pagination.pageSize} />
+              <SelectValue placeholder={store.pagination.pageSize} />
             </SelectTrigger>
             <SelectContent>
               {pageSizeOptions.map(size => (
@@ -491,12 +479,9 @@ export function DataTable<T extends object & { id: string | number }>({
                     href="#"
                     onClick={e => {
                       e.preventDefault();
-                      setPagination(prev => ({
-                        ...prev,
-                        pageIndex: Math.max(0, prev.pageIndex - 1),
-                      }));
+                      store.setPageIndex(Math.max(0, store.pagination.pageIndex - 1));
                     }}
-                    className={pagination.pageIndex === 0 ? 'pointer-events-none opacity-50' : ''}
+                    className={store.pagination.pageIndex === 0 ? 'pointer-events-none opacity-50' : ''}
                   />
                 </PaginationItem>
 
@@ -507,13 +492,10 @@ export function DataTable<T extends object & { id: string | number }>({
                     href="#"
                     onClick={e => {
                       e.preventDefault();
-                      setPagination(prev => ({
-                        ...prev,
-                        pageIndex: Math.min(pageCount - 1, prev.pageIndex + 1),
-                      }));
+                      store.setPageIndex(Math.min(pageCount - 1, store.pagination.pageIndex + 1));
                     }}
                     className={
-                      pagination.pageIndex >= pageCount - 1 ? 'pointer-events-none opacity-50' : ''
+                      store.pagination.pageIndex >= pageCount - 1 ? 'pointer-events-none opacity-50' : ''
                     }
                   />
                 </PaginationItem>

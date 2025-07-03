@@ -9,16 +9,19 @@ import { useQueryRefreshKey } from '~/hooks/use-query';
 interface ButtonReloadProps<T> {
   refreshQuerykey?: QueryKey;
   queryResponse: QueryResponse<T>;
+  actionBeforeReload?: () => void;
 }
 
-export function ButtonReload<T>({ queryResponse, refreshQuerykey }: ButtonReloadProps<T>) {
+export function ButtonReload<T>({ queryResponse, refreshQuerykey, actionBeforeReload }: ButtonReloadProps<T>) {
   const { t } = useTranslation(['common']);
   const queryRefreshKey = useQueryRefreshKey();
+
   return (
     <Button
       loading={queryResponse.query.isFetching}
       icon={ACTION.RELOAD}
       onClick={() => {
+        actionBeforeReload?.();
         queryRefreshKey.call(refreshQuerykey);
 
         void queryResponse.query.refetch().then(result => {
