@@ -1,4 +1,9 @@
 export const API_ENDPOINT = {
+  ADMIN: {
+    AUTH: {
+      LOGIN: '/users',
+    },
+  },
   USERS: {
     LIST: '/users',
     CREATE: '/users',

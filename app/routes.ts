@@ -20,13 +20,16 @@ export default [
     layout('layouts/admin/AdminAuthLayout.tsx', [
       route(URL_PATH.ADMIN.AUTH.LOGIN, 'routes/admin/auth/Login.tsx'),
     ]),
+
+    route(URL_PATH.ADMIN.AUTH.LOGOUT, 'routes/admin/auth/LogoutPage.tsx'),
   ]),
 
   layout('layouts/user/UserLayout.tsx', [
-    layout('layouts/user/UserAppLayout.tsx', [
-      route(URL_PATH.HOME, 'routes/user/home/Home.tsx')
-    ]),
+    layout('layouts/user/UserAppLayout.tsx', [route(URL_PATH.HOME, 'routes/user/home/Home.tsx')]),
   ]),
+
+  // redirect page for githubpages
+  route(URL_PATH.REDIRECT, 'routes/errors/RedirectPage.tsx'),
 
   // error page
   route(URL_PATH.ERROR.PAGE_403, 'routes/errors/403.tsx'),

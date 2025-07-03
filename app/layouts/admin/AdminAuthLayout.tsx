@@ -1,8 +1,15 @@
-import { Link, Outlet } from 'react-router';
+import { Link, Navigate, Outlet } from 'react-router';
 import { Footer } from '../parts/Footer';
 import { URL_PATH } from '~/constans';
+import { getToken } from '~/lib/auth';
 
 export default function AdminAuthLayout() {
+  const token = getToken(true);
+
+  if (token) {
+    return <Navigate to={URL_PATH.ADMIN.HOME} />;
+  }
+
   return (
     <div className="bg-primary-foreground flex min-h-screen flex-col">
       <div className="flex flex-1 items-center justify-center">

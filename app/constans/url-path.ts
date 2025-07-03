@@ -21,6 +21,7 @@ export const URL_PATH = {
     DASHBOARD: `${BASE_URL}${PREFIX_ADMIN}dashboard`,
     AUTH: {
       LOGIN: `${BASE_URL}${PREFIX_ADMIN}auth/login`,
+      LOGOUT: `${BASE_URL}${PREFIX_ADMIN}auth/logout`,
     },
     USERS: {
       LIST: `${BASE_URL}${PREFIX_ADMIN}users`,
@@ -34,4 +35,5 @@ export const URL_PATH = {
       THROW_ERROR: `${BASE_URL}${PREFIX_ADMIN}throw-error`,
     },
   },
+  REDIRECT: `${BASE_URL}redirect`,
 };

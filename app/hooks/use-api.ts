@@ -24,7 +24,7 @@ interface IUseApiMutationRequest<T> {
   bodyParamsStruct?: object;
   redirect?: string; // redirect to url after success
   refreshQuerykey?: QueryKey; // invalidate query key after success
-  onSuccess?: (data: T) => void; // callback after success
+  onSuccess?: (data: T, request?: Record<string, React.ReactNode> | null) => void; // callback after success
 }
 
 export function useApi(axiosOption: AxiosRequestConfig, options?: IUseApiRequest): UseApiResponse {
@@ -126,20 +126,17 @@ export function useApiMutation<T>(
   const queryRefreshKey = useQueryRefreshKey();
 
   const mutation = useMutation({
-    mutationFn: (
-      data?: Record<string, React.ReactNode> | null,
-      rewriteAxiosOption?: AxiosRequestConfig
-    ) => {
+    mutationFn: (data?: Record<string, React.ReactNode> | null) => {
       if (data && options?.bodyParamsStruct) {
         axiosOption.data = bodyToCamelCase(data, options.bodyParamsStruct);
       } else {
         axiosOption.data = {};
       }
 
-      if (rewriteAxiosOption) {
+      if (data?.rewriteAxiosOption) {
         axiosOption = {
           ...axiosOption,
-          ...rewriteAxiosOption,
+          ...(data.rewriteAxiosOption as AxiosRequestConfig),
         };
       }
 
@@ -148,8 +145,8 @@ export function useApiMutation<T>(
     onError: err => {
       handleError(err as AxiosError, { t, message: options?.message });
     },
-    onSuccess(response) {
-      options?.onSuccess?.(response.data as T);
+    onSuccess(response, request) {
+      options?.onSuccess?.(response.data as T, request);
       queryRefreshKey.call(options?.refreshQuerykey);
 
       if (options?.redirect) {

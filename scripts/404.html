@@ -19,10 +19,10 @@
         ]
 
         if (firstSegment && listPage.includes(firstSegment)) {
-          let redirectUrl = '/' + firstSegment;
+          let redirectUrl = '/' + firstSegment + '/redirect';
 
           if (pathArr.length > 1) {
-            redirectUrl += '?redirect=' + pathArr.slice(1).join('/');
+            redirectUrl += '?path=' + pathArr.slice(1).join('/');
           }
 
           window.location.href = redirectUrl;

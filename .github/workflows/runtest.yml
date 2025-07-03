@@ -28,7 +28,8 @@ jobs:
 
       - name: eslint check rule and format
         run: |
-          npm run check
+          npm run format:check
+          npm run typecheck
           npm run lint
 
       # - name: Run unit test

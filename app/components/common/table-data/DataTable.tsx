@@ -406,9 +406,11 @@ export function DataTable<T extends object & { id: string | number }>({
                     <TableCell key={String(column.key)}>
                       {column.render
                         ? column.render(item[column.key] as React.ReactNode, item)
-                        : column.date && item[column.key]
-                          ? format(String(item[column.key]), DATE_FORMAT_TIME)
-                          : String(item[column.key])}
+                        : item[column.key] === null || item[column.key] === undefined
+                          ? '-'
+                          : column.date && item[column.key]
+                            ? format(String(item[column.key]), DATE_FORMAT_TIME)
+                            : String(item[column.key])}
                     </TableCell>
                   ))}
 

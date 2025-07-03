@@ -54,8 +54,8 @@ export const sidebarData: SidebarData = {
               url: URL_PATH.ADMIN.AUTH.LOGIN,
             },
             {
-              title: 'Sign In (2 Col)',
-              url: '#',
+              title: 'Logout',
+              url: URL_PATH.ADMIN.AUTH.LOGOUT,
             },
             {
               title: 'Sign Up',

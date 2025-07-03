@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router';
@@ -16,9 +15,13 @@ import { PasswordInput } from '~/components/common';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { loginSchemaValidate, type LoginSchema } from './login-schema';
+import { useApiMutation } from '~/hooks/use-api';
+import { API_ENDPOINT } from '~/api/endpoint';
+import { URL_PATH } from '~/constans';
+import { saveToken } from '~/lib/auth';
+import type { User } from '~/models';
 
 export function LoginForm() {
-  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation(['auth', 'validate']);
 
   const form = useForm<LoginSchema>({
@@ -29,24 +32,40 @@ export function LoginForm() {
     },
   });
 
-  async function onSubmit(data: LoginSchema) {
-    try {
-      setIsLoading(true);
-      console.log(data);
+  const api = useApiMutation<User[]>(
+    {
+      method: 'get',
+      url: API_ENDPOINT.ADMIN.AUTH.LOGIN,
+    },
+    {
+      message: {
+        default: t('errors.login_default', { ns: 'auth' }),
+      },
+      bodyParamsStruct: {
+        email: String,
+        password: String,
+      },
+      redirect: URL_PATH.ADMIN.HOME,
+      onSuccess: (response, request) => {
+        // TODO: save token demo
+        if (response.length === 0) {
+          throw new Error(t('errors.login_default', { ns: 'auth' }));
+        }
 
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      if (data.email === 'admin@gmail.com') {
+        saveToken(new Date().getTime() + '' + ((request?.email as string) || ''), true);
         toast.success(t('login.success', { ns: 'auth' }));
-      } else {
-        throw new Error(t('login.error', { ns: 'auth' }));
-      }
-    } catch (error) {
-      console.error('Login failed:', error);
-      toast.error(t('login.error', { ns: 'auth' }));
-    } finally {
-      setIsLoading(false);
+      },
     }
-  }
+  );
+
+  const onSubmit = (data: LoginSchema) => {
+    api.mutation.mutate({
+      ...data,
+      rewriteAxiosOption: {
+        url: API_ENDPOINT.ADMIN.AUTH.LOGIN + '?email=' + data.email,
+      } as unknown as React.ReactNode,
+    });
+  };
 
   return (
     <Form {...form}>
@@ -89,7 +108,7 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button className="mt-2" loading={isLoading}>
+        <Button className="mt-2" loading={api.mutation.isPending}>
           {t('login.button')}
         </Button>
       </form>

@@ -1,11 +1,19 @@
 import { AppSidebar } from './parts/AppSidebar';
 import { SidebarProvider } from '~/components/ui/sidebar';
 import { cn } from '~/lib/utils';
-import { Outlet } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 import { Header } from './parts/Header';
 import { Main } from './parts/Main';
+import { getToken } from '~/lib/auth';
+import { URL_PATH } from '~/constans';
 
 export default function AdminAppLayout() {
+  const token = getToken(true);
+
+  if (!token) {
+    return <Navigate to={URL_PATH.ADMIN.AUTH.LOGIN} />;
+  }
+
   return (
     <>
       <SidebarProvider>
