@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { Language, Theme, KEY_LOCAL_STORAGE } from '~/constans';
+import { getItem, setItem } from '~/lib/local-storage';
 import i18n from '~/lib/translator';
 
 interface ThemeContextType {
@@ -16,7 +17,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>(Language.EN);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem(KEY_LOCAL_STORAGE.THEME) as Theme | null;
+    const savedTheme = getItem(KEY_LOCAL_STORAGE.THEME) as Theme | null;
 
     if (savedTheme) {
       setTheme(savedTheme);
@@ -35,14 +36,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const toggleTheme = () => {
     const newTheme = theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT;
     setTheme(newTheme);
-    localStorage.setItem(KEY_LOCAL_STORAGE.THEME, newTheme);
+    setItem(KEY_LOCAL_STORAGE.THEME, newTheme);
     document.documentElement.classList.toggle(Theme.DARK, newTheme === Theme.DARK);
   };
 
   const toggleLanguage = (newLanguage: Language) => {
     setLanguage(newLanguage);
     void i18n.changeLanguage(newLanguage);
-    localStorage.setItem(KEY_LOCAL_STORAGE.LANGUAGE, newLanguage);
+    setItem(KEY_LOCAL_STORAGE.LANGUAGE, newLanguage);
     document.documentElement.lang = newLanguage;
   };
 

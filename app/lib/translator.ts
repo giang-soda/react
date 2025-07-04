@@ -4,10 +4,11 @@ import HttpBackend from 'i18next-http-backend';
 import { Language, KEY_LOCAL_STORAGE } from '~/constans';
 import { isEnumValue } from './utils';
 import { stripBasename } from '~/lib/url';
+import { getItem } from './local-storage';
 
 const getDefaultLanguage = () => {
   if (typeof window !== 'undefined') {
-    const savedLang = localStorage.getItem(KEY_LOCAL_STORAGE.LANGUAGE);
+    const savedLang = getItem(KEY_LOCAL_STORAGE.LANGUAGE);
     if (savedLang && isEnumValue(Language, savedLang)) {
       return savedLang;
     }
