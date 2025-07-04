@@ -1,14 +1,18 @@
-import { Link, Navigate, Outlet } from 'react-router';
+import { Link, Outlet, useNavigate } from 'react-router';
 import { Footer } from '../parts/Footer';
 import { URL_PATH } from '~/constans';
 import { getToken } from '~/lib/auth';
+import { useEffect } from 'react';
 
 export default function AdminAuthLayout() {
   const token = getToken(true);
+  const navigate = useNavigate();
 
-  if (token) {
-    return <Navigate to={URL_PATH.ADMIN.HOME} />;
-  }
+  useEffect(() => {
+    if (token) {
+      void navigate(URL_PATH.ADMIN.HOME);
+    }
+  }, [token]);
 
   return (
     <div className="bg-primary-foreground flex min-h-screen flex-col">
