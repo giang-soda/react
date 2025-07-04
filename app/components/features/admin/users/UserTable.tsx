@@ -96,8 +96,8 @@ export function UserTable() {
       label: t('list.search_email_name', { ns: 'users' }),
       searchFn: (item: User, value: React.ReactNode) => {
         return (
-          item.email?.toLowerCase().includes((value as string).toLowerCase()) ||
-          item.name?.toLowerCase().includes((value as string).toLowerCase())
+          item.email.toLowerCase().includes((value as string).toLowerCase()) ||
+          item.name.toLowerCase().includes((value as string).toLowerCase())
         );
       },
       type: 'input',
@@ -106,7 +106,7 @@ export function UserTable() {
       key: 'role',
       label: t('list.role', { ns: 'users' }),
       searchFn: (item: User, value: React.ReactNode) => {
-        return item.role?.includes(value as string);
+        return item.role.includes(value as string);
       },
       type: 'select',
       options: [

@@ -1,39 +1,37 @@
-export const BASE_URL = import.meta.env.VITE_BASE_URL || '/';
-
 const PREFIX_ADMIN = 'admin/';
 const PREFIX_USER = '/';
 
 export const URL_PATH = {
-  HOME: `${BASE_URL}`,
+  HOME: `/`,
   ERROR: {
-    PAGE_403: `${BASE_URL}403`,
-    PAGE_404: `${BASE_URL}404`,
-    PAGE_500: `${BASE_URL}500`,
-    PAGE_503: `${BASE_URL}503`,
+    PAGE_403: `/403`,
+    PAGE_404: `/404`,
+    PAGE_500: `/500`,
+    PAGE_503: `/503`,
   },
   USER: {
     AUTH: {
-      LOGIN: `${BASE_URL}${PREFIX_USER}auth/login`,
+      LOGIN: `${PREFIX_USER}auth/login`,
     },
   },
   ADMIN: {
-    HOME: `${BASE_URL}${PREFIX_ADMIN}`,
-    DASHBOARD: `${BASE_URL}${PREFIX_ADMIN}dashboard`,
+    HOME: PREFIX_ADMIN,
+    DASHBOARD: `${PREFIX_ADMIN}dashboard`,
     AUTH: {
-      LOGIN: `${BASE_URL}${PREFIX_ADMIN}auth/login`,
-      LOGOUT: `${BASE_URL}${PREFIX_ADMIN}auth/logout`,
+      LOGIN: `${PREFIX_ADMIN}auth/login`,
+      LOGOUT: `${PREFIX_ADMIN}auth/logout`,
     },
     USERS: {
-      LIST: `${BASE_URL}${PREFIX_ADMIN}users`,
-      CREATE: `${BASE_URL}${PREFIX_ADMIN}users/create`,
-      EDIT: (id: string) => `${BASE_URL}${PREFIX_ADMIN}users/${id}`,
+      LIST: `${PREFIX_ADMIN}users`,
+      CREATE: `${PREFIX_ADMIN}users/create`,
+      EDIT: (id: string) => `${PREFIX_ADMIN}users/${id}`,
     },
     EDITOR: {
-      CKEDITOR: `${BASE_URL}${PREFIX_ADMIN}editor/ckeditor`,
+      CKEDITOR: `${PREFIX_ADMIN}editor/ckeditor`,
     },
     TODO_REMOVE: {
-      THROW_ERROR: `${BASE_URL}${PREFIX_ADMIN}throw-error`,
+      THROW_ERROR: `${PREFIX_ADMIN}throw-error`,
     },
   },
-  REDIRECT: `${BASE_URL}redirect`,
+  REDIRECT: `/redirect`,
 };

@@ -71,10 +71,8 @@ export function DataTable<T extends object & { id: string | number }>({
   const { t } = useTranslation(['common']);
   const [resetKey, setResetKey] = useState(0);
 
-  const [searchTermRealtime, setSearchTermRealtime] = useState<Record<string, React.ReactNode>>({} as Record<string, React.ReactNode>);
   // Create debounced search function using lodash
   const changeParamSearch = (key: string, value: React.ReactNode) => {
-    console.log('store', key, value);
     store.setSearchTerm(key, value);
   };
 
@@ -82,9 +80,7 @@ export function DataTable<T extends object & { id: string | number }>({
 
   // Handle search input change
   const handleSearchChange = (key: string, value: React.ReactNode) => {
-    console.log('key', key, value);
-    // setSearchTermRealtime(prev => ({ ...prev, [key]: value }));
-    debouncedSearch(key, value); 
+    debouncedSearch(key, value);
   };
 
   const handleResetSearch = () => {
@@ -133,8 +129,10 @@ export function DataTable<T extends object & { id: string | number }>({
         const aValue = a[store.sortConfig.key];
         const bValue = b[store.sortConfig.key];
 
-        if (aValue === null || aValue === undefined) return store.sortConfig.direction === 'asc' ? -1 : 1;
-        if (bValue === null || bValue === undefined) return store.sortConfig.direction === 'asc' ? 1 : -1;
+        if (aValue === null || aValue === undefined)
+          return store.sortConfig.direction === 'asc' ? -1 : 1;
+        if (bValue === null || bValue === undefined)
+          return store.sortConfig.direction === 'asc' ? 1 : -1;
 
         if (store.sortConfig.type === 'number') {
           return store.sortConfig.direction === 'asc'
@@ -319,9 +317,7 @@ export function DataTable<T extends object & { id: string | number }>({
                     )}
 
                     {search.type === 'checkbox' && (
-                      <div
-                        className="flex h-9 items-center space-x-2 rounded-md border px-3 py-2"
-                      >
+                      <div className="flex h-9 items-center space-x-2 rounded-md border px-3 py-2">
                         <Checkbox
                           id={search.key}
                           checked={store.searchTerm[search.key] as boolean}
@@ -353,7 +349,11 @@ export function DataTable<T extends object & { id: string | number }>({
         </div>
 
         <div className="flex items-center gap-2">
-          <ButtonReload queryResponse={queryResponse} refreshQuerykey={refreshQuerykey} actionBeforeReload={handleResetSearch} />
+          <ButtonReload
+            queryResponse={queryResponse}
+            refreshQuerykey={refreshQuerykey}
+            actionBeforeReload={handleResetSearch}
+          />
           {urlCreate && (
             <Link to={urlCreate}>
               <Button icon={ACTION.CREATE}>{t('actions.create', { ns: 'common' })}</Button>
@@ -370,7 +370,9 @@ export function DataTable<T extends object & { id: string | number }>({
                 <TableHead
                   key={String(column.key)}
                   className={column.sortable ? 'group cursor-pointer select-none' : ''}
-                  onClick={() => column.sortable && store.setSortConfig(column.key, column.sortable)}
+                  onClick={() =>
+                    column.sortable && store.setSortConfig(column.key, column.sortable)
+                  }
                 >
                   <div className="flex items-center">
                     {column.header}
@@ -481,7 +483,9 @@ export function DataTable<T extends object & { id: string | number }>({
                       e.preventDefault();
                       store.setPageIndex(Math.max(0, store.pagination.pageIndex - 1));
                     }}
-                    className={store.pagination.pageIndex === 0 ? 'pointer-events-none opacity-50' : ''}
+                    className={
+                      store.pagination.pageIndex === 0 ? 'pointer-events-none opacity-50' : ''
+                    }
                   />
                 </PaginationItem>
 
@@ -495,7 +499,9 @@ export function DataTable<T extends object & { id: string | number }>({
                       store.setPageIndex(Math.min(pageCount - 1, store.pagination.pageIndex + 1));
                     }}
                     className={
-                      store.pagination.pageIndex >= pageCount - 1 ? 'pointer-events-none opacity-50' : ''
+                      store.pagination.pageIndex >= pageCount - 1
+                        ? 'pointer-events-none opacity-50'
+                        : ''
                     }
                   />
                 </PaginationItem>

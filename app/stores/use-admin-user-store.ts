@@ -1,4 +1,4 @@
 import type { User } from '~/models';
-import { useBaseListStore } from './base-store';
+import { initBaseListStore } from './base-store';
 
-export const useAdminUserListStore = useBaseListStore<User>();
+export const useAdminUserListStore = initBaseListStore<User>();

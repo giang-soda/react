@@ -12,7 +12,11 @@ interface ButtonReloadProps<T> {
   actionBeforeReload?: () => void;
 }
 
-export function ButtonReload<T>({ queryResponse, refreshQuerykey, actionBeforeReload }: ButtonReloadProps<T>) {
+export function ButtonReload<T>({
+  queryResponse,
+  refreshQuerykey,
+  actionBeforeReload,
+}: ButtonReloadProps<T>) {
   const { t } = useTranslation(['common']);
   const queryRefreshKey = useQueryRefreshKey();
 
