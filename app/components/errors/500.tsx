@@ -9,6 +9,12 @@ export function Error500() {
   useTitle('500 | Soda');
   const { t } = useTranslation('common');
 
+  const handleRefresh = () => {
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
+  };
+
   return (
     <ErrorLayout>
       <div className="flex flex-col items-center justify-center gap-6 p-4 text-center">
@@ -19,7 +25,7 @@ export function Error500() {
         </div>
 
         <div className="flex gap-4">
-          <Button variant="outline" onClick={() => window.location.reload()}>
+          <Button variant="outline" onClick={handleRefresh}>
             {t('actions.refreshPage')}
           </Button>
           <Button>

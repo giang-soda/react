@@ -7,12 +7,15 @@ import { stripBasename } from '~/lib/url';
 import { getItem } from './local-storage';
 
 const getDefaultLanguage = () => {
-  if (typeof window !== 'undefined') {
-    const savedLang = getItem(KEY_LOCAL_STORAGE.LANGUAGE);
-    if (savedLang && isEnumValue(Language, savedLang)) {
-      return savedLang;
-    }
+  if (typeof window === 'undefined') {
+    return Language.EN;
   }
+
+  const savedLang = getItem(KEY_LOCAL_STORAGE.LANGUAGE);
+  if (savedLang && isEnumValue(Language, savedLang)) {
+    return savedLang;
+  }
+
   return Language.EN;
 };
 

@@ -25,5 +25,8 @@ export function metaAdmin(title: string, options: Record<string, string>[] = [])
 }
 
 export const isSiteAdmin = () => {
+  if (typeof window === 'undefined') {
+    return false;
+  }
   return window.location.pathname.split('/').includes('admin');
 };

@@ -12,6 +12,10 @@ export const Header = ({ className, fixed, children, ...props }: HeaderProps) =>
   const [offset, setOffset] = React.useState(0);
 
   React.useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
     const onScroll = () => {
       setOffset(document.body.scrollTop || document.documentElement.scrollTop);
     };
