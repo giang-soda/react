@@ -18,6 +18,11 @@ export const sidebarData: SidebarData = {
           icon: User2,
         },
         {
+          title: 'Posts List',
+          url: URL_PATH.ADMIN.POSTS.LIST,
+          icon: FilePenLine,
+        },
+        {
           title: 'Editor',
           url: URL_PATH.ADMIN.EDITOR.CKEDITOR,
           icon: FilePenLine,

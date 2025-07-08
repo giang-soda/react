@@ -8,9 +8,15 @@ export default [
       route(URL_PATH.ADMIN.DASHBOARD, 'routes/admin/dashboard/Dashboard.tsx'),
 
       // TODO: demo router
+      // users: fetch data from api
       route(URL_PATH.ADMIN.USERS.LIST, 'routes/admin/users/ListPage.tsx'),
       route(URL_PATH.ADMIN.USERS.CREATE, 'routes/admin/users/CreatePage.tsx'),
       route(URL_PATH.ADMIN.USERS.EDIT(':id'), 'routes/admin/users/EditPage.tsx'),
+
+      // posts: loader
+      route(URL_PATH.ADMIN.POSTS.LIST, 'routes/admin/posts/ListPage.tsx'),
+      // route(URL_PATH.ADMIN.POSTS.CREATE, 'routes/admin/posts/CreatePage.tsx'),
+      // route(URL_PATH.ADMIN.POSTS.EDIT(':id'), 'routes/admin/posts/EditPage.tsx'),
 
       route(URL_PATH.ADMIN.EDITOR.CKEDITOR, 'routes/admin/editor/CKeditorPage.tsx'),
 

@@ -1,8 +1,4 @@
-export const basename = import.meta.env.VITE_BASE_URL
-  ? import.meta.env.VITE_BASE_URL.endsWith('/')
-    ? import.meta.env.VITE_BASE_URL.slice(0, -1)
-    : import.meta.env.VITE_BASE_URL
-  : '/';
+export const basename = import.meta.env.VITE_BASE_URL || '/';
 
 export const joinPaths = (paths: string[]): string => paths.join('/').replace(/\/\/+/g, '/');
 

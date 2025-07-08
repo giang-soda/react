@@ -1,13 +1,15 @@
-const PREFIX_ADMIN = '/admin/';
-const PREFIX_USER = '/';
+import { basename } from '../lib/url';
+
+const PREFIX_ADMIN = `${basename}admin/`;
+const PREFIX_USER = `${basename}`;
 
 export const URL_PATH = {
-  HOME: `/`,
+  HOME: `${PREFIX_USER}`,
   ERROR: {
-    PAGE_403: `/403`,
-    PAGE_404: `/404`,
-    PAGE_500: `/500`,
-    PAGE_503: `/503`,
+    PAGE_403: `${PREFIX_USER}403`,
+    PAGE_404: `${PREFIX_USER}404`,
+    PAGE_500: `${PREFIX_USER}500`,
+    PAGE_503: `${PREFIX_USER}503`,
   },
   USER: {
     AUTH: {
@@ -26,6 +28,10 @@ export const URL_PATH = {
       CREATE: `${PREFIX_ADMIN}users/create`,
       EDIT: (id: string) => `${PREFIX_ADMIN}users/${id}`,
     },
+    POSTS: {
+      LIST: `${PREFIX_ADMIN}posts`,
+      DETAIL: (id: string) => `${PREFIX_ADMIN}posts/${id}`,
+    },
     EDITOR: {
       CKEDITOR: `${PREFIX_ADMIN}editor/ckeditor`,
     },
@@ -33,5 +39,5 @@ export const URL_PATH = {
       THROW_ERROR: (err: string) => `${PREFIX_ADMIN}throw-error/${err}`,
     },
   },
-  REDIRECT: `/redirect`,
+  REDIRECT: `${PREFIX_USER}redirect`,
 };

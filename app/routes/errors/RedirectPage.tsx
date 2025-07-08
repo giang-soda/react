@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
+import { URL_PATH } from '~/constans/url-path';
 import { metaCommon } from '~/lib/utils';
 
 export const meta = () => metaCommon('Redirect');
@@ -13,7 +14,7 @@ export default function RedirectPage() {
 
   useEffect(() => {
     if (redirectUrl) {
-      void navigate('/' + redirectUrl.replace(/^[/]*/g, ''));
+      void navigate(URL_PATH.HOME + redirectUrl.replace(/^[/]*/g, ''));
     }
   }, [navigate, redirectUrl]);
 

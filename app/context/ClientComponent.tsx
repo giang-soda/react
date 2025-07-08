@@ -21,6 +21,8 @@ const loadModule = async (componentPath: string) => {
       return (await import('~/routes/errors/503Client')).default;
     case 'admin/auth/LoginClient':
       return (await import('~/routes/admin/auth/LoginClient')).default;
+    case 'admin/posts/ListClient':
+      return (await import('~/routes/admin/posts/ListClient')).default;
     default:
       throw new Error(`Component not found: ${componentPath}`);
   }
