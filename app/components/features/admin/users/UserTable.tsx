@@ -8,7 +8,7 @@ import { DataTable, DeleteModal } from '~/components/common';
 import { useState } from 'react';
 import { useAdminUserListStore } from '~/stores/use-admin-user-store';
 
-export function UserTable() {
+export default function UserTable() {
   const { t } = useTranslation(['common', 'users']);
   const [open, setOpen] = useState(false);
   const [itemSelected, setItemSelected] = useState<User>();

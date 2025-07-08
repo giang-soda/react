@@ -21,7 +21,7 @@ export function SwitchTheme() {
         </Button>
         <Select onValueChange={lang => toggleLanguage(lang as Language)} value={language}>
           <SelectTrigger className="mb-2 ml-auto w-[120px]">
-            <SelectValue placeholder={language?.toUpperCase()} />
+            <SelectValue placeholder={language.toUpperCase()} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={Language.EN}>{Language.EN.toUpperCase()}</SelectItem>

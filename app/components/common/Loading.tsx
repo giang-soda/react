@@ -14,9 +14,5 @@ export function Loading({ message }: { message?: string }) {
 }
 
 export function LoadingSuspense({ children }: { children: React.ReactNode }) {
-  return (
-    <Suspense fallback={<Loading />}>
-      {children}
-    </Suspense>
-  );
+  return <Suspense fallback={<Loading />}>{children}</Suspense>;
 }

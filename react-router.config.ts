@@ -6,22 +6,15 @@ export default {
   // Server-side render by default, to enable SPA mode set this to `false`
   ssr: false,
   basename,
-  prerender: async () => {
-    // const paths = await getStaticPaths();
+  prerender: async ({getStaticPaths}) => {
+    const paths = await getStaticPaths();
+    const userIds = [1,2];
+    const userPaths = userIds.map(id => `/admin/users/${id}`);
+
     return [
       "/",
-      // ...paths,
-      "/admin/dashboard",
-      "/admin/users",
-      // "/admin/users/create",
-      // "/admin/users/1",
-      // "/admin/editor/ckeditor",
-      // "/admin/throw-error",
-      // "/redirect",
+      ...paths,
+      ...userPaths,
     ];
   },
-  // prerender: [
-  //   '/',
-  //   '/admin/dashboard',
-  // ],
 } satisfies Config;

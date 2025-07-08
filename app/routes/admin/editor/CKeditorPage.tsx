@@ -1,8 +1,8 @@
 import { metaAdmin } from '~/lib/utils';
-import { CKeditor } from '~/components/features/admin/editor/CKeditor';
+import ClientComponent from '~/context/ClientComponent';
 
 export const meta = () => metaAdmin('Editor');
 
 export default function CKeditorPage() {
-  return <CKeditor />;
+  return <ClientComponent componentPath="admin/editor/CKeditorClient" />;
 }

@@ -5,14 +5,11 @@ import { API_ENDPOINT } from '~/api';
 import { useApiQuery } from '~/hooks/use-api';
 import type { User } from '~/models';
 import { Button } from '~/components/ui/button';
-import { metaAdmin } from '~/lib/utils';
 import { ACTION, KEY_QUERY } from '~/constans';
 import { EditData } from '~/components/common/table-data';
 import { URL_PATH } from '~/constans';
 
-export const meta = () => metaAdmin('User Edit');
-
-export default function UserEdit() {
+export default function UserEditClient() {
   const { t } = useTranslation('users');
   const { id } = useParams();
 

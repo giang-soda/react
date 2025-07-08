@@ -16,7 +16,7 @@ export default function AdminAppLayout() {
     if (!token) {
       void navigate(URL_PATH.ADMIN.AUTH.LOGIN);
     }
-  }, [token]);
+  }, [token, navigate]);
 
   return (
     <>

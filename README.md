@@ -48,6 +48,13 @@ npm run build
 7. Component nên tách ra để khi render chỉ render những thành phần cần thiết. Page ở trong folder app/routes, chứa cơ bản như header page, gọi component thành phần như form, table (ở trong folder app/components/features)
 8. Component dùng chung: app/components/common
 
+##### SSR - prerender
+
+- Code đang phù hợp với static page, render ra nhiều file .html, tốt cho SEO
+- Trong folder routes, compoent page chính chỉ khai báo meta, xong gọi component client
+- file xử lý import client: `app/context/ClientComponent.tsx`
+- Trong ứng dụng không cần static page, không cần cặp page-client nữa, chỉ chỉ cần route trỏ trực tiếp đến component client
+
 ### 2. Multi language
 
 1. Sử dụng lib i18next, i18next-http-backend, react-i18next

@@ -12,7 +12,7 @@ export default function AdminAuthLayout() {
     if (token) {
       void navigate(URL_PATH.ADMIN.HOME);
     }
-  }, [token]);
+  }, [token, navigate]);
 
   return (
     <div className="bg-primary-foreground flex min-h-screen flex-col">

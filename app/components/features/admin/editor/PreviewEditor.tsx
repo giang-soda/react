@@ -19,10 +19,13 @@ interface PreviewEditorProps {
 
 export function PreviewEditor({ open, dataHmlt, setOpen }: PreviewEditorProps) {
   const { t } = useTranslation(['common']);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={handleClose}>
         <DialogContent className="m-0 w-[90%] p-6 sm:max-w-none lg:w-[60%]">
           <DialogHeader>
             <DialogTitle></DialogTitle>
@@ -51,7 +54,7 @@ export function PreviewEditor({ open, dataHmlt, setOpen }: PreviewEditorProps) {
           ></iframe>
 
           <DialogFooter>
-            <DialogClose asChild className="mt-6">
+            <DialogClose asChild>
               <Button>{t('actions.cancel', { ns: 'common' })}</Button>
             </DialogClose>
           </DialogFooter>

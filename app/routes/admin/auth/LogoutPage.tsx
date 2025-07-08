@@ -12,7 +12,7 @@ export default function LogoutPage() {
 
   useEffect(() => {
     void navigate(URL_PATH.ADMIN.AUTH.LOGIN);
-  }, []);
+  }, [navigate]);
 
   return null;
 }

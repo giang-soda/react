@@ -1,4 +1,4 @@
-const PREFIX_ADMIN = 'admin/';
+const PREFIX_ADMIN = '/admin/';
 const PREFIX_USER = '/';
 
 export const URL_PATH = {
@@ -30,7 +30,7 @@ export const URL_PATH = {
       CKEDITOR: `${PREFIX_ADMIN}editor/ckeditor`,
     },
     TODO_REMOVE: {
-      THROW_ERROR: `${PREFIX_ADMIN}throw-error`,
+      THROW_ERROR: (err: string) => `${PREFIX_ADMIN}throw-error/${err}`,
     },
   },
   REDIRECT: `/redirect`,

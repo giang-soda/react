@@ -1,5 +1,5 @@
 import { ErrorResponseHandler } from '~/lib/errors';
 
-export default function ThrowError() {
+export default function ThrowErrorPage() {
   throw new ErrorResponseHandler(500);
 }

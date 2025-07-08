@@ -77,7 +77,7 @@ export const sidebarData: SidebarData = {
           items: [
             {
               title: 'Throw Error',
-              url: URL_PATH.ADMIN.TODO_REMOVE.THROW_ERROR,
+              url: URL_PATH.ADMIN.TODO_REMOVE.THROW_ERROR('500'),
               icon: Command,
             },
             {

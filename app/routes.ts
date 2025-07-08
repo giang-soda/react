@@ -8,17 +8,20 @@ export default [
       route(URL_PATH.ADMIN.DASHBOARD, 'routes/admin/dashboard/Dashboard.tsx'),
 
       // TODO: demo router
-      route(URL_PATH.ADMIN.USERS.LIST, 'routes/admin/users/List.tsx'),
-      route(URL_PATH.ADMIN.USERS.CREATE, 'routes/admin/users/Create.tsx'),
-      route(URL_PATH.ADMIN.USERS.EDIT(':id'), 'routes/admin/users/Edit.tsx'),
+      route(URL_PATH.ADMIN.USERS.LIST, 'routes/admin/users/ListPage.tsx'),
+      route(URL_PATH.ADMIN.USERS.CREATE, 'routes/admin/users/CreatePage.tsx'),
+      route(URL_PATH.ADMIN.USERS.EDIT(':id'), 'routes/admin/users/EditPage.tsx'),
 
       route(URL_PATH.ADMIN.EDITOR.CKEDITOR, 'routes/admin/editor/CKeditorPage.tsx'),
 
-      route(URL_PATH.ADMIN.TODO_REMOVE.THROW_ERROR, 'routes/admin/dashboard/ThrowError.tsx'),
+      route(
+        URL_PATH.ADMIN.TODO_REMOVE.THROW_ERROR(':err'),
+        'routes/admin/dashboard/ThrowErrorPage.tsx'
+      ),
     ]),
 
     layout('layouts/admin/AdminAuthLayout.tsx', [
-      route(URL_PATH.ADMIN.AUTH.LOGIN, 'routes/admin/auth/Login.tsx'),
+      route(URL_PATH.ADMIN.AUTH.LOGIN, 'routes/admin/auth/LoginPage.tsx'),
     ]),
 
     route(URL_PATH.ADMIN.AUTH.LOGOUT, 'routes/admin/auth/LogoutPage.tsx'),
@@ -32,8 +35,9 @@ export default [
   route(URL_PATH.REDIRECT, 'routes/errors/RedirectPage.tsx'),
 
   // error page
-  route(URL_PATH.ERROR.PAGE_403, 'routes/errors/403.tsx'),
-  route(URL_PATH.ERROR.PAGE_500, 'routes/errors/500.tsx'),
-  route(URL_PATH.ERROR.PAGE_503, 'routes/errors/503.tsx'),
-  route('*', 'routes/errors/404.tsx'),
+  route(URL_PATH.ERROR.PAGE_403, 'routes/errors/403Page.tsx'),
+  route(URL_PATH.ERROR.PAGE_500, 'routes/errors/500Page.tsx'),
+  route(URL_PATH.ERROR.PAGE_503, 'routes/errors/503Page.tsx'),
+  route(URL_PATH.ERROR.PAGE_404, 'routes/errors/404PageClone.tsx'),
+  route('*', 'routes/errors/404Page.tsx'),
 ] satisfies RouteConfig;
