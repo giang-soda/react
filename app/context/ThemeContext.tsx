@@ -41,10 +41,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const toggleLanguage = (newLanguage: Language) => {
-    setLanguage(newLanguage);
-    void i18n.changeLanguage(newLanguage);
     setItem(KEY_LOCAL_STORAGE.LANGUAGE, newLanguage);
-    document.documentElement.lang = newLanguage;
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
+
+    // Update language with state not reload -- TODO: THINK
+    // setLanguage(newLanguage);
+    // void i18n.changeLanguage(newLanguage);
+    // document.documentElement.lang = newLanguage;
   };
 
   return (

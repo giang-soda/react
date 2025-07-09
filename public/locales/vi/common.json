@@ -10,7 +10,8 @@
     "actions": "Thao tác",
     "create": "Tạo mới",
     "cancel": "Hủy",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "close": "Đóng"
   },
   "pagination": {
     "nodata": "Không có dữ liệu",
@@ -44,5 +45,9 @@
     "title": "Xóa dữ liệu",
     "error": "Lỗi xóa dữ liệu",
     "success": "Xóa dữ liệu thành công"
+  },
+  "copy": {
+    "success": "Sao chép thành công",
+    "error": "Sao chép thất bại"
   }
 }

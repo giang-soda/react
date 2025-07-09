@@ -10,7 +10,8 @@
     "refreshPage": "Refresh Page",
     "create": "Create",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "close": "Close"
   },
   "pagination": {
     "nodata": "No data",
@@ -44,5 +45,9 @@
     "title": "Delete item",
     "error": "Error delete item",
     "success": "Delete item success"
+  },
+  "copy": {
+    "success": "Copy success",
+    "error": "Copy error"
   }
 }

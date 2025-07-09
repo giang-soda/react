@@ -11,5 +11,6 @@
     "format": "This field must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     "symbol": "This field contains invalid characters (a-z, A-Z, 0-9, !\"#$%&'()*+,-./:<;=?>@[\\]^_`{|}~)",
     "space": "This field cannot contain whitespace characters"
-  }
+  },
+  "url": "The value must be a valid URL."
 }

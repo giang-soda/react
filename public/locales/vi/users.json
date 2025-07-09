@@ -36,5 +36,12 @@
   "role": {
     "admin": "Quản trị viên",
     "user": "Người dùng"
+  },
+  "editor": {
+    "title": "Tiêu đề",
+    "thumbnail": "URL ảnh",
+    "preview": "Xem nội dung",
+    "download": "Tải nội dung",
+    "view_source_json": "Xem nguồn JSON"
   }
 }

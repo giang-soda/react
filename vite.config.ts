@@ -1,5 +1,6 @@
 import { reactRouter } from '@react-router/dev/vite';
 import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -18,19 +19,12 @@ export default defineConfig(({ mode }) => {
           rewrite: path => path.replace(/^\/api/, ''),
         },
       },
+      watch: {
+        ignored: [
+          path.resolve(__dirname, 'data/**/*'),
+          path.resolve(__dirname, 'pages-github/**/*'),
+        ],
+      },
     },
-
-  // option more ckeditor
-  // optimizeDeps: {
-  //   include: [
-  //     '@ckeditor/ckeditor5-react'
-  //   ]
-  // },
-  // build: {
-  //   commonjsOptions: {
-  //     transformMixedEsModules: true
-  //   }
-  // }
-    // end option more ckeditor
   };
 });

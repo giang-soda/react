@@ -36,5 +36,12 @@
   "role": {
     "admin": "Admin",
     "user": "User"
+  },
+  "editor": {
+    "title": "Title",
+    "thumbnail": "Thumbnail URL",
+    "preview": "Preview content",
+    "download": "Download content",
+    "view_source_json": "View source JSON"
   }
 }

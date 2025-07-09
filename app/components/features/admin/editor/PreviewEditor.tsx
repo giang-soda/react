@@ -9,18 +9,31 @@ import {
   DialogTitle,
 } from '~/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
-import ckeditorCss from 'ckeditor5/ckeditor5.css?url';
+import { EditorContent } from '~/components/common/ckeditor/EditorContent';
+import { Copy } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface PreviewEditorProps {
   open: boolean;
-  dataHmlt: string;
+  content: string;
+  isHtml: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export function PreviewEditor({ open, dataHmlt, setOpen }: PreviewEditorProps) {
+export function PreviewEditor({ open, content, isHtml, setOpen }: PreviewEditorProps) {
   const { t } = useTranslation(['common']);
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCopy = (content: string) => {
+    if (typeof navigator !== 'undefined') {
+      navigator.clipboard.writeText(content);
+      toast.success(t('copy.success', { ns: 'common' }));
+    } else {
+      toast.error(t('copy.error', { ns: 'common' }));
+    }
   };
 
   return (
@@ -32,30 +45,25 @@ export function PreviewEditor({ open, dataHmlt, setOpen }: PreviewEditorProps) {
             <DialogDescription></DialogDescription>
           </DialogHeader>
 
-          <iframe
-            srcDoc={`
-            <!DOCTYPE html>
-            <html>
-              <head>
-                <meta charset="UTF-8">
-                <title>Preview</title>
-                <link rel="stylesheet" href="${ckeditorCss}">
-              </head>
-              <body style="margin: 0; padding: 1rem;">
-                <div class="ck ck-content">
-                  ${dataHmlt}
+          <div className="h-[calc(100vh-200px)] w-full overflow-y-auto rounded border p-4">
+            {isHtml ? (
+              <EditorContent content={content} />
+            ) : (
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-end">
+                  <Button variant="action" onClick={() => handleCopy(content)}>
+                    <Copy className="mr-2 h-4 w-4" />
+                    Copy
+                  </Button>
                 </div>
-              </body>
-            </html>
-          `}
-            className="h-[calc(100vh-200px)] w-full rounded border"
-            title="Preview"
-            sandbox="allow-same-origin"
-          ></iframe>
+                <pre className="whitespace-pre-wrap">{content}</pre>
+              </div>
+            )}
+          </div>
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button>{t('actions.cancel', { ns: 'common' })}</Button>
+              <Button>{t('actions.close', { ns: 'common' })}</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
