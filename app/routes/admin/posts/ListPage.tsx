@@ -1,32 +1,17 @@
 import { metaAdmin } from '~/lib/utils';
 import ClientComponent from '~/context/ClientComponent';
+import { loadDataInfo, loadDataList } from '~/lib/server/loader';
+import type { PostData } from '~/models';
 
 export async function loader() {
-  return [
-    {
-      id: 1,
-      title: 'Post 1',
-      content: 'Content 1',
-    },
-    {
-      id: 2,
-      title: 'Post 2',
-      content: 'Content 2',
-    },
-  ];
+  return {
+    list: loadDataList<PostData>('posts'),
+    info: loadDataInfo('posts'),
+  };
 }
 
 export const meta = ({ data }: { data: Awaited<ReturnType<typeof loader>> }) => {
-  return metaAdmin('Posts List - ' + data[0].title, [
-    {
-      property: 'og:title',
-      content: data[0].title,
-    },
-    {
-      name: 'description',
-      content: data[0].content,
-    },
-  ]);
+  return metaAdmin('Posts List', data.info);
 };
 
 export default function PostsListPage() {

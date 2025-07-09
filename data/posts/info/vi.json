@@ -1,0 +1,66 @@
+{
+  "description": {
+    "name": "description",
+    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí,..."
+  },
+  "keywords": {
+    "name": "keywords",
+    "content": "thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí,..."
+  },
+  "author": {
+    "name": "author",
+    "content": "Soda"
+  },
+  "canonical": {
+    "rel": "canonical",
+    "href": "https://www.24h.com.vn/"
+  },
+  "robots": {
+    "name": "robots",
+    "content": "index, follow"
+  },
+  "og:title": {
+    "property": "og:title",
+    "content": "Danh sách bài viết"
+  },
+  "og:description": {
+    "property": "og:description",
+    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí,..."
+  },
+  "og:image": {
+    "property": "og:image",
+    "content": "https://contenthub-static.grammarly.com/blog/wp-content/uploads/2017/11/how-to-write-a-blog-post.jpeg"
+  },
+  "og:url": {
+    "property": "og:url",
+    "content": "https://www.24h.com.vn/posts"
+  },
+  "og:type": {
+    "property": "og:type",
+    "content": "website"
+  },
+  "og:site_name": {
+    "property": "og:site_name",
+    "content": "24h"
+  },
+  "og:locale": {
+    "property": "og:locale",
+    "content": "vi_VN"
+  },
+  "twitter:card": {
+    "name": "twitter:card",
+    "content": "summary_large_image"
+  },
+  "twitter:title": {
+    "name": "twitter:title",
+    "content": "Danh sách bài viết"
+  },
+  "twitter:description": {
+    "name": "twitter:description",
+    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí,..."
+  },
+  "twitter:image": {
+    "name": "twitter:image",
+    "content": "https://contenthub-static.grammarly.com/blog/wp-content/uploads/2017/11/how-to-write-a-blog-post.jpeg"
+  }
+}
