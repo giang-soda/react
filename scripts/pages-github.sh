@@ -40,14 +40,21 @@ fi
 
 # Copy all files from build to pages-github
 echo "Copying files from build to pages-github..."
-rsync -av "$BUILD_DIR/" "$TARGET_DIR$SUB_PATH"
+
+# Check if SUB_PATH exists and is not root, then move files to SUB_PATH
+if [ -n "$SUB_PATH" ] && [ "$SUB_PATH" != "/" ]; then
+  echo "Moving all files from build to $SUB_PATH subdirectory..."
+  # Move all files and folders from BUILD_DIR to SUB_PATH, excluding SUB_PATH itself
+  find "$BUILD_DIR" -mindepth 1 -maxdepth 1 -not -name "$(basename "$SUB_PATH")" -exec mv {} "$BUILD_DIR$SUB_PATH" \;
+fi
+
+echo "No subpath, copying files directly..."
+rsync -av "$BUILD_DIR$SUB_PATH" "$TARGET_DIR$SUB_PATH"
 
 # Copy index.html to 404.html for GitHub Pages SPA support
-if [ -f "$TARGET_DIR${SUB_PATH}index.html" ]; then
-  cp "$TARGET_DIR${SUB_PATH}index.html" "$TARGET_DIR${SUB_PATH}404.html"
-  mkdir -p "$TARGET_DIR${SUB_PATH}redirect"
-  cp "$TARGET_DIR${SUB_PATH}index.html" "$TARGET_DIR${SUB_PATH}redirect/index.html"
-
+if [ -f "$TARGET_DIR${SUB_PATH}__spa-fallback.html" ]; then
+  cp "$TARGET_DIR${SUB_PATH}__spa-fallback.html" "$TARGET_DIR${SUB_PATH}404.html"
+  
   ### TODO for subpath same main
   # no subpath
   if [ -z "$SUB_PATH" ] || [ "$SUB_PATH" = "/" ]; then

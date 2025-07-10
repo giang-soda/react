@@ -1,11 +1,12 @@
 {
+  "canonical": {
+    "tagName": "link",
+    "rel": "canonical",
+    "href": "https://soda.net/posts"
+  },
   "description": {
     "name": "description",
     "content": "Các bài viết giải trí, thể thao"
-  },
-  "canonical": {
-    "rel": "canonical",
-    "href": "http://soda.net"
   },
   "og:title": {
     "property": "og:title",

@@ -16,8 +16,9 @@
     "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí"
   },
   "canonical": {
+    "tagName": "link",
     "rel": "canonical",
-    "href": "http://soda.net"
+    "href": "https://soda.net"
   },
   "og:title": {
     "property": "og:title",
