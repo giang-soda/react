@@ -15,8 +15,7 @@ export default [
 
       // posts: loader
       route(URL_PATH.ADMIN.POSTS.LIST, 'routes/admin/posts/ListPage.tsx'),
-      // route(URL_PATH.ADMIN.POSTS.CREATE, 'routes/admin/posts/CreatePage.tsx'),
-      // route(URL_PATH.ADMIN.POSTS.EDIT(':id'), 'routes/admin/posts/EditPage.tsx'),
+      route(URL_PATH.ADMIN.POSTS.DETAIL(':slug'), 'routes/admin/posts/DetailPage.tsx'),
 
       route(URL_PATH.ADMIN.EDITOR.CKEDITOR, 'routes/admin/editor/CKeditorPage.tsx'),
 

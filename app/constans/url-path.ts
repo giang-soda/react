@@ -30,7 +30,7 @@ export const URL_PATH = {
     },
     POSTS: {
       LIST: `${PREFIX_ADMIN}posts`,
-      DETAIL: (id: string) => `${PREFIX_ADMIN}posts/${id}`,
+      DETAIL: (slug: string) => `${PREFIX_ADMIN}posts/${slug}`,
     },
     EDITOR: {
       CKEDITOR: `${PREFIX_ADMIN}editor/ckeditor`,

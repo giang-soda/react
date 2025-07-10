@@ -54,7 +54,7 @@ export function PostList({ data }: { data: PostData[] }) {
           <Link to={`/admin/posts/${item.slug}`}>{item.title}</Link>
         </h1>
         <div className="space-y-2">
-          <img src={item.thumbnail} alt={item.title} className="w-full h-40 object-cover" />
+          {item.thumbnail && <img src={item.thumbnail} alt={item.title} className="w-full h-40 object-cover" />}
           <p className="text-sm text-muted-foreground">
             {item.content}
           </p>
