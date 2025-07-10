@@ -2,6 +2,7 @@ import type { DataColumn, DataSearch, PostData } from '~/models';
 import { DataGrid } from '~/components/common/grid-data';
 import { useAdminPostListStore } from '~/stores/use-admin-post-store';
 import { Link } from 'react-router';
+import { URL_PATH } from '~/constans';
 
 export function PostList({ data }: { data: PostData[] }) {
   const store = useAdminPostListStore();
@@ -51,7 +52,7 @@ export function PostList({ data }: { data: PostData[] }) {
     return (
       <div key={String(item.id)} className="h-full">
         <h1 className="text-lg font-bold">
-          <Link to={`/admin/posts/${item.slug}`}>{item.title}</Link>
+          <Link to={URL_PATH.ADMIN.POSTS.DETAIL(item.slug)}>{item.title}</Link>
         </h1>
         <div className="space-y-2">
           {item.thumbnail && <img src={item.thumbnail} alt={item.title} className="w-full h-40 object-cover" />}

@@ -1,12 +1,12 @@
 import { metaAdmin } from '~/lib/utils';
 import ClientComponent from '~/context/ClientComponent';
-import { loadDataInfo, loadDataList } from '~/lib/server/loader';
+import { loadMetaData, loadDataList } from '~/lib/server/loader';
 import type { PostData } from '~/models';
 
 export async function loader() {
   return {
     list: loadDataList<PostData>('posts'),
-    info: loadDataInfo('posts'),
+    info: loadMetaData('posts'),
   };
 }
 

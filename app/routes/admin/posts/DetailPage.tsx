@@ -1,6 +1,6 @@
 import { metaAdmin } from '~/lib/utils';
 import ClientComponent from '~/context/ClientComponent';
-import { loadDataDetail, loadDataInfo } from '~/lib/server/loader';
+import { loadDataDetail, loadMetaData } from '~/lib/server/loader';
 import type { PostData } from '~/models';
 import { ErrorResponseHandler } from '~/lib/errors';
 import config from '~/config';
@@ -9,14 +9,14 @@ import { URL_PATH } from '~/constans';
 export async function loader({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const detail = loadDataDetail<PostData>('posts', slug);
-
+  
   if (!detail || !detail.title) {
     throw new ErrorResponseHandler(404);
   }
 
   return {
     detail,
-    info: loadDataInfo('posts', {
+    info: loadMetaData('posts', {
       'canonical': {
         href: config.VITE_HOST + URL_PATH.ADMIN.POSTS.DETAIL(slug),
       },

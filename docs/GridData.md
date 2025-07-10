@@ -211,10 +211,6 @@ const itemActions = (item: User) => (
   data={data}
   columns={columns}
   store={store}
-  isLoading={isLoading}
-  isError={isError}
-  error={error}
-  onReload={handleReload}
 />
 ```
 

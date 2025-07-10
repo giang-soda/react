@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import merge from 'lodash/merge';
-import config from '~/config';
+import config from '../../config';
 
 const shortContent = (content: string, length: number = 200) => {
   // Process content: remove HTML tags and limit to 200 characters
@@ -19,6 +19,34 @@ const shortContent = (content: string, length: number = 200) => {
   }
 
   return cleanContent;
+}
+
+/**
+ * Load data from info folder and merge with additional data
+ * file: /data/{folderName}/info/vi.json
+ * @param folderName - The folder name in data directory
+ * @param mergeData - Additional data to merge with the JSON content
+ * @returns merged data objects
+ */
+function loadMetaDataFile(folderName: string, mergeData: Record<string, Record<string, string>> = {}): Record<string, Record<string, string>> {
+  const infoFile = path.join(process.cwd(), 'data', folderName, 'info', 'vi.json');
+
+  try {
+    // Check if info directory exists
+    if (!fs.existsSync(infoFile)) {
+      console.warn(`Info directory not found: ${infoFile}`);
+      return {};
+    }
+
+    const jsonContent = fs.readFileSync(infoFile, 'utf-8');
+    const fileData = JSON.parse(jsonContent);
+        
+    // Deep merge with additional data
+    return merge(fileData, mergeData);
+  } catch (error) {
+    console.error('Error loading info data:', error);
+    return {};
+  }
 }
 
 /**
@@ -71,42 +99,14 @@ export function loadDataList<T>(folderName = 'posts'): T[] {
 }
 
 /**
- * Load data from info folder and merge with additional data
- * file: /data/{folderName}/info/vi.json
- * @param folderName - The folder name in data directory
- * @param mergeData - Additional data to merge with the JSON content
- * @returns merged data objects
- */
-function loadDataInfoSingleFile(folderName: string, mergeData: Record<string, Record<string, string>> = {}): Record<string, Record<string, string>> {
-  const infoFile = path.join(process.cwd(), 'data', folderName, 'info', 'vi.json');
-
-  try {
-    // Check if info directory exists
-    if (!fs.existsSync(infoFile)) {
-      console.warn(`Info directory not found: ${infoFile}`);
-      return {};
-    }
-
-    const jsonContent = fs.readFileSync(infoFile, 'utf-8');
-    const fileData = JSON.parse(jsonContent);
-        
-    // Deep merge with additional data
-    return merge(fileData, mergeData);
-  } catch (error) {
-    console.error('Error loading info data:', error);
-    return {};
-  }
-}
-
-/**
  * Load data from info folder and merge with base data
  * file: /data/{folderName}/info/vi.json
  * @param folderName - The folder name in data directory
  * @param mergeData - Additional data to merge with the JSON content
  * @returns Array of merged data objects
  */
-export function loadDataInfo(folderName: string | null, mergeData: Record<string, Record<string, string>> = {}): Record<string, string>[] {
-  const baseData = loadDataInfoSingleFile('_base', {
+export function loadMetaData(folderName: string | null, mergeData: Record<string, Record<string, string>> = {}): Record<string, string>[] {
+  const baseData = loadMetaDataFile('_base', {
     'og:url': {
       content: config.VITE_HOST,
     },
@@ -118,7 +118,7 @@ export function loadDataInfo(folderName: string | null, mergeData: Record<string
   let itemData: Record<string, Record<string, string>> = {};
 
   if (folderName) {
-    itemData = loadDataInfoSingleFile(folderName);
+    itemData = loadMetaDataFile(folderName);
   }
 
   return Object.values(merge(baseData, itemData, mergeData));
@@ -151,5 +151,26 @@ export function loadDataDetail<T>(folderName = 'posts', slug: string): T | null 
   } catch (error) {
     console.error('Error loading folder detail:', error);
     return null;
+  }
+}
+
+/**
+ * Load all folders in the /data/{folderName}/list directory with name file
+ * @returns Array of post data sorted in descending order by folder name
+ */
+export function loadDataListLink(folderName = 'posts'): string[] {
+  const postsDir = path.join(process.cwd(), 'data', folderName, 'list');
+
+  try {
+    // Read all folders in the directory
+    return fs.readdirSync(postsDir, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name)
+      .sort((a, b) => b.localeCompare(a))
+      .map(folderName => folderName.replace(/^\d+-/, ''));
+    
+  } catch (error) {
+    console.error('Error loading folder list:', error);
+    return [];
   }
 }
