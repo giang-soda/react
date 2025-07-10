@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { ChevronDown, ChevronUp, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import debounce from 'lodash/debounce';
 import { Input } from '~/components/ui/input';
@@ -21,31 +21,23 @@ import {
   PaginationPrevious,
 } from '~/components/ui/pagination';
 import type { DataColumn, DataSearch, AdminListState } from '~/models';
-import { ButtonReload } from './ButtonReload';
-import { Link } from 'react-router';
 import { Button } from '~/components/ui/button';
-import { ACTION, DATE_FORMAT_TIME, PAGE_SIZE_OPTIONS } from '~/constans';
+import { ACTION, DATE_FORMAT_TIME, PAGE_SIZE_OPTIONS_GRID } from '~/constans';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Label } from '~/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { Loading, NoData } from '..';
+import { NoData } from '..';
+import slugify from 'slugify';
 
 interface DataGridProps<T> {
   data: T[];
   columns: DataColumn<T>[];
   searchPlaceholder?: string;
   pageSizeOptions?: number[];
-  urlCreate?: string;
-  urlEdit?: (id: string) => string;
-  onDelete?: (item: T) => void;
   dataSearch?: DataSearch<T>[];
-  itemActions?: (item: T) => React.ReactNode;
   debounceDelay?: number;
   store: AdminListState<T>;
-  isLoading?: boolean;
-  isError?: boolean;
-  error?: Error | null;
-  onReload?: () => void;
+  renderGridItem?: (item: T) => React.ReactNode;
 }
 
 const DEFAULT_SEARCH_TERM_ALL = 'all';
@@ -54,18 +46,11 @@ export function DataGrid<T extends object & { id: string | number }>({
   data,
   columns,
   searchPlaceholder,
-  pageSizeOptions = PAGE_SIZE_OPTIONS,
-  urlCreate,
-  urlEdit,
-  onDelete,
+  pageSizeOptions = PAGE_SIZE_OPTIONS_GRID,
   dataSearch,
-  itemActions,
   debounceDelay = 500,
   store,
-  isLoading = false,
-  isError = false,
-  error = null,
-  onReload,
+  renderGridItem,
 }: DataGridProps<T>) {
   const { t } = useTranslation(['common']);
   const [resetKey, setResetKey] = useState(0);
@@ -104,20 +89,15 @@ export function DataGrid<T extends object & { id: string | number }>({
           if (value === '') return true;
 
           const searchKey = dataSearch.find(f => f.key === key);
+
           if (!searchKey) return true;
-          return searchKey.searchFn(item, value);
-        });
-      });
-    } else {
-      filteredData = filteredData.filter(item => {
-        return columns.some(column => {
-          if (!column.searchable) return false;
-          const value = item[column.key];
-          if (value === null || value === undefined) return false;
-          return value
-            .toString()
-            .toLowerCase()
-            .includes(((store.searchTerm[DEFAULT_SEARCH_TERM_ALL] as string) || '').toLowerCase());
+
+          if (searchKey.searchFn) {
+            return searchKey.searchFn(item, value);
+          }
+
+          return slugify(item[key as keyof T] as string, { lower: true, strict: true, replacement: ' ' })
+            .includes(slugify(value as string, { lower: true, strict: true, replacement: ' ' }));
         });
       });
     }
@@ -159,18 +139,6 @@ export function DataGrid<T extends object & { id: string | number }>({
     const startIndex = store.pagination.pageIndex * store.pagination.pageSize;
     return filteredAndSortedData.slice(startIndex, startIndex + store.pagination.pageSize);
   }, [filteredAndSortedData, store.pagination.pageIndex, store.pagination.pageSize]);
-
-  const sortIcon = ({ column }: { column: keyof T }) => {
-    if (store.sortConfig.key !== column) {
-      return <ChevronDown className="ml-1 h-4 w-4 opacity-0 group-hover:opacity-70" />;
-    }
-
-    return store.sortConfig.direction === 'asc' ? (
-      <ChevronUp className="ml-1 h-4 w-4" />
-    ) : (
-      <ChevronDown className="ml-1 h-4 w-4" />
-    );
-  };
 
   const renderPaginationItems = () => {
     const items = [];
@@ -272,9 +240,7 @@ export function DataGrid<T extends object & { id: string | number }>({
     return items;
   };
 
-  const hasActions = itemActions || urlEdit || onDelete;
-
-  const renderGridItem = (item: T) => {
+  const renderGridItemContent = (item: T) => {
     return (
       <Card key={String(item.id)} className="h-full">
         <CardHeader className="pb-3">
@@ -310,30 +276,6 @@ export function DataGrid<T extends object & { id: string | number }>({
               </div>
             ))}
 
-          {hasActions && (
-            <div className="flex gap-2 pt-2 border-t">
-              {urlEdit && (
-                <Link to={urlEdit(String(item.id))}>
-                  <Button variant="outline" size="sm" icon={ACTION.EDIT}>
-                    {t('actions.edit', { ns: 'common' })}
-                  </Button>
-                </Link>
-              )}
-
-              {onDelete && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  icon={ACTION.DELETE}
-                  onClick={() => onDelete(item)}
-                >
-                  {t('actions.delete', { ns: 'common' })}
-                </Button>
-              )}
-
-              {itemActions?.(item)}
-            </div>
-          )}
         </CardContent>
       </Card>
     );
@@ -413,42 +355,27 @@ export function DataGrid<T extends object & { id: string | number }>({
         </div>
 
         <div className="flex items-center gap-2">
-          {onReload && (
-            <ButtonReload
-              isLoading={isLoading}
-              isError={isError}
-              error={error}
-              actionBeforeReload={handleResetSearch}
-              onReload={onReload}
+        <Button
+      variant="outline"
+      size="icon"
+      icon={ACTION.RELOAD}
+      onClick={handleResetSearch}
+              title={t('actions.reload', { ns: 'common' })}
             />
-          )}
-          {urlCreate && (
-            <Link to={urlCreate}>
-              <Button icon={ACTION.CREATE}>{t('actions.create', { ns: 'common' })}</Button>
-            </Link>
-          )}
+
+
         </div>
       </div>
 
       {/* Grid Content */}
       <div className="min-h-[400px]">
-        {isLoading ? (
-          <div className="flex items-center justify-center h-96">
-            <Loading />
-          </div>
-        ) : isError ? (
-          <div className="flex items-center justify-center h-96">
-            <div className="flex flex-col items-center gap-2 text-xl font-bold text-red-500">
-              <p>{error?.message || 'An error occurred'}</p>
-            </div>
-          </div>
-        ) : paginatedData.length === 0 ? (
+        {paginatedData.length === 0 ? (
           <div className="flex items-center justify-center h-96">
             <NoData />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {paginatedData.map(item => renderGridItem(item))}
+            {paginatedData.map(item => renderGridItem ? renderGridItem(item) : renderGridItemContent(item))}
           </div>
         )}
       </div>

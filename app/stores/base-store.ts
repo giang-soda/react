@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { DataSort, AdminListState, AttrListState } from '~/models';
 import { PAGE_SIZE } from '~/constans';
+import merge from 'lodash/merge';
 
 const initialBaseState = <T>() => ({
   searchTerm: {} as Record<string, React.ReactNode>,
@@ -14,6 +15,8 @@ const initialBaseState = <T>() => ({
 export const initBaseListStore = <T>(initialState?: AttrListState<T>) => {
   if (!initialState) {
     initialState = initialBaseState<T>();
+  } else {
+    initialState = merge(initialBaseState<T>(), initialState);
   }
 
   return create<AdminListState<T>>(set => ({

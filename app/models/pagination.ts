@@ -23,7 +23,8 @@ export interface DataColumn<T> {
 export interface DataSearch<T> {
   key: string;
   label: string;
-  searchFn: (item: T, value: React.ReactNode) => boolean;
+  searchFn?: (item: T, value: React.ReactNode) => boolean;
+  searchable?: boolean;
   type?: 'input' | 'select' | 'date' | 'checkbox';
   options?: {
     value: string;

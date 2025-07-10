@@ -43,5 +43,10 @@
     "preview": "Preview content",
     "download": "Download content",
     "view_source_json": "View source JSON"
+  },
+  "post": {
+    "list": {
+      "title": "Post List"
+    }
   }
 }

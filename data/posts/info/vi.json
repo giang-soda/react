@@ -1,11 +1,11 @@
 {
   "description": {
     "name": "description",
-    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí,..."
+    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí"
   },
   "keywords": {
     "name": "keywords",
-    "content": "thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí,..."
+    "content": "thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí"
   },
   "author": {
     "name": "author",
@@ -25,7 +25,7 @@
   },
   "og:description": {
     "property": "og:description",
-    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí,..."
+    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí"
   },
   "og:image": {
     "property": "og:image",
@@ -57,7 +57,7 @@
   },
   "twitter:description": {
     "name": "twitter:description",
-    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí,..."
+    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí"
   },
   "twitter:image": {
     "name": "twitter:image",

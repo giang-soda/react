@@ -67,23 +67,6 @@ export function loadDataList<T>(folderName = 'posts'): T[] {
 }
 
 /**
- * Deep merge utility function
- */
-function deepMerge(target: Record<string, any>, source: Record<string, any>): Record<string, any> {
-  const result = { ...target };
-  
-  for (const key in source) {
-    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-      result[key] = deepMerge(result[key] || {}, source[key]);
-    } else {
-      result[key] = source[key];
-    }
-  }
-  
-  return result;
-}
-
-/**
  * Load data from info folder and merge with additional data
  * @param folderName - The folder name in data directory
  * @param mergeData - Additional data to merge with the JSON content
@@ -103,7 +86,7 @@ export function loadDataInfo(folderName: string, mergeData: Record<string, Recor
     const fileData = JSON.parse(jsonContent);
         
     // Deep merge with additional data
-    return Object.values(merge(mergeData, fileData));
+    return Object.values(merge(fileData, mergeData));
   } catch (error) {
     console.error('Error loading info data:', error);
     return [];
