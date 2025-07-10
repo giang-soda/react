@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "default": "Error nothing",
+    "ERR_TODO_LIST": "Error get list todo"
+  },
+  "list": {
+    "email": "Email",
+    "name": "Name"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "errors": {
+    "list_default": "Error get list user",
+    "detail_default": "Error get detail user",
+    "create_default": "Error create user",
+    "update_default": "Error update user",
+    "delete_default": "Error delete user"
+  },
+  "success": {
+    "create": "User ({{id}}) created successfully",
+    "update": "User ({{id}}) updated successfully",
+    "delete": "User ({{id}}) deleted successfully"
+  },
+  "list": {
+    "title": "User List",
+    "email": "Email",
+    "name": "Name",
+    "password": "Password",
+    "role": "Role",
+    "status": "Status",
+    "count": "Count",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "search_email_name": "Email, Name"
+  },
+  "create": {
+    "title": "User Create"
+  },
+  "edit": {
+    "title": "User Edit"
+  },
+  "delete": {
+    "title": "Delete User",
+    "description": "Are you sure you want to delete this user?"
+  },
+  "role": {
+    "admin": "Admin",
+    "user": "User"
+  },
+  "editor": {
+    "title": "Title",
+    "thumbnail": "Thumbnail URL",
+    "preview": "Preview content",
+    "download": "Download content",
+    "view_source_json": "View source JSON"
+  },
+  "post": {
+    "list": {
+      "title": "Post List"
+    }
+  }
+}

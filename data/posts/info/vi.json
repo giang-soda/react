@@ -1,0 +1,39 @@
+{
+  "canonical": {
+    "tagName": "link",
+    "rel": "canonical",
+    "href": "https://soda.net/posts"
+  },
+  "description": {
+    "name": "description",
+    "content": "Các bài viết giải trí, thể thao"
+  },
+  "og:title": {
+    "property": "og:title",
+    "content": "Danh sách bài viết"
+  },
+  "og:description": {
+    "property": "og:description",
+    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí"
+  },
+  "og:image": {
+    "property": "og:image",
+    "content": "https://contenthub-static.grammarly.com/blog/wp-content/uploads/2017/11/how-to-write-a-blog-post.jpeg"
+  },
+  "og:url": {
+    "property": "og:url",
+    "content": "https://soda.net/posts"
+  },
+  "twitter:title": {
+    "name": "twitter:title",
+    "content": "Danh sách bài viết"
+  },
+  "twitter:description": {
+    "name": "twitter:description",
+    "content": "Bao gồm các nội dung nổi bật, thời sự, giáo dục, kinh tế, văn hóa, xã hội, thể thao, giải trí"
+  },
+  "twitter:image": {
+    "name": "twitter:image",
+    "content": "https://contenthub-static.grammarly.com/blog/wp-content/uploads/2017/11/how-to-write-a-blog-post.jpeg"
+  }
+}

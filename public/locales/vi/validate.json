@@ -1,0 +1,16 @@
+{
+  "required": "Trường này không được bỏ trống.",
+  "email": "Giá trị phải là một địa chỉ email hợp lệ.",
+  "min": "Chuỗi phải có ít nhất {{min}} ký tự.",
+  "max": "Chuỗi không được vượt quá {{max}} ký tự.",
+  "max.numeric": "Giá trị không được vượt quá {{max}}.",
+  "min.numeric": "Giá trị phải tối thiểu là {{min}}.",
+  "numeric": "Đây phải là một số.",
+  "type": "Trường này không hợp lệ.",
+  "password": {
+    "format": "Trường này phải chứa ít nhất một chữ viết hoa, một chữ viết thường, một số và một ký tự đặc biệt",
+    "symbol": "Trường này chứa các ký tự không hợp lệ (a-z, A-Z, 0-9, !\"#$%&'()*+,-./:<;=?>@[\\]^_`{|}~)",
+    "space": "Trường này không được chứa khoảng trắng"
+  },
+  "url": "Giá trị phải là một URL hợp lệ."
+}
