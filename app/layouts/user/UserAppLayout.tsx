@@ -1,27 +1,31 @@
 import { Link, Outlet } from 'react-router';
-import { ShoppingCart, Search, User, Heart, Menu, Facebook } from 'lucide-react';
-import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
-import { Badge } from '../../components/ui/badge';
+import { Facebook } from 'lucide-react';
 
 export default function UserAppLayout() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
+      <header className="top-0 z-50 border-b-4 border-blue-300 bg-gradient-to-b from-blue-800 via-blue-600 to-blue-400 shadow-md">
         <div className="container mx-auto px-4">
-          <div className="flex h-16 items-center justify-between">
+          <div className="flex h-20 items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-4">
-              <Link to="/" className="text-2xl font-bold text-blue-600">
-                SodaStore
+              <Link to="/" className="text-3xl font-bold text-white drop-shadow-md tracking-wide">
+                SODA
+                <span className="block text-xs font-semibold text-blue-200">Hàng xịn chính hãng</span>
               </Link>
             </div>
 
             {/* Navigation */}
             <nav className="hidden items-center space-x-8 md:flex">
-              <Link to="/" className="font-medium text-gray-700 hover:text-blue-600">
-                Sản phẩm
+              <Link to="/" className="font-bold text-yellow-400 hover:text-white transition-colors duration-150">
+                Áo điều hòa
+              </Link>
+              <Link to="/" className="font-bold text-yellow-400 hover:text-white transition-colors duration-150">
+                Khẩu trang
+              </Link>
+              <Link to="/" className="font-bold text-yellow-400 hover:text-white transition-colors duration-150">
+                Hàng Nhật nội địa
               </Link>
             </nav>
           </div>
@@ -34,7 +38,7 @@ export default function UserAppLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white">
+      <footer className="bg-gray-900 text-white mt-10">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             {/* Company Info */}
